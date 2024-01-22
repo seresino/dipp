@@ -1,0 +1,178 @@
+<script>
+  import { authHandlers } from "../../store/store";
+
+  let email = "";
+  let password = "";
+  let confirmPass = "";
+  let error = false;
+  let register = false;
+  let authenticating = false;
+
+  async function handleAuthenticate() {
+    if (authenticating) {return;}
+
+    if (!email || !password || (register && !confirmPass)) {
+      error = true
+      return
+    }
+
+    authenticating = true;
+
+    try {
+      if (!register) {
+        await authHandlers.login(email, password);
+      } else {
+        await authHandlers.signup(email, password);
+      }
+    } catch(err) {
+      console.log('There was an auth error', err);
+      error = true;
+      authenticating = false;
+    }
+
+  }
+
+  function handleRegister () {
+    register = !register
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission
+    handleAuthenticate(); // Call your authentication function
+  }
+</script>
+
+<form on:submit={handleSubmit}>
+  {#if error}
+    <p class="error">The information you have entered is not correct</p>
+  {/if}
+  <div class="input-div">
+    <div class="Labels">Username</div>
+    <label>
+      <input class="InputBox" bind:value={email} type="text" />
+    </label>
+  </div>
+  <div class="input-div">
+    <div class="Labels">Password</div>
+    <label>
+      <input class="InputBox" bind:value={password} type="password" />
+    </label>
+  </div>
+  {#if register}
+    <div class="input-div">
+      <div class="Labels">Confirm Password</div>
+      <label>
+        <input class="InputBox" bind:value={confirmPass} type="password" />
+      </label>
+    </div>
+  {/if}
+  <div class="options-div">
+    <div class="Options">Forgot Password</div>
+    <button class="Options" type="submit">
+      {#if authenticating}
+        Loading...
+      {:else}
+        {#if register}
+          Register
+        {:else}
+          Login
+        {/if}
+      {/if}
+    </button>
+  </div>
+  <!-- <div class="options-div">
+    <div class="Options" on:click={handleRegister}>
+      {#if register}
+        Already have an account? Login
+      {:else}
+        Don't have an account? Register
+      {/if}
+    </div>
+  </div> -->
+</form>
+
+<!-- <form>
+  {#if error}
+    <p class="error">The information you have entered is not correct</p>
+  {/if}
+  <div class="input-div">
+    <div class="Labels">Username</div>
+    <label>
+      <input class="InputBox" bind:value={email} type="text"/>
+    </label>
+  </div>
+  <div class="input-div">
+    <div class="Labels">Password</div>
+    <label>
+      <input class="InputBox" bind:value={password} type="password"/>
+    </label>
+  </div>
+  <div class="options-div">
+    <div class="Options" >Forgot Password</div>
+    <button class="Options" on:click={handleAuthenticate} type="button">
+      {#if authenticating}
+      loading...
+      {:else}
+      Login
+      {/if}
+    </button>
+  </div>
+</form> -->
+
+<style>
+  form {
+    width : 626px;
+    height : 227px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background : white;
+    border-radius : 38px;
+    border: 2px #168ACE solid;
+  }
+  .input-div {
+    width: 75%;
+    display : flex;
+    justify-content: space-between;
+    align-items : center;
+    padding: 5px 10px 5px 10px;
+   }
+  .InputBox {
+    width : 280px;
+    height : 49px;
+    background : white;
+    border-radius : 38px;
+    border : 1px #168ACE solid;
+    padding: 0 20px 0 20px;
+  }
+  .Labels {
+    color : black;
+    font-size : 20px;
+    font-family : Helvetica Neue;
+    font-weight : 500;
+    word-wrap : break-word;
+  }
+  .options-div {
+    width: 75%;
+    display : flex;
+    justify-content : right;
+    align-items : center;
+    padding: 10px 40px 0px 20px;
+
+  }
+  .Options {
+    color : #B5B5B5;
+    font-size : 16px;
+    font-family : Helvetica Neue;
+    font-weight : 500;
+    word-wrap : break-word;
+    margin: 0px 0px 0px 10px;
+    cursor: pointer;
+  }
+  button {
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+  }
+</style>

@@ -1,5 +1,5 @@
 <script>
-    import { authHandlers } from "../store/store";
+  import { authHandlers } from "../store/store";
 
   let email = "";
   let password = "";
@@ -82,7 +82,8 @@
     {:else}
       <div>
         <p>Don't have an account?</p>
-        <p on:click={handleRegister} on:keydown={() => {}}>Register</p>
+        <!-- Button to change authentification page to "register" instead of "login". Not needed for now -->
+        <!-- <p on:click={handleRegister} on:keydown={() => {}}>Register</p> -->
       </div>
     {/if}
   </div>

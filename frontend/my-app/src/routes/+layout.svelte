@@ -2,9 +2,9 @@
   import {onMount} from "svelte";
   import { auth, db } from "../lib/firebase/firebase";
   import { doc, getDoc, setDoc } from "firebase/firestore";
-  import { authStore } from "../store/store";
+  import { authHandlers, authStore } from "../store/store";
 
-  const nonAuthRoutes = ["/"];
+  const nonAuthRoutes = ["/", "/Login", "/About"];
 
   onMount (() => {
     console.log("Mounting");
@@ -12,11 +12,11 @@
       const currentPath = window.location.pathname;
 
       if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/";
+        window.location.href = "/Login";
         return;
       }
 
-      if (user && currentPath == "/") {
+      if (user && currentPath == "/Login") {
         window.location.href = "/Dashboard";
         return;
       }
@@ -53,6 +53,23 @@
   });
 </script>
 
+
+<div class="Header">
+  <div class="HeaderLogo">
+    <a href="/Dashboard">
+      <img class="dipp-svg" src="/images/header-logo.svg" alt="logo" />
+    </a>
+    <p class="FullText">Digital Intervention for Psychedelic Preparedness</p>
+  </div>
+  <div class="pill-buttons">
+    <div class="about-pill">
+      <a href="/About"><p class="about">About</p></a>
+    </div>
+    <div class="logout-pill">
+      <a href="/Login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+    </div>
+  </div>
+</div>
 <div class="mainContainer">
   <slot/>
 </div>
@@ -60,10 +77,82 @@
 <style>
   .mainContainer {
     min-height: 100svh;
-    background: linear-gradient(to right, green, white);
-    color: white;
+    width: 100svw;
+    background-image: url('/images/background-gradient.png');
+    background-size: cover;
+    background-position: center;
+    color: black;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
-
+  .Header {
+    width: 100svw;
+    padding: 40px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .HeaderLogo {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+  }
+  .dipp-svg {
+    padding: 10px;
+    padding-right: 100px;
+  }
+  .FullText {
+    color: black;
+    font-size: 20px;
+    font-family: Helvetica Neue;
+    font-weight: 500;
+  }
+  .pill-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap: 20px;
+  }
+  .about-pill {
+    width: 101.80px;
+    height: 43px;
+    border-radius: 38px;
+    border: 1px black solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .logout-pill {
+    width: 101.80px;
+    height: 43px;
+    border-radius: 38px;
+    border: 1px black solid;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .about {
+    color: black;
+    font-size : 16px;
+    font-family : Helvetica Neue;
+    font-weight : 500;
+  }
+  .logout {
+    color: white;
+    font-size : 16px;
+    font-family : Helvetica Neue;
+    font-weight : 500;
+  }
 </style>
