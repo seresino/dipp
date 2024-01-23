@@ -1,15 +1,15 @@
 <!-- Journal.svelte -->
-<script>
+<script lang="ts">
   import { authStore } from "../../store/store";
+  export let form;
+  export let data; // data returned by the load function
+  let path = "Journal" // directory of this route
 
-  let journalEntry = "";
-  let error = false;
-  let errormessage = "";
-  let submitted = false;
-  let currentDayEntry = "";
-  let loading = true;
-
+  let journal = '';
+  let id = '';
 </script>
+
+<h1>Add User</h1>
 
 {#if !$authStore.loading}
 
@@ -18,9 +18,17 @@
   <img class="blue-background" src="/images/journal-page.svg" alt="pop-up-shape" />
   <div class="pop-up-text">
     <h1>Your Daily Journal Entry</h1>
-      <div class="enterTask">
+    {#if form?.message}
+      <p>{form.message}</p>
+    {/if}
+
+    <form action="{path}/?/update" method="post">
+        <input type="hidden" name="id" value=1 />
+        <input type="text" name="journal" placeholder="Enter entry..." />
+        <input type="submit" value="Update" />
+    </form>
+      <!-- <div class="enterTask">
         {#if loading}
-        <!-- Display a loading indicator while fetching data -->
           <p>Loading...</p>
         {:else if submitted || currentDayEntry}
           <p>{currentDayEntry}</p>
@@ -31,7 +39,7 @@
           </form>
           <p>{errormessage}</p>
         {/if}
-      </div>
+      </div> -->
   </div>
   <a href="/Dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
   <a class="back-button" href="/Day"><img src="/images/back-button.svg" alt="back button" /></a>
