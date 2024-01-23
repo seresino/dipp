@@ -57,6 +57,6 @@ export const dailyTasks = pgTable("daily-tasks", {
 	date: date("date"),
 	user_id: integer("user_id").references(() => users.id),
 	journal: varchar("journal"),
-	meditation: boolean("meditation"),
+	meditation: boolean("meditation").default(false),
 	mood_id: integer("mood_id").references(() => mood.id),
 });

@@ -1,5 +1,42 @@
 <!-- Day.svelte -->
 <script>
+  export let form;
+  export let data; // data returned by the load function
+  let path = "Day" // directory of this route
+
+  const module = data.module;
+  const userTasks = data.userTasks;
+  const day = data.day;
+
+  const taskCompletion = [!!userTasks.meditation, !!userTasks.mood_id, !!userTasks.journal];
+  let progressBar = {meditation: "activity-pill", mood_id: "activity-pill", journal: "activity-pill"}
+  let activityButtons = {meditate: "activity meditate", mood: "activity mood", journal: "activity journal"}
+
+  // Using forEach to iterate over object properties
+  Object.keys(progressBar ).forEach(key => {
+      if(userTasks[key]){
+          progressBar[key] = "activity-pill-completed";
+      }
+  });
+
+  if (!userTasks.meditation){
+    activityButtons.mood += " inactive"
+    activityButtons.journal += " inactive"
+  } else if (!userTasks.mood_id){
+    activityButtons.meditate += " complete"
+    activityButtons.journal += " inactive"
+  } else if (!userTasks.journal){
+    activityButtons.meditate += " complete"
+    activityButtons.mood += " complete"
+  } else {
+    activityButtons.meditate += " complete"
+    activityButtons.mood += " complete"
+    activityButtons.journal += " complete"
+  }
+
+
+
+
 </script>
 
 <div class="module-container">
@@ -20,7 +57,7 @@
         <img src="/images/home-button.svg" alt="home-button">
       </a>
     </div>
-    <div class="bottom-text">Module 1</div>
+    <div class="bottom-text">Module {module.id} - {module.name}</div>
   </div>
 </div>
 
@@ -28,19 +65,22 @@
   <img class="progress-shape" src="/images/progress-box-shape.svg" alt="module-shape">
   <div class="progress-absolute">
     <div class="progress-section">
-      <p class="progress-text">Day 1</p>
+      <p class="progress-text">Day {day}</p>
       <div class="activity-bar">
-        <div class="activity-pill-completed"></div>
+        {#each Object.entries(progressBar) as [task, completion]}
+          <div class={completion}></div>
+        {/each}
+        <!-- <div class="activity-pill-completed"></div>
         <div class="activity-pill"></div>
-        <div class="activity-pill"></div>
+        <div class="activity-pill"></div> -->
       </div>
-      <p class="progress-text">1/3</p>
+      <p class="progress-text">{taskCompletion.filter(value => value === true).length}/3</p>
     </div>
   </div>
 </div>
 
 <div class="activity-container">
-  <div class="activity meditate">
+  <div class={activityButtons.meditate}>
     <h1>Meditate</h1>
     <a href="/Meditate">
       <div class="activity-contents">
@@ -48,7 +88,7 @@
       </div>
     </a>
   </div>
-  <div class="activity mood">
+  <div class={activityButtons.mood}>
     <h1>Mood</h1>
     <a href="/Mood">
       <div class="activity-contents">
@@ -56,7 +96,7 @@
       </div>
     </a>
   </div>
-  <div class="activity journal">
+  <div class={activityButtons.journal}>
     <h1>Journal</h1>
     <a href="/Journal">
       <div class="activity-contents">
@@ -92,6 +132,14 @@
   .journal {
     background-color: #168ACE;
   }
+  .inactive {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .complete {
+    background-color: #08d85e;
+  }
+
   .activity-contents {
     padding: 15px 20px 10px 20px;
     display: flex;
