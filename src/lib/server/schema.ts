@@ -12,7 +12,7 @@ import {
 
 export const users = pgTable("users", {
 	id: serial("id").primaryKey(),
-	username: varchar("username", { length: 20 }).notNull(),
+	username: varchar("username", { length: 20 }).unique().notNull(),
 	password: varchar("password", { length: 20 }).notNull(),
 	meditation: boolean("meditation").notNull().default(false),
 	high_dosage: boolean("high_dosage").notNull(),
@@ -28,7 +28,8 @@ export const modules = pgTable("modules", {
 
 export const journalPrompts = pgTable("journal-prompts", {
 	id: serial("id").primaryKey(),
-	content: varchar("instructions").notNull(),
+	title: varchar("title"),
+	prompt: varchar("prompt"),
 });
 
 export const questionnaire = pgEnum("questionnaire", [
@@ -39,13 +40,15 @@ export const questionnaire = pgEnum("questionnaire", [
 
 export const mood = pgTable("mood", {
 	id: serial("id").primaryKey(),
-	q1: questionnaire("q1"),
-	q2: questionnaire("q2"),
-	q3: questionnaire("q3"),
-	q4: questionnaire("q4"),
-	q5: questionnaire("q5"),
-	q6: questionnaire("q6"),
-	q7: questionnaire("q7"),
+	q1: integer("q1"),
+	q2: integer("q2"),
+	q3: integer("q3"),
+	q4: integer("q4"),
+	q5: integer("q5"),
+	q6: integer("q6"),
+	q7: integer("q7"),
+	q8: varchar("q8"),
+	q9: integer("q9"),
 });
 
 export const dailyTasks = pgTable("daily-tasks", {
