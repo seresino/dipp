@@ -1,10 +1,9 @@
 <script>
-    import { authStore, authHandlers } from "../../store/store";
+    import { authStore } from "../../store/store";
     import DateTime from "../../components/DateTime.svelte";
 
   import {onMount} from "svelte";
-  import { auth, db } from "../../lib/firebase/firebase";
-  import { doc, getDoc, setDoc } from "firebase/firestore";
+  import { auth } from "../../lib/firebase/firebase";
 
   const nonAuthRoutes = ["/", "/Login", "/About"];
 

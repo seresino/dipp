@@ -1,7 +1,6 @@
 <script>
   import {onMount, tick} from "svelte";
-  import { auth, db } from "../lib/firebase/firebase";
-  import { doc, getDoc, setDoc } from "firebase/firestore";
+  import { auth } from "../lib/firebase/firebase";
   import { authHandlers, authStore } from "../store/store";
 
   const nonAuthRoutes = ["/", "/Login", "/About"];
@@ -33,27 +32,10 @@
         return;
       }
 
-      let dataToSetToStore;
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
-      if (!docSnap.exists()) {
-        console.log("Creating User");
-        const userRef = doc(db, "users", user.uid);
-        dataToSetToStore = {
-          email: user.email,
-          journal: "",
-        };
-        await setDoc(userRef, dataToSetToStore);
-      } else {
-        console.log("Fetching User");
-        const userData = docSnap.data();
-        dataToSetToStore = userData;
-      }
       authStore.update((curr) => {
         return {
           ...curr,
           user,
-          data: dataToSetToStore,
           loading: false,
         };
       });
