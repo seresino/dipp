@@ -32,6 +32,10 @@
     {/each}
 {/if} -->
 
+<form action="{path}/?/seed" method="post">
+    <input type="submit" value="seed" />
+</form>
+
 {#if data?.users}
     {#each data.users as user}
         <div class="flex">
@@ -48,6 +52,8 @@
                 <input type="hidden" name="id" value={user.id} />
                 <input type="submit" value="Delete" />
             </form>
+
+            
 
             <!-- <p>
                 {user.createdAt?.toLocaleString()}
