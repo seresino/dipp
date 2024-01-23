@@ -67,7 +67,6 @@
     </div>
   {/if}
   <div class="options-div">
-    <div class="Options">Forgot Password</div>
     <button class="Options" type="submit">
       {#if authenticating}
         Loading...
@@ -90,34 +89,6 @@
     </div>
   </div> -->
 </form>
-
-<!-- <form>
-  {#if error}
-    <p class="error">The information you have entered is not correct</p>
-  {/if}
-  <div class="input-div">
-    <div class="Labels">Username</div>
-    <label>
-      <input class="InputBox" bind:value={email} type="text"/>
-    </label>
-  </div>
-  <div class="input-div">
-    <div class="Labels">Password</div>
-    <label>
-      <input class="InputBox" bind:value={password} type="password"/>
-    </label>
-  </div>
-  <div class="options-div">
-    <div class="Options" >Forgot Password</div>
-    <button class="Options" on:click={handleAuthenticate} type="button">
-      {#if authenticating}
-      loading...
-      {:else}
-      Login
-      {/if}
-    </button>
-  </div>
-</form> -->
 
 <style>
   form {
@@ -158,7 +129,7 @@
     display : flex;
     justify-content : right;
     align-items : center;
-    padding: 10px 40px 0px 20px;
+    padding: 12px 40px 0px 20px;
 
   }
   .Options {
