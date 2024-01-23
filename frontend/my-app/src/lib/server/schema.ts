@@ -15,6 +15,7 @@ export const users = pgTable("users", {
 	username: varchar("username", { length: 20 }).notNull(),
 	password: varchar("password", { length: 20 }).notNull(),
 	meditation: boolean("meditation").notNull().default(false),
+	high_dosage: boolean("high_dosage").notNull(),
 });
 
 export const modules = pgTable("modules", {
