@@ -5,26 +5,22 @@ import { desc, eq } from "drizzle-orm";
 
 export const actions = {
 	add: async ({ request }) => {
-		/**
-		 * Get the form data from the request
-		 */
+		// Get the form data from the request
 		const formData = await request.formData();
 
-		/**
-		 * Get the title from the form data
-		 */
-		const content = formData.get("content");
+		// Get the username from the form data
+		const username = formData.get("username");
 
-		if (!content) {
+		// Update message if username empty
+		if (!username) {
 			return fail(400, { message: "Title is required" });
 		}
 
-		/**
-		 * Finally, add the page to the database
-		 */
+		// Finally, add entry to the database
 		await db.insert(users).values({
-			username: content,
+			username: username,
 			password: "pass",
+			high_dosage: true,
 		});
 
 		return { message: "User added successfully" };
@@ -32,23 +28,23 @@ export const actions = {
 
 	update: async ({ request }) => {
 		const formData = await request.formData();
-
-		const content = formData.get("content")?.toString();
-		const completed = formData.get("completed")?.toString();
+		const username = formData.get("username")?.toString();
+		const password = formData.get("password")?.toString();
+		const meditation = formData.get("meditation")?.toString();
+		const high_dosage = formData.get("high_dosage")?.toString();
 		const id = formData.get("id")?.toString();
 
-		if (!content || !id) {
+		if (!username || !password || !id) {
 			return fail(400, { message: "Error updating user" });
 		}
 
-		/**
-		 * Finally, add the page to the database
-		 */
 		await db
 			.update(users)
 			.set({
-				content,
-				completed: !!completed,
+				username,
+				password,
+				meditation: !!meditation,
+				high_dosage: !!high_dosage,
 			})
 			.where(eq(users.id, +id));
 
@@ -56,31 +52,20 @@ export const actions = {
 	},
 
 	delete: async ({ request }) => {
-		/**
-		 * Get the form data from the request
-		 */
 		const formData = await request.formData();
-
-		/**
-		 * Get the title from the form data
-		 */
 		const id = formData.get("id")?.toString();
 
 		if (!id) {
 			return fail(400, { message: "Error deleting user" });
 		}
 
-		/**
-		 * Finally, add the page to the database
-		 */
 		await db.delete(users).where(eq(users.id, +id));
-
 		return { message: "User deleted successfully" };
 	},
 };
 
-// export const load = async () => {
-// 	return {
-// 		users: await db.select().from(users).orderBy(desc(users.createdAt)),
-// 	};
-// };
+export const load = async () => {
+	return {
+		users: await db.select().from(users).orderBy(desc(users.id)),
+	};
+};
