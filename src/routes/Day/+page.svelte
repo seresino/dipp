@@ -23,15 +23,15 @@
     activityButtons.mood += " inactive"
     activityButtons.journal += " inactive"
   } else if (!userTasks.mood_id){
-    activityButtons.meditate += " complete"
+    // activityButtons.meditate += " complete"
     activityButtons.journal += " inactive"
   } else if (!userTasks.journal){
     activityButtons.meditate += " complete"
-    activityButtons.mood += " complete"
+    // activityButtons.mood += " complete"
   } else {
-    activityButtons.meditate += " complete"
-    activityButtons.mood += " complete"
-    activityButtons.journal += " complete"
+    // activityButtons.meditate += " complete"
+    // activityButtons.mood += " complete"
+    // activityButtons.journal += " complete"
   }
 
 
