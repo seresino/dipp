@@ -15,8 +15,9 @@
     <input type="submit" value="Submit" />
 </form>
 
-<form action="test/?/add" method="post" class="flex">
-    <input type="text" name="content" placeholder="Enter username..." />
+<form action="test/?/update" method="post" class="flex">
+    <input type="text" name="content" placeholder="User ID..." />
+    <input type="text" name="content" placeholder="New username..." />
     <input type="submit" value="Submit" />
 </form>
 
