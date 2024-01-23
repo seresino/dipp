@@ -1,5 +1,12 @@
+# Node.js
+node_modules/
+
+# macOS
 .DS_Store
-node_modules
+
+# Log files
+*.log
+
 /build
 /.svelte-kit
 /package

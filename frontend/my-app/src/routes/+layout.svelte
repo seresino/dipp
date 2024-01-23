@@ -1,10 +1,18 @@
 <script>
-  import {onMount} from "svelte";
+  import {onMount, tick} from "svelte";
   import { auth, db } from "../lib/firebase/firebase";
   import { doc, getDoc, setDoc } from "firebase/firestore";
   import { authHandlers, authStore } from "../store/store";
 
   const nonAuthRoutes = ["/", "/Login", "/About"];
+  let user;
+
+  $: {
+    authStore.subscribe(async value => {
+      user = value.user;
+      await tick();
+    });
+ }
 
   onMount (() => {
     console.log("Mounting");
@@ -65,9 +73,11 @@
     <div class="about-pill">
       <a href="/About"><p class="about">About</p></a>
     </div>
-    <div class="logout-pill">
-      <a href="/Login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
-    </div>
+    {#if user}
+      <div class="logout-pill">
+        <a href="/Login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+      </div>
+    {/if}
   </div>
 </div>
 <div class="mainContainer">
@@ -78,19 +88,16 @@
   .mainContainer {
     min-height: 100svh;
     width: 100svw;
-    background-image: url('/images/background-gradient.png');
-    background-size: cover;
-    background-position: center;
     color: black;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: top;
     align-items: center;
   }
   .Header {
     width: 100svw;
     padding: 40px;
-    position: absolute;
+    background-color: transparent;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
