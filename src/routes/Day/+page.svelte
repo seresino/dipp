@@ -7,11 +7,11 @@
   <div class="module-text">
     <div class="top-text">
       <div class="module-info-pill">
-        <a class="info-button" href="/Instructions">
+        <a class="info-button" href="/Instructions?initial=instructions">
           <img class="meditation-icon" src="/images/meditation-icon.svg" alt="meditation-icon">
           <p class="info-text">Instructions</p>
         </a>
-        <a class="info-button" href="/Tasks">
+        <a class="info-button" href="/Instructions?initial=tasks">
           <img class="tasks-icon" src="/images/tasks-icon.svg" alt="tasks-icon">
           <p class="info-text">Tasks</p>
         </a>
@@ -40,25 +40,25 @@
 </div>
 
 <div class="activity-container">
-  <div class="activity journal">
-    <h1>Journal</h1>
-    <a href="/Journal">
-      <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
-      </div>
-    </a>
-  </div>
   <div class="activity meditate">
     <h1>Meditate</h1>
     <a href="/Meditate">
       <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+        <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
       </div>
     </a>
   </div>
   <div class="activity mood">
     <h1>Mood</h1>
     <a href="/Mood">
+      <div class="activity-contents">
+        <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+      </div>
+    </a>
+  </div>
+  <div class="activity journal">
+    <h1>Journal</h1>
+    <a href="/Journal">
       <div class="activity-contents">
         <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
       </div>
@@ -83,13 +83,13 @@
     border: 1px #168ACE solid;
     border-radius: 20px;
   }
-  .journal {
+  .meditate {
     background-color: #5DB3E5;
   }
-  .meditate {
+  .mood {
     background-color: #639FC9;
   }
-  .mood {
+  .journal {
     background-color: #168ACE;
   }
   .activity-contents {
