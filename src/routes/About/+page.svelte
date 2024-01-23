@@ -1,8 +1,6 @@
 <script>
   import {onMount} from "svelte";
-  import { auth, db } from "../../lib/firebase/firebase";
-  import { doc, getDoc, setDoc } from "firebase/firestore";
-  import { authHandlers, authStore } from "../../store/store";
+  import { auth } from "../../lib/firebase/firebase";
 
   const nonAuthRoutes = ["/", "/Login", "/About"];
 
