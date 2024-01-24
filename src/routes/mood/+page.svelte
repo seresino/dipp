@@ -1,15 +1,16 @@
 <script>
 </script>
 
-<div class="pop-up-shape">
-  <img class="blue-background" src="/images/mood-page.svg" alt="pop-up-shape" />
-  <div class="pop-up-text">
-    <h1>Rate your mood from 1 to 10</h1>
+{#if !$authStore.loading}
+  <div class="pop-up-shape">
+    <img class="blue-background" src="/images/mood-page.svg" alt="pop-up-shape" />
+    <div class="pop-up-text">
+      <h1>Rate your mood from 1 to 10</h1>
+    </div>
+    <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
+    <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
   </div>
-  <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
-  <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
-</div>
-
+{/if}
 
 <style>
   .pop-up-shape {

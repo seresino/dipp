@@ -7,6 +7,7 @@
   let error = false;
   let register = false;
   let authenticating = false;
+  export let data; // data returned by the load function
 
   async function handleAuthenticate() {
     if (authenticating) {return;}
@@ -79,15 +80,6 @@
       {/if}
     </button>
   </div>
-  <!-- <div class="options-div">
-    <div class="Options" on:click={handleRegister}>
-      {#if register}
-        Already have an account? Login
-      {:else}
-        Don't have an account? Register
-      {/if}
-    </div>
-  </div> -->
 </form>
 
 <style>

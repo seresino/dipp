@@ -2,23 +2,25 @@
   import AudioPlayer from '../../components/AudioPlayer.svelte';
 </script>
 
-<div class="pop-up-shape">
-  <img class="blue-background" src="/images/meditation-page.svg" alt="pop-up-shape" />
-  <div class="pop-up-text">
-    <AudioPlayer />
-    <h1>Click to Begin Meditation</h1>
-    <div class="timer-content">
-      <div class="restart-button">
-        <p class="restart">Restart</p>
-      </div>
-      <div class="timer-text">
-        <span class="white-text">10:26</span><span class="restart">/12:00</span>
+{#if !$authStore.loading}
+  <div class="pop-up-shape">
+    <img class="blue-background" src="/images/meditation-page.svg" alt="pop-up-shape" />
+    <div class="pop-up-text">
+      <AudioPlayer />
+      <h1>Click to Begin Meditation</h1>
+      <div class="timer-content">
+        <div class="restart-button">
+          <p class="restart">Restart</p>
+        </div>
+        <div class="timer-text">
+          <span class="white-text">10:26</span><span class="restart">/12:00</span>
+        </div>
       </div>
     </div>
+    <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
+    <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
   </div>
-  <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
-  <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
-</div>
+{/if}
 
 
 <style>

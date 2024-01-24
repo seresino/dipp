@@ -2,8 +2,9 @@
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
   import { authHandlers, authStore } from "../store/store";
+  export let data;
 
-  const nonAuthRoutes = ["/", "/Login", "/About"];
+  const nonAuthRoutes = ["/", "/login", "/about"];
   let user;
 
   $: {
@@ -19,12 +20,12 @@
       const currentPath = window.location.pathname;
 
       if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/Login";
+        window.location.href = "/login";
         return;
       }
 
-      if (user && currentPath == "/Login") {
-        window.location.href = "/Dashboard";
+      if (user && currentPath == "/login") {
+        window.location.href = "/dashboard";
         return;
       }
 
@@ -59,6 +60,7 @@
       <div class="logout-pill">
         <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
       </div>
+      <p>welcome, {user.email}</p>
     {/if}
   </div>
 </div>

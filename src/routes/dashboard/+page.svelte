@@ -1,8 +1,7 @@
 <script>
   import { authStore } from "../../store/store";
   import DateTime from "../../components/DateTime.svelte";
-  import {onMount} from "svelte";
-  import { auth } from "../../lib/firebase/firebase";
+  import { getCurrentUserEmail } from "../../store/store";
 
   export let data; // data returned by the load function
   let path = "dashboard" // directory of this route
@@ -10,25 +9,9 @@
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
+  const loggedInUser = getCurrentUserEmail();
+  const username = loggedInUser.split('@')[0].toUpperCase();;
 
-  const nonAuthRoutes = ["/", "/Login", "/About"];
-
-  onMount (() => {
-    console.log("Mounting");
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = window.location.pathname;
-
-      if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/Login";
-        return;
-      }
-
-      if (user && currentPath == "/Login") {
-        window.location.href = "/Dashboard";
-        return;
-      }
-    });
-  });
 </script>
 
 {#if !$authStore.loading}
@@ -42,7 +25,7 @@
         <DateTime />
       </div>
     </div>
-    <div class="bottom-text">Dashboard</div>
+    <div class="bottom-text"><span>Dashboard</span><span>{username}</span></div>
   </div>
 </div>
 <div class="progress-container">
@@ -169,6 +152,10 @@
     font-size: 36px;
     font-family: Helvetica Neue;
     font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 100px;
     /* border: 5px hotpink solid; */
   }
 
