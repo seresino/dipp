@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import { authHandlers } from "$lib/utils/authHandlers";
 
 // Start date for testing purposes --------------------------------
 const startDate = new Date("2024-01-15");
@@ -77,6 +78,8 @@ export const authStore = writable({
 	user: null,
 	data: {},
 });
+
+export { authHandlers };
 
 export const getCurrentUserEmail = () => {
 	return new Promise((resolve) => {

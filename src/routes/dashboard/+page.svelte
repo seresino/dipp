@@ -1,5 +1,5 @@
 <script>
-  import { authHandlers, authStore, getCurrentUserEmail } from "../../store/store";
+  import { authStore, getCurrentUserEmail, authHandlers } from "$lib/utils/helperFunctions";
   import DateTime from "../../components/DateTime.svelte";
   import {tick} from "svelte";
 

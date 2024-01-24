@@ -1,7 +1,7 @@
 <script>
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authHandlers, authStore, getCurrentUserEmail } from "../store/store";
+  import { authStore, getCurrentUserEmail, authHandlers } from "$lib/utils/helperFunctions";
 
   const nonAuthRoutes = ["/", "/login", "/about"];
   let user;

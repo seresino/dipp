@@ -1,5 +1,5 @@
 <script>
-  import { authHandlers } from "../../store/store";
+  import { authHandlers } from "$lib/utils/helperFunctions";
 
   let username = "";
   let password = "";

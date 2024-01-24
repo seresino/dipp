@@ -8,7 +8,7 @@ import {
 	signOut,
 } from "firebase/auth";
 import { auth } from "$lib/firebase/firebase";
-import { authStore, setUserID } from "$lib/utils/helperFunctions";
+import { authStore, setUserID, authHandlers } from "$lib/utils/helperFunctions";
 
 // export async function load({ session }) {
 //   const email = session.user?.email;
@@ -27,73 +27,9 @@ import { authStore, setUserID } from "$lib/utils/helperFunctions";
 // };
 
 export const actions = {
-	signup: async (email, pass) => {
-		const userCredential = await createUserWithEmailAndPassword(
-			auth,
-			email,
-			pass
-		);
-		const user = userCredential.user;
-		authStore.update((curr) => {
-			return {
-				...curr,
-				user: {
-					...user,
-					email: user.email,
-				},
-				loading: false,
-			};
-		});
-	},
-	login: async (username, pass) => {
-		const email = username + "@dipp.com";
-		const userCredential = await signInWithEmailAndPassword(
-			auth,
-			email,
-			pass
-		);
-		const user = userCredential.user;
-		const userQuery = await db
-			.select()
-			.from(users)
-			.where(eq(users.username, username));
-		const userID = userQuery[0].id;
-
-		// // authStore.set({ userID: userID });
-		// // @ts-ignore
-		// authStore.update({ userID: userID });
-
-		// // authStore.update((curr) => {
-		// // 	return {
-		// // 		...curr,
-		// // 		userID: userID,
-		// // 	};
-		// // });
-
-		setUserID(userID, false);
-
-		authStore.update((curr) => {
-			return {
-				...curr,
-				userID: userID,
-				user: {
-					...user,
-					email: user.email,
-				},
-				loading: false,
-			};
-		});
-	},
-	logout: async () => {
-		await signOut(auth);
-		setUserID(null);
-		authStore.update((curr) => {
-			return {
-				...curr,
-				user: null,
-			};
-		});
-	},
+	signup: authHandlers.signup,
+	login: authHandlers.login,
+	logout: authHandlers.logout,
 };
 
 export const load = async () => {};
