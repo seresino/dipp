@@ -3,6 +3,7 @@
   export let data; // data returned by the load function
   let path = "day" // directory of this route
 
+  const user = data.user;
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
@@ -18,13 +19,14 @@
   let progressBar = {meditation: "activity-pill", mood_id: "activity-pill", journal: "activity-pill"}
   let activityButtons = {meditate: "activity meditate", mood: "activity mood", journal: "activity journal"}
 
-  // Using forEach to iterate over object properties
+  // Using forEach to iterate over object properties to update class of pill depending on completion status
   Object.keys(progressBar ).forEach(key => {
       if(userTasks[key]){
           progressBar[key] = "activity-pill-completed";
       }
   });
 
+  // checks completion status of each task, so that you can only access buttons in sequence and styles completed ones - string appends to class name
   if (!userTasks.meditation){
     activityButtons.mood += " inactive"
     activityButtons.journal += " inactive"
@@ -85,46 +87,72 @@
   </div>
 </div>
 
-<div class="activity-container">
-  <div class={activityButtons.meditate}>
-    <h1>Meditate</h1>
-    <a href="/meditate">
-      <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
-      </div>
-    </a>
-  </div>
-  <div class={activityButtons.mood}>
-    <h1>Mood</h1>
-    <a href="/mood">
-      <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
-      </div>
-    </a>
-  </div>
-  <div class={activityButtons.journal}>
-    <h1>Journal</h1>
-    <a href="/journal">
-      <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
-      </div>
-    </a>
-  </div>
-</div>
+{#if user.meditation}
+ <div class="activity-container">
+    <div class={activityButtons.meditate}>
+      <h1>Meditate</h1>
+      <a href="/meditate">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+    <div class={activityButtons.mood}>
+      <h1>Mood</h1>
+      <a href="/mood">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+    <div class={activityButtons.journal}>
+      <h1>Journal</h1>
+      <a href="/journal">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+ </div>
+{:else}
+ <div class="activity-container">
+    <div class={activityButtons.mood}>
+      <h1>Mood</h1>
+      <a href="/mood">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+    <div class={activityButtons.journal}>
+      <h1>Journal</h1>
+      <a href="/journal">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+ </div>
+{/if}
+
 
 
 <style>
   .activity-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 1100px;
-    padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(32%, 1fr));
+      width: 1100px;
+      padding: 20px;
+      gap: 20px;
   }
+  @media screen and (max-width: 600px) {
+    .activity-container {
+        grid-template-columns: 1fr;
+    }
+}
   .activity {
     position: relative;
-    width: 343px;
+    width: 100%;
     height: 394px;
     border: 1px #168ACE solid;
     border-radius: 20px;
@@ -169,8 +197,6 @@
 
   .module-container {
     position: relative;
-  }
-  .module-image {
   }
   .module-text {
     display: flex;

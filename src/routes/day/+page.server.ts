@@ -23,6 +23,11 @@ const moduleID = getModuleID();
 export const load = async () => {
 	// Load in module name
 	// Load in daily-task entry for that user for today
+	const userQuery = await db
+		.select()
+		.from(users)
+		.where(eq(users.id, loggedInUserID));
+
 	const moduleQuery = await db
 		.select()
 		.from(modules)
@@ -48,6 +53,7 @@ export const load = async () => {
 	}
 
 	return {
+		user: userQuery[0],
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],
 		day: day,
