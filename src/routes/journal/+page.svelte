@@ -25,27 +25,18 @@
     {#if !userTasks.journal}
     <form action="{path}/?/update" method="post">
       <input type="hidden" name="id" value={userTasks.id} />
-      <input type="text" name="journal" placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}" />
-      <input type="submit" value="Update" />
-  </form>
+      <div class="enterTask">
+        <textarea name="journal" placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}" />
+      </div>
+      <div class="submit">
+        <input type="submit" value="Submit" />
+      </div>
+    </form>
     {:else}
-      <input type="text" name="journal" placeholder="{userTasks.journal}" disabled/>
+      <div class="enterTask">
+        <textarea name="journal" placeholder="{userTasks.journal}" disabled/>
+      </div>
     {/if}
-
-    
-      <!-- <div class="enterTask">
-        {#if loading}
-          <p>Loading...</p>
-        {:else if submitted || currentDayEntry}
-          <p>{currentDayEntry}</p>
-        {:else}
-          <form on:submit={submitTask}>
-            <input class={(error ? "errorBorder" : "")} bind:value={journalEntry} type="text" id="journal" placeholder="How was your day?" />
-            <button on:click={submitTask}>Submit</button>
-          </form>
-          <p>{errormessage}</p>
-        {/if}
-      </div> -->
   </div>
   <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
   <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
@@ -65,9 +56,6 @@
     width: 40px;
     height: 40px;
     z-index: 1000;
-  }
-  .blue-background {
-
   }
   .home-button {
     position: absolute;
@@ -96,15 +84,9 @@
     width: 70%;
   }
 
-  .enterTask {
-    display: flex;
-    flex-direction: column;
-    align-items: right;
-    justify-content: space-between;
-    gap: 24px;
-  }
-  .enterTask input {
+  .enterTask textarea {
     padding: 20px;
+    margin: 20px 0 20px 0;
     box-sizing: border-box;
     border-radius: 20px;
     border: 1px solid #D5D5D5;
@@ -117,15 +99,37 @@
     resize: none;
   }
 
-  .errorBorder {
-    border-color: red !important;
+  textarea::placeholder {
+    color: #D5D5D5; /* Change this to the color you prefer */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px; /* Change this to the size you prefer */
+    /* Add other styles as needed */
   }
 
-  .enterTask input:focus{
-    border: 1px solid #029CF6;
+  .enterTask textarea:focus{
+    border: 1px solid #5DB3E5;
+    color: white;
   }
 
-  button {
+  .enterTask textarea:focus::placeholder {
+    color: transparent;
+  }
+
+  .enterTask textarea:disabled {
+    background-color: #D5D5D5; /* Change this to the color you prefer */
+  }
+  .enterTask textarea:disabled::placeholder {
+    color: black; /* Change this to the color you prefer */
+  }
+
+  .submit {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+  }
+  .submit input {
     cursor: pointer;
     border-radius: 20px;
     border: 1px solid #029CF6;
@@ -134,7 +138,7 @@
     background: #FFF;
   }
 
-  button:hover{
+  .submit input:hover{
     opacity: 0.7;
   }
 
