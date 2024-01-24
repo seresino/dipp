@@ -46,18 +46,18 @@
 
 <div class="Header">
   <div class="HeaderLogo">
-    <a href="/Dashboard">
+    <a href="/dashboard">
       <img class="dipp-svg" src="/images/header-logo.svg" alt="logo" />
     </a>
     <p class="FullText">Digital Intervention for Psychedelic Preparedness</p>
   </div>
   <div class="pill-buttons">
     <div class="about-pill">
-      <a href="/About"><p class="about">About</p></a>
+      <a href="/about"><p class="about">About</p></a>
     </div>
     {#if user}
       <div class="logout-pill">
-        <a href="/Login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+        <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
       </div>
     {/if}
   </div>

@@ -16,8 +16,8 @@
       </div>
     </div>
   </div>
-  <a href="/Dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
-  <a class="back-button" href="/Day"><img src="/images/back-button.svg" alt="back button" /></a>
+  <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
+  <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
 </div>
 
 

@@ -3,7 +3,7 @@
   import { authStore } from "../../store/store";
   export let form;
   export let data; // data returned by the load function
-  let path = "Journal" // directory of this route
+  let path = "journal" // directory of this route
 
   let journal = '';
   let id = '';
@@ -41,8 +41,8 @@
         {/if}
       </div> -->
   </div>
-  <a href="/Dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
-  <a class="back-button" href="/Day"><img src="/images/back-button.svg" alt="back button" /></a>
+  <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
+  <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
 </div>
 
 

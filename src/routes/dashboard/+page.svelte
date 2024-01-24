@@ -5,7 +5,7 @@
   import { auth } from "../../lib/firebase/firebase";
 
   export let data; // data returned by the load function
-  let path = "Dashboard" // directory of this route
+  let path = "dashboard" // directory of this route
 
   const module = data.module;
   const userTasks = data.userTasks;
@@ -82,7 +82,7 @@
       </div>
         {#each Array(7) as _, i}
           <div class={i+1 === day ? 'day-pill completed' : i+1 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/Day">
+            <a href="/day">
               <p class="day-pill-text">Day {i+1}</p>
             </a>
           </div>
@@ -97,7 +97,7 @@
       </div>
       {#each Array(7) as _, i}
           <div class={i+8 === day ? 'day-pill completed' : i+8 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/Day">
+            <a href="/day">
               <p class="day-pill-text">Day {i+8}</p>
             </a>
           </div>
@@ -112,7 +112,7 @@
       </div>
       {#each Array(7) as _, i}
           <div class={i+15 === day ? 'day-pill completed' : i+15 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/Day">
+            <a href="/day">
               <p class="day-pill-text">Day {i+15}</p>
             </a>
           </div>

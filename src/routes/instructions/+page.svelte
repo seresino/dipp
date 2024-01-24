@@ -4,7 +4,7 @@
 </script>
 
 <div class="pop-up">
-  <a class="back-button" href="/Day"><img src="/images/cross-circle.svg" alt="back button" /></a>
+  <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
   <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />
   <div class="pop-up-content">
     <div class='button-container'>

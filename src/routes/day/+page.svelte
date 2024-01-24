@@ -50,16 +50,16 @@
   <div class="module-text">
     <div class="top-text">
       <div class="module-info-pill">
-        <a class="info-button" href="/Instructions?initial=instructions">
+        <a class="info-button" href="/instructions?initial=instructions">
           <img class="meditation-icon" src="/images/meditation-icon.svg" alt="meditation-icon">
           <p class="info-text">Instructions</p>
         </a>
-        <a class="info-button" href="/Instructions?initial=tasks">
+        <a class="info-button" href="/instructions?initial=tasks">
           <img class="tasks-icon" src="/images/tasks-icon.svg" alt="tasks-icon">
           <p class="info-text">Tasks</p>
         </a>
       </div>
-      <a class="home-button" href="/Dashboard">
+      <a class="home-button" href="/dashboard">
         <img src="/images/home-button.svg" alt="home-button">
       </a>
     </div>
@@ -88,7 +88,7 @@
 <div class="activity-container">
   <div class={activityButtons.meditate}>
     <h1>Meditate</h1>
-    <a href="/Meditate">
+    <a href="/meditate">
       <div class="activity-contents">
         <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
       </div>
@@ -96,7 +96,7 @@
   </div>
   <div class={activityButtons.mood}>
     <h1>Mood</h1>
-    <a href="/Mood">
+    <a href="/mood">
       <div class="activity-contents">
         <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
       </div>
@@ -104,7 +104,7 @@
   </div>
   <div class={activityButtons.journal}>
     <h1>Journal</h1>
-    <a href="/Journal">
+    <a href="/journal">
       <div class="activity-contents">
         <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
       </div>
