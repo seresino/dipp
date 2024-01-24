@@ -14,6 +14,28 @@ import {
 	getTodaysDate,
 } from "$lib/utils/helperFunctions";
 
+import { authStore, getCurrentUserEmail } from "../../store/store";
+
+let email;
+let user;
+let username;
+$: {
+	authStore.subscribe(async value => {
+			user = value.user;
+			console.log(user)
+			email = await getCurrentUserEmail();
+			console.log("server email: " + email)
+			if (user) {
+				username = email.split("@")[0];
+				console.log("server username: " + username)
+			}
+			else {
+				username = "P1BGSM"
+				console.log("server username: " + username)
+			}
+	});
+}
+
 // Would acc import these in from somewhere else --------------------------------
 const loggedInUserID = getUserID();
 
@@ -23,6 +45,11 @@ const moduleID = getModuleID();
 export const load = async () => {
 	// Load in module name
 	// Load in daily-task entry for that user for today
+	const userQuery = await db
+	.select()
+	.from(users)
+	.where(eq(users.username, username));
+
 	const moduleQuery = await db
 		.select()
 		.from(modules)
@@ -36,12 +63,13 @@ export const load = async () => {
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.user_id, userQuery[0].id),
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
 
 	return {
+		user: userQuery[0],
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],
 		day: day,

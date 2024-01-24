@@ -1,18 +1,18 @@
 <script>
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authHandlers, authStore } from "../store/store";
-  export let data;
+  import { authHandlers, authStore, getCurrentUserEmail } from "../store/store";
 
   const nonAuthRoutes = ["/", "/login", "/about"];
   let user;
 
+  // This piece of code is subscribing to changes in the authStore. Whenever the authStore value changes, the provided function is executed.
   $: {
     authStore.subscribe(async value => {
       user = value.user;
       await tick();
     });
- }
+  }
 
   onMount (() => {
     console.log("Mounting");
@@ -33,6 +33,7 @@
         return;
       }
 
+      //updating the authStore. It takes the current value of the authStore, spreads it into a new object (...curr), replaces the user property with the current value of the user variable, and sets loading to false. The result is a new object that is assigned as the new value of the authStore.
       authStore.update((curr) => {
         return {
           ...curr,
@@ -58,7 +59,7 @@
     </div>
     {#if user}
       <div class="logout-pill">
-        <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+        <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a>
       </div>
       <p>welcome, {user.email}</p>
     {/if}

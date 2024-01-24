@@ -1,7 +1,6 @@
 <!-- Journal.svelte -->
 <script lang="ts">
   import { authStore } from "../../store/store";
-  import { getCurrentUserEmail } from "../../store/store";
 
   export let form;
   export let data; // data returned by the load function
@@ -9,8 +8,6 @@
 
   const journalPrompt = data.journalPrompt;
   const userTasks = data.userTasks;
-  const loggedInUserEmail = getCurrentUserEmail();
-
 </script>
 
 {#if !$authStore.loading}

@@ -1,7 +1,8 @@
 <script>
-  import { authStore } from "../../store/store";
+  import { authHandlers, authStore, getCurrentUserEmail } from "../../store/store";
   import DateTime from "../../components/DateTime.svelte";
-  import { getCurrentUserEmail } from "../../store/store";
+  import {tick} from "svelte";
+
 
   export let data; // data returned by the load function
   let path = "dashboard" // directory of this route
@@ -9,101 +10,115 @@
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
-  const loggedInUser = getCurrentUserEmail();
-  const username = loggedInUser.split('@')[0].toUpperCase();;
+  const newuser = data.user;
 
+  let email;
+  let user;
+  let username;
+  $: {
+    authStore.subscribe(async value => {
+        user = value.user;
+        console.log(user)
+        email = await getCurrentUserEmail();
+        console.log("email: " + email)
+        if (user) {
+          username = email.split("@")[0];
+        }
+        await tick();
+    });
+  }
 </script>
 
-{#if !$authStore.loading}
+{#if user}
 
-<div class="dashboard">
-  <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
-  <div class="dashboard-text">
-    <div class="top-text">
-      <div class="day">Day {day}</div>
-      <div class="date">
-        <DateTime />
+  <div class="dashboard">
+    <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
+    <div class="dashboard-text">
+      <div class="top-text">
+        <div class="day">Day {day}</div>
+        <div class="date">
+          <DateTime />
+        </div>
       </div>
-    </div>
-    <div class="bottom-text"><span>Dashboard</span><span>{username}</span></div>
-  </div>
-</div>
-<div class="progress-container">
-  <img class="progress-shape" src="/images/progress-box-shape.svg" alt="module-shape">
-  <div class="progress-absolute">
-    <div class="progress-section">
-      <p class="progress-text">Progress:</p>
-      <div class="progress-bar">
-        {#each Array(day) as _, i}
-          <div class="progress-pill-completed"></div>
-        {/each}
-        {#each Array(21-day) as _, i}
-          <div class="progress-pill"></div>
-        {/each}
-      </div>
-      <p class="progress-text">{day}/21 Days</p>
-    </div>
-    <div class="progress-section">
-      <p class="progress-text">Modules:</p>
-      <div class="modules-bar">
-        {#each Array(module.id) as _, i}
-          <div class="modules-pill-completed"></div>
-        {/each}
-        {#each Array(3-module.id) as _, i}
-          <div class="modules-pill"></div>
-        {/each}
-      </div>
-      <p class="progress-text">{module.id}/3</p>
+      <div class="bottom-text"><span>Dashboard</span><span>{newuser.username}</span></div>
     </div>
   </div>
-</div>
-<div class="modules-container">
-  <div class="module-container">
-    <div class="module">
-      <div class="module-pill one">
-        <p class="module-pill-text">Module 1</p>
+  <div class="progress-container">
+    <img class="progress-shape" src="/images/progress-box-shape.svg" alt="module-shape">
+    <div class="progress-absolute">
+      <div class="progress-section">
+        <p class="progress-text">Progress:</p>
+        <div class="progress-bar">
+          {#each Array(day) as _, i}
+            <div class="progress-pill-completed"></div>
+          {/each}
+          {#each Array(21-day) as _, i}
+            <div class="progress-pill"></div>
+          {/each}
+        </div>
+        <p class="progress-text">{day}/21 Days</p>
       </div>
+      <div class="progress-section">
+        <p class="progress-text">Modules:</p>
+        <div class="modules-bar">
+          {#each Array(module.id) as _, i}
+            <div class="modules-pill-completed"></div>
+          {/each}
+          {#each Array(3-module.id) as _, i}
+            <div class="modules-pill"></div>
+          {/each}
+        </div>
+        <p class="progress-text">{module.id}/3</p>
+      </div>
+    </div>
+  </div>
+  <div class="modules-container">
+    <div class="module-container">
+      <div class="module">
+        <div class="module-pill one">
+          <p class="module-pill-text">Module 1</p>
+        </div>
+          {#each Array(7) as _, i}
+            <div class={i+1 === day ? 'day-pill completed' : i+1 < day ? 'day-pill inactive' : 'day-pill'}>
+              <a href="/day">
+                <p class="day-pill-text">Day {i+1}</p>
+              </a>
+            </div>
+          {/each}
+      </div>
+      <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
+    </div>
+    <div class="module-container">
+      <div class="module">
+        <div class="module-pill two">
+          <p class="module-pill-text">Module 2</p>
+        </div>
         {#each Array(7) as _, i}
-          <div class={i+1 === day ? 'day-pill completed' : i+1 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/day">
-              <p class="day-pill-text">Day {i+1}</p>
-            </a>
-          </div>
-        {/each}
-    </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
-  </div>
-  <div class="module-container">
-    <div class="module">
-      <div class="module-pill two">
-        <p class="module-pill-text">Module 2</p>
+            <div class={i+8 === day ? 'day-pill completed' : i+8 < day ? 'day-pill inactive' : 'day-pill'}>
+              <a href="/day">
+                <p class="day-pill-text">Day {i+8}</p>
+              </a>
+            </div>
+          {/each}
       </div>
-      {#each Array(7) as _, i}
-          <div class={i+8 === day ? 'day-pill completed' : i+8 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/day">
-              <p class="day-pill-text">Day {i+8}</p>
-            </a>
-          </div>
-        {/each}
+      <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
     </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
-  </div>
-  <div class="module-container">
-    <div class="module">
-      <div class="module-pill three">
-        <p class="module-pill-text">Module 3</p>
+    <div class="module-container">
+      <div class="module">
+        <div class="module-pill three">
+          <p class="module-pill-text">Module 3</p>
+        </div>
+        {#each Array(7) as _, i}
+            <div class={i+15 === day ? 'day-pill completed' : i+15 < day ? 'day-pill inactive' : 'day-pill'}>
+              <a href="/day">
+                <p class="day-pill-text">Day {i+15}</p>
+              </a>
+            </div>
+          {/each}
       </div>
-      {#each Array(7) as _, i}
-          <div class={i+15 === day ? 'day-pill completed' : i+15 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/day">
-              <p class="day-pill-text">Day {i+15}</p>
-            </a>
-          </div>
-        {/each}
+      <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
     </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
   </div>
-</div>
 
 
 {/if}

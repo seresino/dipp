@@ -38,14 +38,20 @@ export const authHandlers = {
      });
   },
   logout: async () => {
-     await signOut(auth)
+    await signOut(auth)
+    authStore.update((curr) => {
+      return {
+        ...curr,
+        user: null,
+      };
+    });
   }
 }
 
 export const getCurrentUserEmail = () => {
-  let email;
-  authStore.subscribe(value => {
-     email = value.user ? value.user.email : null;
-  });
-  return email;
+ return new Promise(resolve => {
+    authStore.subscribe(value => {
+      resolve(value.user ? value.user.email : null);
+    });
+ });
 }
