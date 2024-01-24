@@ -68,6 +68,7 @@ export const authHandlers = {
 		authStore.update((curr) => {
 			return {
 				...curr,
+				userID: 2,
 				user: {
 					...user,
 					email: user.email,

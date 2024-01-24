@@ -8,21 +8,6 @@ import { fail } from "@sveltejs/kit";
 import { desc, eq } from "drizzle-orm";
 import seed from "./seed";
 
-const insertUser = async (username: string, password: string) => {
-	return db.insert(users).values({
-		username: username,
-		password: password,
-		meditation: false,
-		high_dosage: false,
-	});
-};
-
-const insertPrompt = async (content: string) => {
-	return db.insert(journalPrompts).values({
-		content: content,
-	});
-};
-
 export const actions = {
 	add: async ({ request }) => {
 		// Get the form data from the request
