@@ -10,6 +10,12 @@ import {
 	varchar,
 } from "drizzle-orm/pg-core";
 
+// export const questionnaire = pgEnum("questionnaire", [
+// 	"Good",
+// 	"Bad",
+// 	"Neutral",
+// ]);
+
 export const users = pgTable("users", {
 	id: serial("id").primaryKey(),
 	username: varchar("username", { length: 20 }).unique().notNull(),
@@ -32,12 +38,6 @@ export const journalPrompts = pgTable("journal-prompts", {
 	prompt: varchar("prompt"),
 });
 
-export const questionnaire = pgEnum("questionnaire", [
-	"Good",
-	"Bad",
-	"Neutral",
-]);
-
 export const mood = pgTable("mood", {
 	id: serial("id").primaryKey(),
 	q1: integer("q1"),
@@ -57,6 +57,6 @@ export const dailyTasks = pgTable("daily-tasks", {
 	date: date("date"),
 	user_id: integer("user_id").references(() => users.id),
 	journal: varchar("journal"),
-	meditation: boolean("meditation"),
+	meditation: boolean("meditation").default(false),
 	mood_id: integer("mood_id").references(() => mood.id),
 });
