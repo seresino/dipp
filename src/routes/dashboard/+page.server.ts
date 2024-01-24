@@ -14,7 +14,7 @@ import {
 	getTodaysDate,
 } from "$lib/utils/helperFunctions";
 
-import { authStore, getCurrentUserEmail } from "../../store/store";
+import { authStore, getCurrentUserEmail } from "$lib/utils/helperFunctions";
 
 let email;
 let user;

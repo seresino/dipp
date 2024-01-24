@@ -1,6 +1,6 @@
 <script>
   import AudioPlayer from '../../components/AudioPlayer.svelte';
-  import { authStore } from '../../store/store';
+  import { authStore } from "$lib/utils/helperFunctions";
 </script>
 
 {#if !$authStore.loading}

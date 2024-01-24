@@ -29,9 +29,18 @@ function daysSinceStart() {
 	return subtractDatesInDays(today, startDate);
 }
 
-export function setUserID(id) {
-	// Live site will retrieve id from session --------------------------------
-	return 1;
+export function setUserID(userID, loading = true) {
+	authStore.update((curr) => {
+		return {
+			...curr,
+			userID: userID,
+			user: {
+				...user,
+				email: user.email,
+			},
+			loading: loading,
+		};
+	});
 }
 
 export function getUserID() {
@@ -64,7 +73,15 @@ export function getTodaysDate() {
 
 export const authStore = writable({
 	userID: null,
-	user: null,
 	loading: true,
+	user: null,
 	data: {},
 });
+
+export const getCurrentUserEmail = () => {
+	return new Promise((resolve) => {
+		authStore.subscribe((value) => {
+			resolve(value.user ? value.user.email : null);
+		});
+	});
+};

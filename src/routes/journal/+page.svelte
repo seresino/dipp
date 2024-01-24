@@ -1,6 +1,6 @@
 <!-- Journal.svelte -->
 <script lang="ts">
-  import { authStore } from "../../store/store";
+  import { authStore } from "$lib/utils/helperFunctions";
 
   export let form;
   export let data; // data returned by the load function
