@@ -30,23 +30,37 @@ function daysSinceStart() {
 	return subtractDatesInDays(today, startDate);
 }
 
-export function setUserID(userID, loading = true) {
+// export function setUserID(userID, loading = true) {
+// 	authStore.update((curr) => {
+// 		return {
+// 			...curr,
+// 			userID: userID,
+// 			user: {
+// 				...user,
+// 				email: user.email,
+// 			},
+// 			loading: loading,
+// 		};
+// 	});
+// }
+
+export function setUserID(userID, loading = true, user) {
 	authStore.update((curr) => {
 		return {
-			...curr,
 			userID: userID,
 			user: {
-				...user,
 				email: user.email,
+				// Add other properties of `user` here
 			},
 			loading: loading,
+			// Add other properties of `curr` here
 		};
 	});
 }
 
 export function getUserID() {
 	// Live site will retrieve id from session --------------------------------
-	return 1;
+	return 2;
 }
 
 export function getDay() {

@@ -42,11 +42,11 @@ export const authHandlers = {
 			pass
 		);
 		const user = userCredential.user;
-		const userQuery = await db
-			.select()
-			.from(users)
-			.where(eq(users.username, username));
-		const userID = userQuery[0].id;
+		// const userQuery = await db
+		// 	.select()
+		// 	.from(users)
+		// 	.where(eq(users.username, username));
+		// const userID = userQuery[0].id;
 
 		// // authStore.set({ userID: userID });
 		// // @ts-ignore
@@ -59,19 +59,32 @@ export const authHandlers = {
 		// // 	};
 		// // });
 
-		setUserID(userID, false);
+		// setUserID(userID, false, user);
+		setUserID(2, false, user);
 
-		authStore.update((curr) => {
-			return {
-				...curr,
-				userID: userID,
-				user: {
-					...user,
-					email: user.email,
-				},
-				loading: false,
-			};
-		});
+		// authStore.update((curr) => {
+		// 	return {
+		// 		...curr,
+		// 		userID: userID,
+		// 		user: {
+		// 			...user,
+		// 			email: user.email,
+		// 		},
+		// 		loading: false,
+		// 	};
+		// });
+
+		// authStore.update((curr) => {
+		//     return {
+		//         userID: userID,
+		//         user: {
+		//             email: user.email,
+		//             // Add other properties of `user` here
+		//         },
+		//         loading: loading,
+		//         // Add other properties of `curr` here
+		//     };
+		// });
 	},
 	logout: async () => {
 		await signOut(auth);
@@ -84,3 +97,11 @@ export const authHandlers = {
 		});
 	},
 };
+
+// function getUserIDByUsername(username) {
+//     const userQuery = await db
+// 			.select()
+// 			.from(users)
+// 			.where(eq(users.username, username));
+// 		return userQuery[0].id;
+// }

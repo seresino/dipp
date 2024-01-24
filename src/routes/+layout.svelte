@@ -1,14 +1,16 @@
 <script>
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authStore, getCurrentUserEmail, authHandlers } from "$lib/utils/helperFunctions";
+  import { authStore, getCurrentUserEmail, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
 
   const nonAuthRoutes = ["/", "/login", "/about"];
   let user;
+  let userID;
 
   // This piece of code is subscribing to changes in the authStore. Whenever the authStore value changes, the provided function is executed.
   $: {
     authStore.subscribe(async value => {
+      userID=value.userID;
       user = value.user;
       await tick();
     });
@@ -34,13 +36,14 @@
       }
 
       //updating the authStore. It takes the current value of the authStore, spreads it into a new object (...curr), replaces the user property with the current value of the user variable, and sets loading to false. The result is a new object that is assigned as the new value of the authStore.
-      authStore.update((curr) => {
-        return {
-          ...curr,
-          user,
-          loading: false,
-        };
-      });
+      setUserID(getUserID(), false, user);
+      // authStore.update((curr) => {
+      //   return {
+      //     ...curr,
+      //     user,
+      //     loading: false,
+      //   };
+      // });
     });
   });
 </script>
@@ -61,7 +64,7 @@
       <div class="logout-pill">
         <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a>
       </div>
-      <p>welcome, {user.email}</p>
+      <p>welcome, {userID}</p>
     {/if}
   </div>
 </div>
