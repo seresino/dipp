@@ -99,7 +99,7 @@
         <div class="activity-pill"></div>
         <div class="activity-pill"></div> -->
       </div>
-      <p class="progress-text">{taskCompletion.filter(value => value === true).length}/3</p>
+      <p class="progress-text">{taskCompletion.filter(value => value === true).length}/{taskCompletion.length}</p>
     </div>
   </div>
 </div>
