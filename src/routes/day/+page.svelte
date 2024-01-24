@@ -3,47 +3,66 @@
   export let data; // data returned by the load function
   let path = "day" // directory of this route
 
+  const user = data.user;
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
 
+  let taskCompletion;
+  let tasks;
+  let progressBar;
+  let activityButtons;
 
-//   // if meditate is null/falsy, only meditate is clickable
-//   // if meditate is not null/falsy aka. completed, mood unlocked
-//   // if mood is not null/falsy, aka. mood questionaire completed, journal unlocked
-//   // fill in progress bar based on whether all these are complete too
-  const taskCompletion = [!!userTasks.meditation, !!userTasks.mood_id, !!userTasks.journal];
-  const tasks = {meditate: 0, mood: 1, journal: 2}
+  if (user.meditation) {
+     taskCompletion = [!!userTasks.meditation, !!userTasks.mood_id, !!userTasks.journal];
+     tasks = {meditate: 0, mood: 1, journal: 2}
 
-  let progressBar = {meditation: "activity-pill", mood_id: "activity-pill", journal: "activity-pill"}
-  let activityButtons = {meditate: "activity meditate", mood: "activity mood", journal: "activity journal"}
+     progressBar = {meditation: "activity-pill", mood_id: "activity-pill", journal: "activity-pill"}
+     activityButtons = {meditate: "activity meditate", mood: "activity mood", journal: "activity journal"}
 
-  // Using forEach to iterate over object properties
-  Object.keys(progressBar ).forEach(key => {
-      if(userTasks[key]){
-          progressBar[key] = "activity-pill-completed";
-      }
-  });
+     Object.keys(progressBar ).forEach(key => {
+         if(userTasks[key]){
+             progressBar[key] = "activity-pill-completed";
+         }
+     });
 
-  if (!userTasks.meditation){
-    activityButtons.mood += " inactive"
-    activityButtons.journal += " inactive"
-  } else if (!userTasks.mood_id){
-    // activityButtons.meditate += " complete"
-    activityButtons.journal += " inactive"
-  } else if (!userTasks.journal){
-    activityButtons.meditate += " complete"
-    activityButtons.mood += " complete"
+     if (!userTasks.meditation){
+         activityButtons.mood += " inactive"
+         activityButtons.journal += " inactive"
+     } else if (!userTasks.mood_id){
+         activityButtons.journal += " inactive"
+     } else if (!userTasks.journal){
+         activityButtons.meditate += " complete"
+         activityButtons.mood += " complete"
+     } else {
+         activityButtons.meditate += " complete"
+         activityButtons.mood += " complete"
+         activityButtons.journal += " complete"
+     }
   } else {
-    activityButtons.meditate += " complete"
-    activityButtons.mood += " complete"
-    activityButtons.journal += " complete"
+     taskCompletion = [!!userTasks.mood_id, !!userTasks.journal];
+     tasks = {mood: 0, journal: 1}
+
+     progressBar = {mood_id: "activity-pill", journal: "activity-pill"}
+     activityButtons = {mood: "activity mood", journal: "activity journal"}
+
+     Object.keys(progressBar ).forEach(key => {
+         if(userTasks[key]){
+             progressBar[key] = "activity-pill-completed";
+         }
+     });
+
+     if (!userTasks.mood_id){
+         activityButtons.journal += " inactive"
+     } else if (!userTasks.journal){
+         activityButtons.mood += " complete"
+     } else {
+         activityButtons.mood += " complete"
+         activityButtons.journal += " complete"
+     }
   }
-
-
-
-
 </script>
+
 
 <div class="module-container">
   <img class="module-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
@@ -80,51 +99,77 @@
         <div class="activity-pill"></div>
         <div class="activity-pill"></div> -->
       </div>
-      <p class="progress-text">{taskCompletion.filter(value => value === true).length}/3</p>
+      <p class="progress-text">{taskCompletion.filter(value => value === true).length}/{taskCompletion.length}</p>
     </div>
   </div>
 </div>
 
-<div class="activity-container">
-  <div class={activityButtons.meditate}>
-    <h1>Meditate</h1>
-    <a href="/meditate">
-      <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
-      </div>
-    </a>
-  </div>
-  <div class={activityButtons.mood}>
-    <h1>Mood</h1>
-    <a href="/mood">
-      <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
-      </div>
-    </a>
-  </div>
-  <div class={activityButtons.journal}>
-    <h1>Journal</h1>
-    <a href="/journal">
-      <div class="activity-contents">
-        <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
-      </div>
-    </a>
-  </div>
-</div>
+{#if user.meditation}
+ <div class="activity-container">
+    <div class={activityButtons.meditate}>
+      <h1>Meditate</h1>
+      <a href="/meditate">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+    <div class={activityButtons.mood}>
+      <h1>Mood</h1>
+      <a href="/mood">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+    <div class={activityButtons.journal}>
+      <h1>Journal</h1>
+      <a href="/journal">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+ </div>
+{:else}
+ <div class="activity-container">
+    <div class={activityButtons.mood}>
+      <h1>Mood</h1>
+      <a href="/mood">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+    <div class={activityButtons.journal}>
+      <h1>Journal</h1>
+      <a href="/journal">
+        <div class="activity-contents">
+          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+        </div>
+      </a>
+    </div>
+ </div>
+{/if}
+
 
 
 <style>
   .activity-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 1100px;
-    padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(32%, 1fr));
+      width: 1100px;
+      padding: 20px;
+      gap: 20px;
   }
+  @media screen and (max-width: 600px) {
+    .activity-container {
+        grid-template-columns: 1fr;
+    }
+}
   .activity {
     position: relative;
-    width: 343px;
+    width: 100%;
     height: 394px;
     border: 1px #168ACE solid;
     border-radius: 20px;
@@ -169,8 +214,6 @@
 
   .module-container {
     position: relative;
-  }
-  .module-image {
   }
   .module-text {
     display: flex;
