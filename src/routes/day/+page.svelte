@@ -8,44 +8,61 @@
   const userTasks = data.userTasks;
   const day = data.day;
 
+  let taskCompletion;
+  let tasks;
+  let progressBar;
+  let activityButtons;
 
-//   // if meditate is null/falsy, only meditate is clickable
-//   // if meditate is not null/falsy aka. completed, mood unlocked
-//   // if mood is not null/falsy, aka. mood questionaire completed, journal unlocked
-//   // fill in progress bar based on whether all these are complete too
-  const taskCompletion = [!!userTasks.meditation, !!userTasks.mood_id, !!userTasks.journal];
-  const tasks = {meditate: 0, mood: 1, journal: 2}
+  if (user.meditation) {
+     taskCompletion = [!!userTasks.meditation, !!userTasks.mood_id, !!userTasks.journal];
+     tasks = {meditate: 0, mood: 1, journal: 2}
 
-  let progressBar = {meditation: "activity-pill", mood_id: "activity-pill", journal: "activity-pill"}
-  let activityButtons = {meditate: "activity meditate", mood: "activity mood", journal: "activity journal"}
+     progressBar = {meditation: "activity-pill", mood_id: "activity-pill", journal: "activity-pill"}
+     activityButtons = {meditate: "activity meditate", mood: "activity mood", journal: "activity journal"}
 
-  // Using forEach to iterate over object properties to update class of pill depending on completion status
-  Object.keys(progressBar ).forEach(key => {
-      if(userTasks[key]){
-          progressBar[key] = "activity-pill-completed";
-      }
-  });
+     Object.keys(progressBar ).forEach(key => {
+         if(userTasks[key]){
+             progressBar[key] = "activity-pill-completed";
+         }
+     });
 
-  // checks completion status of each task, so that you can only access buttons in sequence and styles completed ones - string appends to class name
-  if (!userTasks.meditation){
-    activityButtons.mood += " inactive"
-    activityButtons.journal += " inactive"
-  } else if (!userTasks.mood_id){
-    // activityButtons.meditate += " complete"
-    activityButtons.journal += " inactive"
-  } else if (!userTasks.journal){
-    activityButtons.meditate += " complete"
-    activityButtons.mood += " complete"
+     if (!userTasks.meditation){
+         activityButtons.mood += " inactive"
+         activityButtons.journal += " inactive"
+     } else if (!userTasks.mood_id){
+         activityButtons.journal += " inactive"
+     } else if (!userTasks.journal){
+         activityButtons.meditate += " complete"
+         activityButtons.mood += " complete"
+     } else {
+         activityButtons.meditate += " complete"
+         activityButtons.mood += " complete"
+         activityButtons.journal += " complete"
+     }
   } else {
-    activityButtons.meditate += " complete"
-    activityButtons.mood += " complete"
-    activityButtons.journal += " complete"
+     taskCompletion = [!!userTasks.mood_id, !!userTasks.journal];
+     tasks = {mood: 0, journal: 1}
+
+     progressBar = {mood_id: "activity-pill", journal: "activity-pill"}
+     activityButtons = {mood: "activity mood", journal: "activity journal"}
+
+     Object.keys(progressBar ).forEach(key => {
+         if(userTasks[key]){
+             progressBar[key] = "activity-pill-completed";
+         }
+     });
+
+     if (!userTasks.mood_id){
+         activityButtons.journal += " inactive"
+     } else if (!userTasks.journal){
+         activityButtons.mood += " complete"
+     } else {
+         activityButtons.mood += " complete"
+         activityButtons.journal += " complete"
+     }
   }
-
-
-
-
 </script>
+
 
 <div class="module-container">
   <img class="module-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
