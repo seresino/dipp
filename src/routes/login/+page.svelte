@@ -1,18 +1,16 @@
 <script>
   import { authHandlers } from "../../store/store";
 
-  let email = "";
+  let username = "";
   let password = "";
-  let confirmPass = "";
   let error = false;
-  let register = false;
   let authenticating = false;
   export let data; // data returned by the load function
 
   async function handleAuthenticate() {
     if (authenticating) {return;}
 
-    if (!email || !password || (register && !confirmPass)) {
+    if (!username || !password) {
       error = true
       return
     }
@@ -20,21 +18,14 @@
     authenticating = true;
 
     try {
-      if (!register) {
-        await authHandlers.login(email, password);
-      } else {
-        await authHandlers.signup(email, password);
-      }
+      await authHandlers.login(username, password);
+
     } catch(err) {
       console.log('There was an auth error', err);
       error = true;
       authenticating = false;
     }
 
-  }
-
-  function handleRegister () {
-    register = !register
   }
 
   function handleSubmit(event) {
@@ -50,7 +41,7 @@
   <div class="input-div">
     <div class="Labels">Username</div>
     <label>
-      <input class="InputBox" bind:value={email} type="text" />
+      <input class="InputBox" bind:value={username} type="text" />
     </label>
   </div>
   <div class="input-div">
@@ -59,24 +50,12 @@
       <input class="InputBox" bind:value={password} type="password" />
     </label>
   </div>
-  {#if register}
-    <div class="input-div">
-      <div class="Labels">Confirm Password</div>
-      <label>
-        <input class="InputBox" bind:value={confirmPass} type="password" />
-      </label>
-    </div>
-  {/if}
   <div class="options-div">
     <button class="Options" type="submit">
       {#if authenticating}
         Loading...
       {:else}
-        {#if register}
-          Register
-        {:else}
           Login
-        {/if}
       {/if}
     </button>
   </div>
@@ -100,7 +79,7 @@
     justify-content: space-between;
     align-items : center;
     padding: 5px 10px 5px 10px;
-   }
+  }
   .InputBox {
     width : 280px;
     height : 49px;
