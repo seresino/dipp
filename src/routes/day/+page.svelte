@@ -1,7 +1,7 @@
 <!-- Day.svelte -->
 <script>
   export let data; // data returned by the load function
-  let path = "Day" // directory of this route
+  let path = "day" // directory of this route
 
   const module = data.module;
   const userTasks = data.userTasks;
@@ -33,11 +33,11 @@
     activityButtons.journal += " inactive"
   } else if (!userTasks.journal){
     activityButtons.meditate += " complete"
-    // activityButtons.mood += " complete"
+    activityButtons.mood += " complete"
   } else {
-    // activityButtons.meditate += " complete"
-    // activityButtons.mood += " complete"
-    // activityButtons.journal += " complete"
+    activityButtons.meditate += " complete"
+    activityButtons.mood += " complete"
+    activityButtons.journal += " complete"
   }
 
 
@@ -144,6 +144,7 @@
   }
   .complete {
     background-color: #08d85e;
+    opacity: 0.5;
   }
 
   .activity-contents {

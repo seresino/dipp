@@ -7,10 +7,15 @@ import { dailyTasks } from "$lib/server/schema";
 import { fail } from "@sveltejs/kit";
 import { desc, eq, and } from "drizzle-orm";
 
-import { getDay, getModuleID } from "$lib/utils/helperFunctions";
+import {
+	getDay,
+	getModuleID,
+	getUserID,
+	getTodaysDate,
+} from "$lib/utils/helperFunctions";
 
 // Would acc import these in from somewhere else --------------------------------
-const loggedInUserID = 2;
+const loggedInUserID = getUserID();
 
 const day = getDay();
 const moduleID = getModuleID();
@@ -23,16 +28,18 @@ export const load = async () => {
 		.from(modules)
 		.where(eq(modules.id, moduleID));
 
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+
 	const userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, loggedInUserID)
-				// eq(dailyTasks.date, getDate())
+				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
-			// eq(dailyTasks.date, loggedInUserID),
-		); //and day is equal to today
+		);
 
 	return {
 		userTasks: userTasksQuery[0],

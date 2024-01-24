@@ -5,8 +5,8 @@
   export let data; // data returned by the load function
   let path = "journal" // directory of this route
 
-  let journal = '';
-  let id = '';
+  const journalPrompt = data.journalPrompt;
+  const userTasks = data.userTasks;
 </script>
 
 <h1>Add User</h1>
@@ -22,11 +22,17 @@
       <p>{form.message}</p>
     {/if}
 
+    {#if !userTasks.journal}
     <form action="{path}/?/update" method="post">
-        <input type="hidden" name="id" value=1 />
-        <input type="text" name="journal" placeholder="Enter entry..." />
-        <input type="submit" value="Update" />
-    </form>
+      <input type="hidden" name="id" value={userTasks.id} />
+      <input type="text" name="journal" placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}" />
+      <input type="submit" value="Update" />
+  </form>
+    {:else}
+      <input type="text" name="journal" placeholder="{userTasks.journal}" disabled/>
+    {/if}
+
+    
       <!-- <div class="enterTask">
         {#if loading}
           <p>Loading...</p>

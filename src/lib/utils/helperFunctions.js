@@ -21,10 +21,15 @@ function daysSince(date) {
 }
 
 function daysSinceStart() {
-	// Real site will use todays date like below - uncomment this lines --------------------------------
+	// Live site will use todays date like below - uncomment this lines --------------------------------
 	// return daysSince(startDate)
 
 	return subtractDatesInDays(today, startDate);
+}
+
+export function getUserID() {
+	// Live site will retrieve id from session --------------------------------
+	return 2;
 }
 
 export function getDay() {

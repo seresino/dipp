@@ -1,6 +1,12 @@
 <script>
   import { page } from '$app/stores';
-	let selectedButton = $page.url.searchParams.get('initial') || 'instructions';
+
+  export let data; // data returned by the load function
+  let path = "day" // directory of this route
+
+  let selectedButton = $page.url.searchParams.get('initial') || 'instructions';
+
+  const module = data.module;
 </script>
 
 <div class="pop-up">
@@ -18,14 +24,10 @@
       </button>
     </div>
     {#if selectedButton === 'instructions'}
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>{module.instructions}</p>
     {:else if selectedButton === 'tasks'}
       <div>
-        <h3>Task 1</h3>
-        <h3>Task 2</h3>
-        <h3>Task 3</h3>
-        <h3>Task 4</h3>
-        <h3>Task 5</h3>
+        <p>{module.tasks}</p>
       </div>
     {/if}
   </div>
