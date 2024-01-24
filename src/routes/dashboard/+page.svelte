@@ -93,7 +93,7 @@
         <div class="module-pill two">
           <p class="module-pill-text">Module 2</p>
         </div>
-        {#each Array(7) as _, i}
+          {#each Array(7) as _, i}
             <div class={i+8 === day ? 'day-pill completed' : i+8 < day ? 'day-pill inactive' : 'day-pill'}>
               <a href="/day">
                 <p class="day-pill-text">Day {i+8}</p>
@@ -108,7 +108,7 @@
         <div class="module-pill three">
           <p class="module-pill-text">Module 3</p>
         </div>
-        {#each Array(7) as _, i}
+          {#each Array(7) as _, i}
             <div class={i+15 === day ? 'day-pill completed' : i+15 < day ? 'day-pill inactive' : 'day-pill'}>
               <a href="/day">
                 <p class="day-pill-text">Day {i+15}</p>
