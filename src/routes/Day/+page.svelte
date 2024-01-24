@@ -1,6 +1,5 @@
 <!-- Day.svelte -->
 <script>
-  export let form;
   export let data; // data returned by the load function
   let path = "Day" // directory of this route
 
@@ -8,6 +7,11 @@
   const userTasks = data.userTasks;
   const day = data.day;
 
+
+//   // if meditate is null/falsy, only meditate is clickable
+//   // if meditate is not null/falsy aka. completed, mood unlocked
+//   // if mood is not null/falsy, aka. mood questionaire completed, journal unlocked
+//   // fill in progress bar based on whether all these are complete too
   const taskCompletion = [!!userTasks.meditation, !!userTasks.mood_id, !!userTasks.journal];
   const tasks = {meditate: 0, mood: 1, journal: 2}
 
