@@ -1,3 +1,5 @@
+import { writable } from "svelte/store";
+
 // Start date for testing purposes --------------------------------
 const startDate = new Date("2024-01-15");
 // Todays date for testing purposes --------------------------------
@@ -27,6 +29,11 @@ function daysSinceStart() {
 	return subtractDatesInDays(today, startDate);
 }
 
+export function setUserID(id) {
+	// Live site will retrieve id from session --------------------------------
+	return 1;
+}
+
 export function getUserID() {
 	// Live site will retrieve id from session --------------------------------
 	return 1;
@@ -54,3 +61,10 @@ export function getTodaysDate() {
 
 // const formattedDate = `${year}-${month}-${day}`;
 // const formattedDate2 = currentDate.toLocaleDateString()
+
+export const authStore = writable({
+	userID: null,
+	user: null,
+	loading: true,
+	data: {},
+});
