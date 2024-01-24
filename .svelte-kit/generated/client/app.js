@@ -23,7 +23,7 @@ export const dictionary = {
 		"/Dashboard": [~4],
 		"/Day": [~5],
 		"/Instructions": [6],
-		"/Journal": [7],
+		"/Journal": [~7],
 		"/Login": [8],
 		"/Meditate": [9],
 		"/Mood": [10],
