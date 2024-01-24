@@ -19,7 +19,7 @@
   <div class="pop-up-text">
     <h1>Your Daily Journal Entry</h1>
     {#if form?.message}
-      <p>{form.message}</p>
+      <p class="message">{form.message}</p>
     {/if}
 
     {#if !userTasks.journal}
@@ -108,7 +108,6 @@
 
   .enterTask textarea:focus{
     border: 1px solid #5DB3E5;
-    color: white;
   }
 
   .enterTask textarea:focus::placeholder {
@@ -116,10 +115,10 @@
   }
 
   .enterTask textarea:disabled {
-    background-color: #D5D5D5; /* Change this to the color you prefer */
+    background-color: #ededed; /* Change this to the color you prefer */
   }
   .enterTask textarea:disabled::placeholder {
-    color: black; /* Change this to the color you prefer */
+    color: #888888; /* Change this to the color you prefer */
   }
 
   .submit {
@@ -140,6 +139,15 @@
 
   .submit input:hover{
     opacity: 0.7;
+  }
+
+  .message {
+    color: white;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+    font-weight: 300;
+    width: 70%;
+    margin: 20px 0 20px 0;
   }
 
 </style>
