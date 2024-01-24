@@ -5,42 +5,66 @@ import { modules } from "$lib/server/schema";
 import { mood } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
 
-const insertUser = async (username: string, password: string) => {
-	return db.insert(users).values({
-		username: username,
-		password: password,
-		meditation: false,
-		high_dosage: false,
-	});
+const generatePassword = () => {
+	return "pass";
 };
 
-const insertPrompt = async (content: string) => {
-	return db.insert(journalPrompts).values({
-		content: content,
-	});
-};
+function getRandomCoordinates() {
+	const x = getRandomNumberInRange(-5, 5);
+	const y = getRandomNumberInRange(-5, 5);
+	return `${x},${y}`;
+}
+
+function getRandomNumberInRange(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const seed = async ({}) => {
-	await db.delete(users);
-	await db.delete(journalPrompts);
-	// await db.query(`ALTER SEQUENCE journal_prompts_id_seq RESTART WITH 1;`);
-
-	for (let i = 1; i <= 10; i++) {
-		const username = `user${i}`;
-		await insertUser(username, "pass");
-	}
-
-	// const prompts = [
-	// 	"Prompt 1",
-	// 	"Prompt 2",
-	// 	"Prompt 3",
-	// 	"Prompt 4",
-	// 	"Prompt 5",
-	// ];
-
-	// for (const prompt of prompts) {
-	// 	await insertPrompt(prompt);
-	// }
+	const usersData = [
+		{
+			id: 0,
+			username: "admin",
+			password: "admin",
+			meditation: false,
+			high_dosage: false,
+		},
+		{
+			username: "PI5AKN",
+			password: generatePassword(),
+			meditation: true,
+			high_dosage: true,
+		},
+		{
+			username: "P1BGSM",
+			password: generatePassword(),
+			meditation: false,
+			high_dosage: true,
+		},
+		{
+			username: "PBZ6BA",
+			password: generatePassword(),
+			meditation: true,
+			high_dosage: false,
+		},
+		{
+			username: "P8B45Q",
+			password: generatePassword(),
+			meditation: false,
+			high_dosage: false,
+		},
+		{
+			username: "user1",
+			password: "pass",
+			meditation: false,
+			high_dosage: false,
+		},
+		{
+			username: "user2",
+			password: "pass",
+			meditation: true,
+			high_dosage: true,
+		},
+	];
 
 	const journalPromptsData = [
 		{
@@ -129,35 +153,30 @@ const seed = async ({}) => {
 		},
 	];
 
-	for (const promptData of journalPromptsData) {
-		await db.insert(journalPrompts).values(promptData);
-	}
-
-	const moduleDataArray = [
+	const modulesData = [
 		{
-			name: "Module 1: Knowledge and expectation",
+			name: "Knowledge and expectation",
 			instructions: "Instructions 1",
 			tasks: "Tasks 1",
-			audio: "Audio 1",
+			audio: "test-audio.m4a",
 		},
 		{
-			name: "Module 2: Psycho-physical readiness",
+			name: "Psycho-physical readiness",
 			instructions: "Instructions 2",
 			tasks: "Tasks 2",
-			audio: "Audio 2",
+			audio: "meditation-2.m4a",
 		},
 		{
-			name: "Module 3: Safety planning",
+			name: "Safety planning",
 			instructions: "Instructions 3",
 			tasks: "Tasks 3",
-			audio: "Audio 3",
+			audio: "meditation-3.m4a",
 		},
 	];
 
-	await db.insert(modules).values(moduleDataArray);
-
 	const moodData = [
 		{
+			id: 1,
 			q1: 3,
 			q2: 4,
 			q3: 2,
@@ -165,10 +184,11 @@ const seed = async ({}) => {
 			q5: 1,
 			q6: 3,
 			q7: 4,
-			q8: "2,3",
+			q8: getRandomCoordinates(),
 			q9: 4,
 		},
 		{
+			id: 11,
 			q1: 2,
 			q2: 3,
 			q3: 1,
@@ -176,10 +196,11 @@ const seed = async ({}) => {
 			q5: 5,
 			q6: 2,
 			q7: 3,
-			q8: "4,1",
+			q8: getRandomCoordinates(),
 			q9: 2,
 		},
 		{
+			id: 21,
 			q1: 4,
 			q2: 5,
 			q3: 3,
@@ -187,10 +208,11 @@ const seed = async ({}) => {
 			q5: 1,
 			q6: 4,
 			q7: 5,
-			q8: "1,5",
+			q8: getRandomCoordinates(),
 			q9: 3,
 		},
 		{
+			id: 31,
 			q1: 1,
 			q2: 4,
 			q3: 5,
@@ -198,10 +220,11 @@ const seed = async ({}) => {
 			q5: 2,
 			q6: 1,
 			q7: 2,
-			q8: "5,2",
+			q8: getRandomCoordinates(),
 			q9: 5,
 		},
 		{
+			id: 41,
 			q1: 3,
 			q2: 2,
 			q3: 4,
@@ -209,10 +232,11 @@ const seed = async ({}) => {
 			q5: 5,
 			q6: 3,
 			q7: 4,
-			q8: "3,4",
+			q8: getRandomCoordinates(),
 			q9: 1,
 		},
 		{
+			id: 51,
 			q1: 5,
 			q2: 1,
 			q3: 3,
@@ -220,10 +244,11 @@ const seed = async ({}) => {
 			q5: 2,
 			q6: 5,
 			q7: 1,
-			q8: "2,2",
+			q8: getRandomCoordinates(),
 			q9: 4,
 		},
 		{
+			id: 61,
 			q1: 2,
 			q2: 3,
 			q3: 1,
@@ -231,10 +256,11 @@ const seed = async ({}) => {
 			q5: 5,
 			q6: 2,
 			q7: 3,
-			q8: "4,1",
+			q8: getRandomCoordinates(),
 			q9: 2,
 		},
 		{
+			id: 71,
 			q1: 4,
 			q2: 5,
 			q3: 3,
@@ -242,10 +268,11 @@ const seed = async ({}) => {
 			q5: 1,
 			q6: 4,
 			q7: 5,
-			q8: "1,5",
+			q8: getRandomCoordinates(),
 			q9: 3,
 		},
 		{
+			id: 81,
 			q1: 1,
 			q2: 4,
 			q3: 5,
@@ -253,10 +280,11 @@ const seed = async ({}) => {
 			q5: 2,
 			q6: 1,
 			q7: 2,
-			q8: "5,2",
+			q8: getRandomCoordinates(),
 			q9: 5,
 		},
 		{
+			id: 91,
 			q1: 3,
 			q2: 2,
 			q3: 4,
@@ -264,99 +292,228 @@ const seed = async ({}) => {
 			q5: 5,
 			q6: 3,
 			q7: 4,
-			q8: "3,4",
+			q8: getRandomCoordinates(),
 			q9: 1,
 		},
 	];
 
-	await db.insert(mood).values(moodData);
-
 	const dailyData = [
 		{
-			day_number: 3,
-			date: "2024-01-18",
+			day_number: 1,
+			date: "2024-01-15",
 			user_id: 1,
-			journal: "Reflecting on the day's events.",
+			journal:
+				"Today was a great day! I spent time with friends and enjoyed a nice dinner.",
 			meditation: true,
-			mood_id: 5,
-		},
-		{
-			day_number: 2,
-			date: "2024-01-19",
-			user_id: 2,
-			journal: "Gratitude journaling.",
-			meditation: false,
-			mood_id: 8,
-		},
-		{
-			day_number: 4,
-			date: "2024-01-20",
-			user_id: 3,
-			journal: "Deep introspection today.",
-			meditation: true,
-			mood_id: 2,
-		},
-		{
-			day_number: 1,
-			date: "2024-01-21",
-			user_id: 4,
-			journal: "Enjoyed a peaceful meditation session.",
-			meditation: true,
-			mood_id: 6,
-		},
-		{
-			day_number: 5,
-			date: "2024-01-22",
-			user_id: 5,
-			journal: "Feeling energized and focused.",
-			meditation: false,
-			mood_id: 3,
-		},
-		// ... (add the rest of your data)
-		{
-			day_number: 3,
-			date: "2024-02-01",
-			user_id: 6,
-			journal: "Reflecting on personal growth.",
-			meditation: false,
-			mood_id: 9,
-		},
-		{
-			day_number: 2,
-			date: "2024-02-02",
-			user_id: 7,
-			journal: "Mindful moments throughout the day.",
-			meditation: true,
-			mood_id: 4,
-		},
-		{
-			day_number: 4,
-			date: "2024-02-03",
-			user_id: 8,
-			journal: "Challenging but productive day.",
-			meditation: true,
-			mood_id: 7,
-		},
-		{
-			day_number: 1,
-			date: "2024-02-04",
-			user_id: 9,
-			journal: "Grateful for positive interactions.",
-			meditation: false,
 			mood_id: 1,
 		},
 		{
-			day_number: 5,
-			date: "2024-02-05",
-			user_id: 10,
-			journal: "Finding joy in small moments.",
+			day_number: 2,
+			date: "2024-01-16",
+			user_id: 1,
+			journal:
+				"Worked on a challenging project today. Feeling accomplished!",
 			meditation: true,
-			mood_id: 10,
+			mood_id: 11,
+		},
+		{
+			day_number: 3,
+			date: "2024-01-17",
+			user_id: 1,
+			journal:
+				"Had a relaxing day at home. Watched a movie and read a good book.",
+			meditation: true,
+			mood_id: 21,
+		},
+		{
+			day_number: 4,
+			date: "2024-01-18",
+			user_id: 1,
+			journal:
+				"Met with a friend for coffee. It's always nice catching up.",
+			meditation: true,
+			mood_id: 31,
+		},
+		{
+			day_number: 5,
+			date: "2024-01-19",
+			user_id: 1,
+			journal:
+				"Started a new hobby today – painting. It's so therapeutic!",
+			meditation: true,
+			mood_id: 41,
+		},
+		{
+			day_number: 6,
+			date: "2024-01-20",
+			user_id: 1,
+			journal:
+				"Busy day at work. Feeling a bit stressed, but managed to stay focused.",
+			meditation: true,
+			mood_id: 51,
+		},
+		{
+			day_number: 7,
+			date: "2024-01-21",
+			user_id: 1,
+			journal: "Attended a yoga class in the morning. Feeling refreshed!",
+			meditation: true,
+			mood_id: 61,
+		},
+		{
+			day_number: 8,
+			date: "2024-01-22",
+			user_id: 1,
+			journal: "Spent the day outdoors hiking. Nature is so beautiful.",
+			meditation: true,
+			mood_id: 71,
+		},
+		{
+			day_number: 9,
+			date: "2024-01-23",
+			user_id: 1,
+			journal:
+				"Celebrated a friend's birthday. Lots of laughter and good times.",
+			meditation: true,
+			mood_id: 81,
+		},
+		{
+			day_number: 10,
+			date: "2024-01-24",
+			user_id: 1,
+			journal:
+				"Reflecting on the past 10 days. Grateful for the positive experiences.",
+			meditation: true,
+			mood_id: 91,
 		},
 	];
 
-	// Use this seedData array as needed in your application.
+	// const dailyData = [
+	// 	{
+	// 		day_number: 3,
+	// 		date: "2024-01-18",
+	// 		user_id: 1,
+	// 		journal: "Reflecting on the day's events.",
+	// 		meditation: true,
+	// 		mood_id: 5,
+	// 	},
+	// 	{
+	// 		day_number: 2,
+	// 		date: "2024-01-19",
+	// 		user_id: 2,
+	// 		journal: "Gratitude journaling.",
+	// 		meditation: false,
+	// 		mood_id: 8,
+	// 	},
+	// 	{
+	// 		day_number: 4,
+	// 		date: "2024-01-20",
+	// 		user_id: 3,
+	// 		journal: "Deep introspection today.",
+	// 		meditation: true,
+	// 		mood_id: 2,
+	// 	},
+	// 	{
+	// 		day_number: 1,
+	// 		date: "2024-01-21",
+	// 		user_id: 4,
+	// 		journal: "Enjoyed a peaceful meditation session.",
+	// 		meditation: true,
+	// 		mood_id: 6,
+	// 	},
+	// 	{
+	// 		day_number: 5,
+	// 		date: "2024-01-22",
+	// 		user_id: 5,
+	// 		journal: "Feeling energized and focused.",
+	// 		meditation: false,
+	// 		mood_id: 3,
+	// 	},
+	// 	// ... (add the rest of your data)
+	// 	{
+	// 		day_number: 3,
+	// 		date: "2024-02-01",
+	// 		user_id: 6,
+	// 		journal: "Reflecting on personal growth.",
+	// 		meditation: false,
+	// 		mood_id: 9,
+	// 	},
+	// 	{
+	// 		day_number: 2,
+	// 		date: "2024-02-02",
+	// 		user_id: 7,
+	// 		journal: "Mindful moments throughout the day.",
+	// 		meditation: true,
+	// 		mood_id: 4,
+	// 	},
+	// 	{
+	// 		day_number: 4,
+	// 		date: "2024-02-03",
+	// 		user_id: 8,
+	// 		journal: "Challenging but productive day.",
+	// 		meditation: true,
+	// 		mood_id: 7,
+	// 	},
+	// 	{
+	// 		day_number: 1,
+	// 		date: "2024-02-04",
+	// 		user_id: 9,
+	// 		journal: "Grateful for positive interactions.",
+	// 		meditation: false,
+	// 		mood_id: 1,
+	// 	},
+	// 	{
+	// 		day_number: 5,
+	// 		date: "2024-02-05",
+	// 		user_id: 10,
+	// 		journal: "Finding joy in small moments.",
+	// 		meditation: true,
+	// 		mood_id: 10,
+	// 	},
+	// ];
+
+	await db.insert(users).values(usersData);
+	await db.insert(journalPrompts).values(journalPromptsData);
+	await db.insert(modules).values(modulesData);
+	await db.insert(mood).values(moodData);
 	await db.insert(dailyTasks).values(dailyData);
+
+	for (let i = 2; i < 7; i++) {
+		const user2MoodData = Array.from({ length: 10 }, (_, index) => {
+			const id = index * 10 + i; // Starting id from 2
+			return {
+				id,
+				q1: getRandomNumberInRange(1, 5),
+				q2: getRandomNumberInRange(1, 5),
+				q3: getRandomNumberInRange(1, 5),
+				q4: getRandomNumberInRange(1, 5),
+				q5: getRandomNumberInRange(1, 5),
+				q6: getRandomNumberInRange(1, 5),
+				q7: getRandomNumberInRange(1, 5),
+				q8: getRandomCoordinates(),
+				q9: getRandomNumberInRange(1, 5),
+			};
+		});
+
+		const user2DailyData = Array.from({ length: 10 }, (_, index) => {
+			const dayNumber = index + 1;
+			const date = new Date("2024-01-15");
+			date.setDate(date.getDate() + dayNumber - 1); // Increment date for each entry
+			const formattedDate = date.toISOString().split("T")[0];
+
+			return {
+				day_number: dayNumber,
+				date: formattedDate,
+				user_id: i,
+				journal: `Journal entry for day ${dayNumber}.`,
+				meditation: null,
+				mood_id: index * 10 + i, // Starting mood_id from 2, 12, 22, ...
+			};
+		});
+
+		await db.insert(mood).values(user2MoodData);
+		await db.insert(dailyTasks).values(user2DailyData);
+	}
 };
 
 export default seed;

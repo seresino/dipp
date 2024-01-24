@@ -9,6 +9,8 @@
   const day = data.day;
 
   const taskCompletion = [!!userTasks.meditation, !!userTasks.mood_id, !!userTasks.journal];
+  const tasks = {meditate: 0, mood: 1, journal: 2}
+
   let progressBar = {meditation: "activity-pill", mood_id: "activity-pill", journal: "activity-pill"}
   let activityButtons = {meditate: "activity meditate", mood: "activity mood", journal: "activity journal"}
 

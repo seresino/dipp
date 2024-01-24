@@ -7,14 +7,19 @@ import { dailyTasks } from "$lib/server/schema";
 import { fail } from "@sveltejs/kit";
 import { desc, eq } from "drizzle-orm";
 
-// Would acc import these in from somewhere else
-const loggedInUserID = 3;
-const startDate = new Date("2024-01-18");
+// Would acc import these in from somewhere else --------------------------------
+const loggedInUserID = 2;
+const startDate = new Date("2024-01-15");
+
+// Todays date for testing purposes --------------------------------
+const today = new Date("2024-01-24");
 
 function daysSince(date) {
 	// Calculate the time difference in milliseconds
-	const today = new Date();
-	today.setUTCHours(0, 0, 0, 0);
+	// Real site will use todays date like below - uncomment these 2 lines --------------------------------
+	// const today = new Date();
+	// today.setUTCHours(0, 0, 0, 0);
+
 	const differenceInMilliseconds = today.getTime() - date.getTime();
 
 	// Convert milliseconds to days
@@ -44,9 +49,9 @@ export const actions = {};
 //   // Use that to calculate module id - divide by 7
 //   // Set Day
 //   // Set Module Name
-//   // get jorunal entry for user for today
+//   // get journal entry for user for today
 //   // if no entry, only meditate is clickable
-//   // if medidate == true, mood unlocked
+//   // if meditate == true, mood unlocked
 //   // if mood is not null, journal unlocked
 //   // fill in progress bar based on whether all these are complete too
 
