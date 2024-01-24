@@ -28,7 +28,7 @@ export const load = async () => {
 		.from(modules)
 		.where(eq(modules.id, moduleID));
 
-	const userTasksQuery = await db
+	let userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
 		.where(
@@ -37,6 +37,15 @@ export const load = async () => {
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
+
+	if (userTasksQuery.length === 0) {
+		const entry = {
+			day_number: day,
+			date: getTodaysDate().toISOString(),
+			user_id: loggedInUserID,
+		};
+		userTasksQuery = await db.insert(dailyTasks).values(entry).returning();
+	}
 
 	return {
 		userTasks: userTasksQuery[0],

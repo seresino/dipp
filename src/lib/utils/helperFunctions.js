@@ -1,7 +1,7 @@
 // Start date for testing purposes --------------------------------
 const startDate = new Date("2024-01-15");
 // Todays date for testing purposes --------------------------------
-const today = new Date("2024-01-24");
+const today = new Date("2024-01-25");
 
 function subtractDatesInDays(date1, date2) {
 	date1.setUTCHours(0, 0, 0, 0);
@@ -29,7 +29,7 @@ function daysSinceStart() {
 
 export function getUserID() {
 	// Live site will retrieve id from session --------------------------------
-	return 2;
+	return 1;
 }
 
 export function getDay() {
@@ -41,7 +41,7 @@ export function getModuleID() {
 }
 
 export function getTodaysDate() {
-	const today = new Date();
+	// const today = new Date();
 	today.setUTCHours(0, 0, 0, 0);
 	return today;
 }
