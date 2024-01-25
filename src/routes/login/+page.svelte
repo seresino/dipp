@@ -1,5 +1,8 @@
 <script>
-  import { authHandlers } from "$lib/utils/helperFunctions";
+  let path = "test" // directory of this route
+  
+  import { authHandlers } from "$lib/utils/helperFunctions.js";
+  // import { actions } from './+page.server';
 
   let username = "";
   let password = "";
@@ -17,6 +20,14 @@
 
     authenticating = true;
 
+    // try {
+    //   await actions.login(username, password); // Replace 'username' and 'password' with actual values
+    // } catch (error) {
+    //   console.log('There was an auth error', error);
+    //   error = true;
+    //   authenticating = false;
+    // }
+
     try {
       await authHandlers.login(username, password);
 
@@ -33,6 +44,34 @@
     handleAuthenticate(); // Call your authentication function
   }
 </script>
+
+
+  <!-- <form action="{path}/?/login" method="post">
+    {#if error}
+      <p class="error">The information you have entered is not correct</p>
+    {/if}
+    <div class="input-div">
+      <div class="Labels">Username</div>
+      <label>
+        <input class="InputBox" bind:value={username} type="text" />
+      </label>
+    </div>
+    <div class="input-div">
+      <div class="Labels">Password</div>
+      <label>
+        <input class="InputBox" bind:value={password} type="password" />
+      </label>
+    </div>
+    <div class="options-div">
+      <button class="Options" type="submit">
+        {#if authenticating}
+          Loading...
+        {:else}
+            Login
+        {/if}
+      </button>
+    </div>
+  </form> -->
 
 <form on:submit={handleSubmit}>
   {#if error}

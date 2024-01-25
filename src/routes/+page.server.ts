@@ -1,42 +1,47 @@
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
-import { fail } from "@sveltejs/kit";
-import { desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
-export const actions = {
-	add: async ({ request }) => {
-		/**
-		 * Get the form data from the request
-		 */
-		const formData = await request.formData();
+import { authStore } from "$lib/utils/helperFunctions";
 
-		/**
-		 * Get the title from the form data
-		 */
-		const content = formData.get("content");
+let username;
+let userID;
 
-		if (!content) {
-			return fail(400, { message: "Title is required" });
-		}
+// async function getUserIDByUsername(username) {
+// 	const userQuery = await db
+// 		.select()
+// 		.from(users)
+// 		.where(eq(users.username, username));
+// 	return userQuery[0].id;
+// }
 
-		/**
-		 * Finally, add the page to the database
-		 */
-		// await db.insert(todos).values({
-		// 	content,
-		// });
+authStore.subscribe((value) => {
+	userID = value.userID;
+	// username = "P1BGSM";
+});
 
-		await db.insert(users).values({
-			username: content,
-			password: "pass",
-		});
+export const actions = {};
 
-		return { message: "Todo added successfully" };
-	},
+export const load = async () => {
+	// Load in module name
+	// Load in daily-task entry for that user for today
+
+	const userQuery = await db
+		// .select()
+		// .from(users)
+		// .where(eq(users.username, username));
+		.select()
+		.from(users)
+		.where(eq(users.id, userID));
+
+	// const userQuery = await db
+	// 	.select()
+	// 	.from(users)
+	// 	.where(eq(users.id, userID));
+
+	return {
+		user: userQuery[0],
+		// // @ts-ignore
+		// ID: userID,
+	};
 };
-
-// export const load = async () => {
-// 	return {
-// 		todos: await db.select().from(todos).orderBy(desc(todos.createdAt)),
-// 	};
-// };

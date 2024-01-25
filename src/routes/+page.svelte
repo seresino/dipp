@@ -7,7 +7,7 @@
         <div class="DigitalInterventionFor" >Digital<br/>Intervention<br/>for</div>
         <div class="PsychedelicPreparedness" >Psychedelic<br/>Preparedness<br/></div>
     </div>
-    <a href="/login">
+    <a href="/Login">
         <div class="EnterPill">
             <div class="Enter">Enter</div>
         </div>

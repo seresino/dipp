@@ -25,26 +25,15 @@ import { authStore, setUserID, authHandlers } from "$lib/utils/helperFunctions";
 //      }
 //   }
 // };
+async function getUserIDByUsername(username) {
+	const userQuery = await db
+		.select()
+		.from(users)
+		.where(eq(users.username, username));
+	return userQuery[0].id;
+}
 
 export const actions = {
-	signup: async (email, pass) => {
-		const userCredential = await createUserWithEmailAndPassword(
-			auth,
-			email,
-			pass
-		);
-		const user = userCredential.user;
-		authStore.update((curr) => {
-			return {
-				...curr,
-				user: {
-					...user,
-					email: user.email,
-				},
-				loading: false,
-			};
-		});
-	},
 	login: async (username, pass) => {
 		const email = username + "@dipp.com";
 		const userCredential = await signInWithEmailAndPassword(
@@ -53,46 +42,10 @@ export const actions = {
 			pass
 		);
 		const user = userCredential.user;
-		const userQuery = await db
-			.select()
-			.from(users)
-			.where(eq(users.username, username));
-		const userID = userQuery[0].id;
+		const userID = getUserIDByUsername(username);
 
-		// // authStore.set({ userID: userID });
-		// // @ts-ignore
-		// authStore.update({ userID: userID });
-
-		// // authStore.update((curr) => {
-		// // 	return {
-		// // 		...curr,
-		// // 		userID: userID,
-		// // 	};
-		// // });
-
-		setUserID(userID, false);
-
-		authStore.update((curr) => {
-			return {
-				...curr,
-				userID: userID,
-				user: {
-					...user,
-					email: user.email,
-				},
-				loading: false,
-			};
-		});
-	},
-	logout: async () => {
-		await signOut(auth);
-		setUserID(null);
-		authStore.update((curr) => {
-			return {
-				...curr,
-				user: null,
-			};
-		});
+		setUserID(userID, false, user);
+		// setUserID(2, false, user);
 	},
 };
 

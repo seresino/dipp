@@ -44,7 +44,10 @@ function daysSinceStart() {
 // 	});
 // }
 
-export function setUserID(userID, loading = true, user) {
+export function setUserID(userID, loading = true, user = null) {
+	// Maybe try using set, see if its simpler
+	// authStore.set({ userID: userID });
+
 	authStore.update((curr) => {
 		return {
 			userID: userID,
@@ -60,7 +63,12 @@ export function setUserID(userID, loading = true, user) {
 
 export function getUserID() {
 	// Live site will retrieve id from session --------------------------------
-	return 2;
+	let userID;
+
+	authStore.subscribe((value) => {
+		userID = value.userID;
+	});
+	return userID;
 }
 
 export function getDay() {
@@ -102,3 +110,12 @@ export const getCurrentUserEmail = () => {
 		});
 	});
 };
+
+// Needs access to server files
+async function getUserIDByUsername(username) {
+	const userQuery = await db
+		.select()
+		.from(users)
+		.where(eq(users.username, username));
+	return userQuery[0].id;
+}

@@ -14,22 +14,31 @@ import {
 	getTodaysDate,
 } from "$lib/utils/helperFunctions";
 
-import { authStore, getCurrentUserEmail } from "$lib/utils/helperFunctions";
+import { authStore } from "$lib/utils/helperFunctions";
 
-let email;
-let user;
 let username;
-$: {
-	authStore.subscribe(async (value) => {
-		user = value.user;
-		email = await getCurrentUserEmail();
-		if (user) {
-			username = email.split("@")[0];
-		} else {
-			username = "P1BGSM";
-		}
-	});
-}
+let userID;
+
+authStore.subscribe((value) => {
+	userID = value.userID;
+	username = "P1BGSM";
+});
+
+// $: {
+// 	authStore.subscribe(async (value) => {
+// 		userID = value.userID;
+// 		username = "P1BGSM";
+// 	});
+// }
+
+// let username;
+// let userID: number | null;
+// $: {
+// 	authStore.subscribe(async (value) => {
+// 		userID = value.userID;
+// 		username = "P1BGSM";
+// 	});
+// }
 
 // Would acc import these in from somewhere else --------------------------------
 const loggedInUserID = getUserID();
@@ -37,13 +46,30 @@ const loggedInUserID = getUserID();
 const day = getDay();
 const moduleID = getModuleID();
 
+// export const load = async () => {
+// 	// Load in module name
+// 	// Load in daily-task entry for that user for today
+// 	if (userID !== null) {
+// 		const userQuery = await db
+// 			.select()
+// 			.from(users)
+// 			.where(eq(users.id, userID));
+// 		// Rest of your code...
+// 	}
+
 export const load = async () => {
 	// Load in module name
 	// Load in daily-task entry for that user for today
+
 	const userQuery = await db
 		.select()
 		.from(users)
 		.where(eq(users.username, username));
+
+	// const userQuery = await db
+	// 	.select()
+	// 	.from(users)
+	// 	.where(eq(users.username, username));
 
 	const moduleQuery = await db
 		.select()
@@ -68,5 +94,7 @@ export const load = async () => {
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],
 		day: day,
+		// @ts-ignore
+		ID: userID,
 	};
 };

@@ -4,13 +4,15 @@
   import { authStore, getCurrentUserEmail, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
 
   const nonAuthRoutes = ["/", "/login", "/about"];
+  export let data; // data returned by the load function
+  const userVariable = data.user;
+  
+
   let user;
-  let userID;
 
   // This piece of code is subscribing to changes in the authStore. Whenever the authStore value changes, the provided function is executed.
   $: {
     authStore.subscribe(async value => {
-      userID=value.userID;
       user = value.user;
       await tick();
     });
@@ -18,6 +20,7 @@
 
   onMount (() => {
     console.log("Mounting");
+    console.log("userVariable: " + userVariable);
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = window.location.pathname;
 
@@ -60,11 +63,11 @@
     <div class="about-pill">
       <a href="/about"><p class="about">About</p></a>
     </div>
-    {#if user}
+    {#if userVariable}
       <div class="logout-pill">
         <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a>
       </div>
-      <p>welcome, {userID}</p>
+      <p>welcome, {userVariable.username} - {userVariable.id}</p>
     {/if}
   </div>
 </div>

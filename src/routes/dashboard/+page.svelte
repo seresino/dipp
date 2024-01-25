@@ -1,5 +1,5 @@
 <script>
-  import { authStore, getCurrentUserEmail, authHandlers } from "$lib/utils/helperFunctions";
+  import { authStore, authHandlers } from "$lib/utils/helperFunctions";
   import DateTime from "../../components/DateTime.svelte";
   import {tick} from "svelte";
 
@@ -10,23 +10,9 @@
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
-  const newuser = data.user;
+  const user = data.user;
 
-  let email;
-  let user;
-  let username;
-  $: {
-    authStore.subscribe(async value => {
-        user = value.user;
-        console.log(user)
-        email = await getCurrentUserEmail();
-        console.log("email: " + email)
-        if (user) {
-          username = email.split("@")[0];
-        }
-        await tick();
-    });
-  }
+  console.log(user);
 </script>
 
 {#if user}
@@ -35,12 +21,12 @@
     <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
     <div class="dashboard-text">
       <div class="top-text">
-        <div class="day">Day {day}</div>
+        <div class="day">Day {day} - {data.ID}</div>
         <div class="date">
           <DateTime />
         </div>
       </div>
-      <div class="bottom-text"><span>Dashboard</span><span>{newuser.username}</span></div>
+      <div class="bottom-text"><span>Dashboard</span><span>{user.username} - {user.id}</span></div>
     </div>
   </div>
   <div class="progress-container">
