@@ -8,14 +8,14 @@ let username;
 let userID;
 
 authStore.subscribe((value) => {
-	// userID = value.userID;
 	console.log("AuthStore Value:" + value);
 	for (const prop in value) {
 		console.log(`obj.${prop} = ${value[prop]}`);
 	}
+
+	userID = value.userID;
+	// userID = 2;
 	console.log("userID (serverside): " + userID);
-	userID = 2;
-	// username = "P1BGSM";
 });
 
 export const load = async () => {

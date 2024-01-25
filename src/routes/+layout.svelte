@@ -2,6 +2,7 @@
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
   import { authStore, getCurrentUserEmail, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
+  import { goto } from '$app/navigation';
 
   const nonAuthRoutes = ["/", "/login", "/about"];
   export let data; // data returned by the load function
@@ -25,12 +26,12 @@
       const currentPath = window.location.pathname;
 
       if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/login";
+        goto("/login");
         return;
       }
 
       if (user && currentPath == "/login") {
-        window.location.href = "/dashboard";
+        goto("/dashboard");
         return;
       }
 

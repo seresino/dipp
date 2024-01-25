@@ -36,6 +36,7 @@ export const authHandlers = {
 		// const userID = userQuery[0].id;
 
 		// setUserID(userID, false, user);
+		// setUserID(null); // null user
 		setUserID(2, false, user);
 	},
 	logout: async () => {
