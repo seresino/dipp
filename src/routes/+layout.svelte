@@ -3,6 +3,7 @@
   import { auth } from "../lib/firebase/firebase";
   import { authStore, getCurrentUserEmail, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
+
   export let data; // data returned by the load function
 
   const nonAuthRoutes = ["/", "/login", "/about"];
@@ -17,6 +18,17 @@
       await tick();
     });
   }
+
+  // export async function handle({ request, resolve }) {
+  //   const response = await resolve(request);
+
+  //   // If the response status is 404 (Not Found), redirect to the dashboard
+  //   if (response.status === 404) {
+  //     return goto('/dashboard');
+  //   }
+
+  //   return response;
+  // }
 
   onMount (() => {
     console.log("Mounting");

@@ -15,6 +15,7 @@
   console.log(user);
 </script>
 
+{#if !$authStore.loading}
 {#if user}
 
   <div class="dashboard">
@@ -105,8 +106,7 @@
       <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
     </div>
   </div>
-
-
+{/if}
 {/if}
 
 <style>
