@@ -1,5 +1,6 @@
 <script>
   import { page } from '$app/stores';
+  import { authStore } from "$lib/utils/helperFunctions";
 
   export let data; // data returned by the load function
   let path = "day" // directory of this route
@@ -9,30 +10,31 @@
   const module = data.module;
 </script>
 
-<div class="pop-up">
-  <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
-  <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />
-  <div class="pop-up-content">
-    <div class='button-container'>
-      <button type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'}>
-        <img src="/images/meditation-grey-icon.svg" alt="meditation-grey-icon" />
-        <p>Instructions</p>
-      </button>
-      <button type="button" class:black={selectedButton === 'tasks'} class:grey={selectedButton !== 'tasks'} data-toggle="modal" on:click={() => selectedButton = 'tasks'}>
-        <img src="/images/task-grey-icon.svg" alt="task-grey-icon" />
-        <p>Tasks</p>
-      </button>
-    </div>
-    {#if selectedButton === 'instructions'}
-      <p>{module.instructions}</p>
-    {:else if selectedButton === 'tasks'}
-      <div>
-        <p>{module.tasks}</p>
+{#if !$authStore.loading}
+  <div class="pop-up">
+    <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
+    <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />
+    <div class="pop-up-content">
+      <div class='button-container'>
+        <button type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'}>
+          <img src="/images/meditation-grey-icon.svg" alt="meditation-grey-icon" />
+          <p>Instructions</p>
+        </button>
+        <button type="button" class:black={selectedButton === 'tasks'} class:grey={selectedButton !== 'tasks'} data-toggle="modal" on:click={() => selectedButton = 'tasks'}>
+          <img src="/images/task-grey-icon.svg" alt="task-grey-icon" />
+          <p>Tasks</p>
+        </button>
       </div>
-    {/if}
+      {#if selectedButton === 'instructions'}
+        <p>{module.instructions}</p>
+      {:else if selectedButton === 'tasks'}
+        <div>
+          <p>{module.tasks}</p>
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
-
+{/if}
 
 <style>
   .back-button {

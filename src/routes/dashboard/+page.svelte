@@ -1,8 +1,8 @@
 <script>
-  import { authStore } from "../../store/store";
+  import { authStore, authHandlers } from "$lib/utils/helperFunctions";
   import DateTime from "../../components/DateTime.svelte";
-  import {onMount} from "svelte";
-  import { auth } from "../../lib/firebase/firebase";
+  import {tick} from "svelte";
+
 
   export let data; // data returned by the load function
   let path = "dashboard" // directory of this route
@@ -10,117 +10,101 @@
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
+  const user = data.user;
 
-  const nonAuthRoutes = ["/", "/login", "/about"];
-
-  onMount (() => {
-    console.log("Mounting");
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = window.location.pathname;
-
-      if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/login";
-        return;
-      }
-
-      if (user && currentPath == "/login") {
-        window.location.href = "/dashboard";
-        return;
-      }
-    });
-  });
+  console.log(user);
 </script>
 
-{#if !$authStore.loading}
+{#if user}
 
-<div class="dashboard">
-  <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
-  <div class="dashboard-text">
-    <div class="top-text">
-      <div class="day">Day {day}</div>
-      <div class="date">
-        <DateTime />
+  <div class="dashboard">
+    <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
+    <div class="dashboard-text">
+      <div class="top-text">
+        <div class="day">Day {day} - {data.ID}</div>
+        <div class="date">
+          <DateTime />
+        </div>
       </div>
-    </div>
-    <div class="bottom-text">Dashboard</div>
-  </div>
-</div>
-<div class="progress-container">
-  <img class="progress-shape" src="/images/progress-box-shape.svg" alt="module-shape">
-  <div class="progress-absolute">
-    <div class="progress-section">
-      <p class="progress-text">Progress:</p>
-      <div class="progress-bar">
-        {#each Array(day) as _, i}
-          <div class="progress-pill-completed"></div>
-        {/each}
-        {#each Array(21-day) as _, i}
-          <div class="progress-pill"></div>
-        {/each}
-      </div>
-      <p class="progress-text">{day}/21 Days</p>
-    </div>
-    <div class="progress-section">
-      <p class="progress-text">Modules:</p>
-      <div class="modules-bar">
-        {#each Array(module.id) as _, i}
-          <div class="modules-pill-completed"></div>
-        {/each}
-        {#each Array(3-module.id) as _, i}
-          <div class="modules-pill"></div>
-        {/each}
-      </div>
-      <p class="progress-text">{module.id}/3</p>
+      <div class="bottom-text"><span>Dashboard</span><span>{user.username} - {user.id}</span></div>
     </div>
   </div>
-</div>
-<div class="modules-container">
-  <div class="module-container">
-    <div class="module">
-      <div class="module-pill one">
-        <p class="module-pill-text">Module 1</p>
+  <div class="progress-container">
+    <img class="progress-shape" src="/images/progress-box-shape.svg" alt="module-shape">
+    <div class="progress-absolute">
+      <div class="progress-section">
+        <p class="progress-text">Progress:</p>
+        <div class="progress-bar">
+          {#each Array(day) as _, i}
+            <div class="progress-pill-completed"></div>
+          {/each}
+          {#each Array(21-day) as _, i}
+            <div class="progress-pill"></div>
+          {/each}
+        </div>
+        <p class="progress-text">{day}/21 Days</p>
       </div>
-        {#each Array(7) as _, i}
-          <div class={i+1 === day ? 'day-pill completed' : i+1 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/day">
-              <p class="day-pill-text">Day {i+1}</p>
-            </a>
-          </div>
-        {/each}
-    </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
-  </div>
-  <div class="module-container">
-    <div class="module">
-      <div class="module-pill two">
-        <p class="module-pill-text">Module 2</p>
+      <div class="progress-section">
+        <p class="progress-text">Modules:</p>
+        <div class="modules-bar">
+          {#each Array(module.id) as _, i}
+            <div class="modules-pill-completed"></div>
+          {/each}
+          {#each Array(3-module.id) as _, i}
+            <div class="modules-pill"></div>
+          {/each}
+        </div>
+        <p class="progress-text">{module.id}/3</p>
       </div>
-      {#each Array(7) as _, i}
-          <div class={i+8 === day ? 'day-pill completed' : i+8 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/day">
-              <p class="day-pill-text">Day {i+8}</p>
-            </a>
-          </div>
-        {/each}
     </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
   </div>
-  <div class="module-container">
-    <div class="module">
-      <div class="module-pill three">
-        <p class="module-pill-text">Module 3</p>
+  <div class="modules-container">
+    <div class="module-container">
+      <div class="module">
+        <div class="module-pill one">
+          <p class="module-pill-text">Module 1</p>
+        </div>
+          {#each Array(7) as _, i}
+            <div class={i+1 === day ? 'day-pill completed' : i+1 < day ? 'day-pill inactive' : 'day-pill'}>
+              <a href="/day">
+                <p class="day-pill-text">Day {i+1}</p>
+              </a>
+            </div>
+          {/each}
       </div>
-      {#each Array(7) as _, i}
-          <div class={i+15 === day ? 'day-pill completed' : i+15 < day ? 'day-pill inactive' : 'day-pill'}>
-            <a href="/day">
-              <p class="day-pill-text">Day {i+15}</p>
-            </a>
-          </div>
-        {/each}
+      <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
     </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
+    <div class="module-container">
+      <div class="module">
+        <div class="module-pill two">
+          <p class="module-pill-text">Module 2</p>
+        </div>
+          {#each Array(7) as _, i}
+            <div class={i+8 === day ? 'day-pill completed' : i+8 < day ? 'day-pill inactive' : 'day-pill'}>
+              <a href="/day">
+                <p class="day-pill-text">Day {i+8}</p>
+              </a>
+            </div>
+          {/each}
+      </div>
+      <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
+    </div>
+    <div class="module-container">
+      <div class="module">
+        <div class="module-pill three">
+          <p class="module-pill-text">Module 3</p>
+        </div>
+          {#each Array(7) as _, i}
+            <div class={i+15 === day ? 'day-pill completed' : i+15 < day ? 'day-pill inactive' : 'day-pill'}>
+              <a href="/day">
+                <p class="day-pill-text">Day {i+15}</p>
+              </a>
+            </div>
+          {/each}
+      </div>
+      <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
+    </div>
   </div>
-</div>
 
 
 {/if}
@@ -169,6 +153,10 @@
     font-size: 36px;
     font-family: Helvetica Neue;
     font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 100px;
     /* border: 5px hotpink solid; */
   }
 

@@ -1,17 +1,16 @@
 <script>
-  import { authHandlers } from "../../store/store";
+  import { authHandlers } from "$lib/utils/helperFunctions.js";
 
-  let email = "";
+  let path = "login" // directory of this route
+  let username = "";
   let password = "";
-  let confirmPass = "";
   let error = false;
-  let register = false;
   let authenticating = false;
 
   async function handleAuthenticate() {
     if (authenticating) {return;}
 
-    if (!email || !password || (register && !confirmPass)) {
+    if (!username || !password ) {
       error = true
       return
     }
@@ -19,21 +18,11 @@
     authenticating = true;
 
     try {
-      if (!register) {
-        await authHandlers.login(email, password);
-      } else {
-        await authHandlers.signup(email, password);
-      }
+      await authHandlers.login(username, password);
     } catch(err) {
       console.log('There was an auth error', err);
       error = true;
-      authenticating = false;
     }
-
-  }
-
-  function handleRegister () {
-    register = !register
   }
 
   function handleSubmit(event) {
@@ -42,6 +31,33 @@
   }
 </script>
 
+<!-- <form action="{path}/?/login" method="post">
+    {#if error}
+      <p class="error">The information you have entered is not correct</p>
+    {/if}
+    <div class="input-div">
+      <div class="Labels">Username</div>
+      <label>
+        <input class="InputBox" bind:value={username} name="username" type="text" />
+      </label>
+    </div>
+    <div class="input-div">
+      <div class="Labels">Password</div>
+      <label>
+        <input class="InputBox" bind:value={password} name="password" type="password" />
+      </label>
+    </div>
+    <div class="options-div">
+      <button class="Options" type="submit">
+        {#if authenticating}
+          Loading...
+        {:else}
+            Login
+        {/if}
+      </button>
+    </div>
+  </form> -->
+
 <form on:submit={handleSubmit}>
   {#if error}
     <p class="error">The information you have entered is not correct</p>
@@ -49,7 +65,7 @@
   <div class="input-div">
     <div class="Labels">Username</div>
     <label>
-      <input class="InputBox" bind:value={email} type="text" />
+      <input class="InputBox" bind:value={username} type="text" />
     </label>
   </div>
   <div class="input-div">
@@ -58,36 +74,15 @@
       <input class="InputBox" bind:value={password} type="password" />
     </label>
   </div>
-  {#if register}
-    <div class="input-div">
-      <div class="Labels">Confirm Password</div>
-      <label>
-        <input class="InputBox" bind:value={confirmPass} type="password" />
-      </label>
-    </div>
-  {/if}
   <div class="options-div">
     <button class="Options" type="submit">
       {#if authenticating}
         Loading...
       {:else}
-        {#if register}
-          Register
-        {:else}
-          Login
-        {/if}
+        Login
       {/if}
     </button>
   </div>
-  <!-- <div class="options-div">
-    <div class="Options" on:click={handleRegister}>
-      {#if register}
-        Already have an account? Login
-      {:else}
-        Don't have an account? Register
-      {/if}
-    </div>
-  </div> -->
 </form>
 
 <style>

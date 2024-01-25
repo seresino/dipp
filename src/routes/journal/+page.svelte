@@ -1,6 +1,7 @@
 <!-- Journal.svelte -->
 <script lang="ts">
-  import { authStore } from "../../store/store";
+  import { authStore } from "$lib/utils/helperFunctions";
+
   export let form;
   export let data; // data returned by the load function
   let path = "journal" // directory of this route
@@ -9,40 +10,35 @@
   const userTasks = data.userTasks;
 </script>
 
-<h1>Add User</h1>
 
 {#if !$authStore.loading}
+  <div class="pop-up-shape">
+    <img class="blue-background" src="/images/journal-page.svg" alt="pop-up-shape" />
+    <div class="pop-up-text">
+      <h1>Your Daily Journal Entry</h1>
+      {#if form?.message}
+        <p class="message">{form.message}</p>
+      {/if}
 
-
-<div class="pop-up-shape">
-  <img class="blue-background" src="/images/journal-page.svg" alt="pop-up-shape" />
-  <div class="pop-up-text">
-    <h1>Your Daily Journal Entry</h1>
-    {#if form?.message}
-      <p class="message">{form.message}</p>
-    {/if}
-
-    {#if !userTasks.journal}
-    <form action="{path}/?/update" method="post">
-      <input type="hidden" name="id" value={userTasks.id} />
-      <div class="enterTask">
-        <textarea name="journal" placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}" />
-      </div>
-      <div class="submit">
-        <input type="submit" value="Submit" />
-      </div>
-    </form>
-    {:else}
-      <div class="enterTask">
-        <textarea name="journal" placeholder="{userTasks.journal}" disabled/>
-      </div>
-    {/if}
+      {#if !userTasks.journal}
+      <form action="{path}/?/update" method="post">
+        <input type="hidden" name="id" value={userTasks.id} />
+        <div class="enterTask">
+          <textarea name="journal" placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}" />
+        </div>
+        <div class="submit">
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+      {:else}
+        <div class="enterTask">
+          <textarea name="journal" placeholder="{userTasks.journal}" disabled/>
+        </div>
+      {/if}
+    </div>
+    <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
+    <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
   </div>
-  <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
-  <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
-</div>
-
-
 {/if}
 
 <style>

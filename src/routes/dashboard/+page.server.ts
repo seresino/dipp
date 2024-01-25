@@ -6,6 +6,7 @@ import { mood } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
 import { fail } from "@sveltejs/kit";
 import { desc, eq, and } from "drizzle-orm";
+import { authStore } from "$lib/utils/helperFunctions";
 
 import {
 	getDay,
@@ -20,7 +21,16 @@ const loggedInUserID = getUserID();
 const day = getDay();
 const moduleID = getModuleID();
 
+// REMOVE THIS AND USER QUERY BELOW --------------------------------
+let userID;
+authStore.subscribe((value) => {
+	userID = value.userID;
+	// userID = 2;
+});
+
 export const load = async () => {
+	const userQuery = await db.select().from(users).where(eq(users.id, userID));
+
 	// Load in module name
 	// Load in daily-task entry for that user for today
 	const moduleQuery = await db
