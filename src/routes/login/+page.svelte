@@ -1,5 +1,5 @@
 <script>
-  let path = "test" // directory of this route
+  let path = "login" // directory of this route
   
   import { authHandlers } from "$lib/utils/helperFunctions.js";
   // import { actions } from './+page.server';
@@ -53,13 +53,13 @@
     <div class="input-div">
       <div class="Labels">Username</div>
       <label>
-        <input class="InputBox" bind:value={username} type="text" />
+        <input class="InputBox" bind:value={username} name="username" type="text" />
       </label>
     </div>
     <div class="input-div">
       <div class="Labels">Password</div>
       <label>
-        <input class="InputBox" bind:value={password} type="password" />
+        <input class="InputBox" bind:value={password} name="password" type="password" />
       </label>
     </div>
     <div class="options-div">
