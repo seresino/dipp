@@ -4,9 +4,8 @@
   let 	a = [
 		{ x: null, y: null }
 	]
-  console.log(a)
 
-  let questions = [
+  let questionnaire = [
     { type: 'instructions', text: 'For the following items, please indicate on a 5-point scale how much you agree with the statements below. ‘1’ means “Not at all” and ‘5’ means “Very much”. Please feel free to use any number in the range from 1 to 5.' },
     { type: 'scale', statement: '... I paid attention to what I was doing, in the present moment.', answer: null },
     { type: 'scale', statement: '... I noticed physical sensations come and go.', answer: null },
@@ -18,14 +17,26 @@
     { type: 'instructions', text: 'Click on the appropriate box in the grid to indicate how pleasant/unpleasant (horizontal axis) and how energetic/calm (vertical axis) you feel. For example, a happy and energized mood would go towards the top right corner. A completely neutral mood would be right in the middle where the axes cross.' },
     { type: 'graph', statement: 'Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?', answer: {x: null, y: null} },
     { type: 'scale', statement: 'On a scale of 1 to 5, where 1 means \'not accurate at all\' and 5 means \'extremely accurate,\' how accurately were you able to identify your current mood?', answer: null },
+    { type: 'final', text: 'Thank you for completing the mood questionnaire.' },
+
   ];
+  $: {
+    questionnaire.forEach((question, index) => {
+        if (question.type === 'graph') {
+          console.log(`Question ${index}: ${question.answer.x}, ${question.answer.y}`);
+        }
+        else if (question.type !== 'instructions') {
+          console.log(`Question ${index}: ${question.answer}`);
+        }
+    });
+  }
 
  </script>
 
 <div class="pop-up-shape">
   <img class="blue-background" src="/images/mood-page.svg" alt="pop-up-shape" />
   <div class="pop-up-text">
-     {#each questions as question, index (index)}
+     {#each questionnaire as question, index (index)}
        {#if index === currentQuestionIndex}
          {#if question.type === 'instructions'}
            <div class="instructions-text">
@@ -33,7 +44,7 @@
              <button on:click={() => currentQuestionIndex++}>Next</button>
            </div>
          {:else if question.type === 'scale'}
-            <div class="questions-text">
+            <div class="questionnaire-text">
               <p>{question.statement}</p>
             </div>
             <div class="radio-buttons">
@@ -47,14 +58,11 @@
             <div class="chart">
               <Graph points={[question.answer]}/>
             </div>
-
-            {#each a as point}
             <div class="radio-buttons">
               {#each Array(11).fill(undefined) as _, i (i)}
               <label>
                 <input type="radio" bind:group={question.answer.x} value={i - 5}>
               </label>
-
               {/each}
             </div>
             <div class="radio-buttons">
@@ -62,17 +70,20 @@
                 <input type="radio" bind:group={question.answer.y} value={i - 5}>
               {/each}
             </div>
-            {/each}
+            <button on:click={() => currentQuestionIndex++}>Next</button>
+         {:else if question.type === 'final'}
+          <p>{question.text}</p>
+          <a href="/day">Submit</a>
          {/if}
        {/if}
      {/each}
      <div class="button-container">
       <!-- {#if currentQuestionIndex === 0}
         <button on:click={() => currentQuestionIndex++}>Next</button>
-      {:else if 0 < currentQuestionIndex && currentQuestionIndex < questions.length - 1}
+      {:else if 0 < currentQuestionIndex && currentQuestionIndex < questionnaire.length - 1}
         <button on:click={goBack}>Back</button>
         <button on:click={() => currentQuestionIndex++}>Next</button>
-      {:else if currentQuestionIndex === questions.length - 1}
+      {:else if currentQuestionIndex === questionnaire.length - 1}
         <button on:click={goBack}>Back</button>
         <button on:click={handleSubmit}>Finish</button>
       {/if} -->
@@ -131,7 +142,7 @@
     font-weight: 300;
     margin: 50px;
   }
-  .questions-text {
+  .questionnaire-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -157,6 +168,9 @@
     cursor: pointer;
   }
   input[type="radio"]:checked{
+    background-color: #5DB3E5;
+  }
+  input[type="radio"]:hover{
     background-color: #5DB3E5;
   }
   /* Display the radio buttons in a horizontal line */
