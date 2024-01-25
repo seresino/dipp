@@ -6,9 +6,9 @@
 
 	let svg;
 	let width = 500;
-	let height = 200;
+	let height = 500;
 
-	const padding = { top: 20, right: 40, bottom: 40, left: 25 };
+	const padding = { top: 20, right: 20, bottom: 50, left: 50 };
 
 	$: xScale = scaleLinear()
 		.domain([-5, 5])
@@ -52,6 +52,10 @@
 		{/each}
 	</g>
 
+   <!-- Axis labels -->
+	<text class="x-axis-label" x={width / 2} y={height - padding.bottom + 30 } dy=".71em" text-anchor="middle">PLEASANTNESS</text>
+	<text class="y-axis-label" transform="rotate(-90)" y={padding.left - 40} x={-height / 2} dy=".71em" text-anchor="middle">ENERGY</text>
+
    <!-- Zero lines -->
 	<line x1={xScale(0)} x2={xScale(0)} y1={yScale(-5)} y2={yScale(5)} stroke="white" stroke-width="2"/>
 	<line y1={yScale(0)} y2={yScale(0)} x1={xScale(-5)} x2={xScale(5)} stroke="white" stroke-width="2"/>
@@ -64,9 +68,8 @@
 
 <style>
 	svg {
-		width: 50%;
-		height: 50%;
-		float: left;
+		width: 80%;
+		height: 80%;
 	}
 
 	circle {
@@ -77,17 +80,21 @@
 
 	.tick line {
 		stroke: #ddd;
-		stroke-dasharray: 2;
+		stroke-dasharray: 1;
 	}
 
 	text {
 		font-size: 12px;
-		fill: #999;
+		fill: white;
 	}
 
 	.x-axis text {
 		text-anchor: middle;
 	}
+
+   .x-axis-label text {
+      text-anchor: start;
+   }
 
 	.y-axis text {
 		text-anchor: end;
