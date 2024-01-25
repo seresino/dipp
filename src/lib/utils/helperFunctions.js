@@ -1,3 +1,6 @@
+import { writable } from "svelte/store";
+import { authHandlers } from "$lib/utils/authHandlers";
+
 // Start date for testing purposes --------------------------------
 const startDate = new Date("2024-01-15");
 // Todays date for testing purposes --------------------------------
@@ -27,9 +30,45 @@ function daysSinceStart() {
 	return subtractDatesInDays(today, startDate);
 }
 
+// export function setUserID(userID, loading = true) {
+// 	authStore.update((curr) => {
+// 		return {
+// 			...curr,
+// 			userID: userID,
+// 			user: {
+// 				...user,
+// 				email: user.email,
+// 			},
+// 			loading: loading,
+// 		};
+// 	});
+// }
+
+export function setUserID(userID, loading = true, user = null) {
+	// Maybe try using set, see if its simpler
+	// authStore.set({ userID: userID });
+
+	authStore.update((curr) => {
+		return {
+			userID: userID,
+			user: {
+				email: user.email,
+				// Add other properties of `user` here
+			},
+			loading: loading,
+			// Add other properties of `curr` here
+		};
+	});
+}
+
 export function getUserID() {
 	// Live site will retrieve id from session --------------------------------
-	return 1;
+	let userID;
+
+	authStore.subscribe((value) => {
+		userID = value.userID;
+	});
+	return userID;
 }
 
 export function getDay() {
@@ -54,3 +93,29 @@ export function getTodaysDate() {
 
 // const formattedDate = `${year}-${month}-${day}`;
 // const formattedDate2 = currentDate.toLocaleDateString()
+
+export const authStore = writable({
+	userID: null,
+	loading: true,
+	user: null,
+	data: {},
+});
+
+export { authHandlers };
+
+export const getCurrentUserEmail = () => {
+	return new Promise((resolve) => {
+		authStore.subscribe((value) => {
+			resolve(value.user ? value.user.email : null);
+		});
+	});
+};
+
+// Needs access to server files
+async function getUserIDByUsername(username) {
+	const userQuery = await db
+		.select()
+		.from(users)
+		.where(eq(users.username, username));
+	return userQuery[0].id;
+}

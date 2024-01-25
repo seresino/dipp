@@ -1,18 +1,22 @@
 <script>
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authHandlers, authStore } from "../store/store";
+  import { authStore, getCurrentUserEmail, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
+  export let data; // data returned by the load function
 
   const nonAuthRoutes = ["/", "/login", "/about"];
+  const userVariable = data.user;;
+
   let user;
 
+  // This piece of code is subscribing to changes in the authStore. Whenever the authStore value changes, the provided function is executed.
   $: {
     authStore.subscribe(async value => {
       user = value.user;
       await tick();
     });
- }
+  }
 
   onMount (() => {
     console.log("Mounting");
@@ -35,13 +39,15 @@
         return;
       }
 
-      authStore.update((curr) => {
-        return {
-          ...curr,
-          user,
-          loading: false,
-        };
-      });
+      setUserID(getUserID(), false, user);
+
+      // authStore.update((curr) => {
+      //   return {
+      //     ...curr,
+      //     user,
+      //     loading: false,
+      //   };
+      // });
     });
   });
 </script>
@@ -58,10 +64,12 @@
     <div class="about-pill">
       <a href="/about"><p class="about">About</p></a>
     </div>
-    {#if user}
+    {#if userVariable}
       <div class="logout-pill">
         <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+        <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a>
       </div>
+      <p>welcome, {userVariable.username} - {userVariable.id}</p>
     {/if}
   </div>
 </div>
