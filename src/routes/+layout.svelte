@@ -66,7 +66,6 @@
     </div>
     {#if userVariable}
       <div class="logout-pill">
-        <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
         <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a>
       </div>
       <p>welcome, {userVariable.username} - {userVariable.id}</p>

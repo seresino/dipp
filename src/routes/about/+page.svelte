@@ -1,25 +1,4 @@
 <script>
-  import {onMount} from "svelte";
-  import { auth } from "../../lib/firebase/firebase";
-
-  const nonAuthRoutes = ["/", "/login", "/about"];
-
-  onMount (() => {
-    console.log("Mounting");
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = window.location.pathname;
-
-      if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/login";
-        return;
-      }
-
-      if (user && currentPath == "/login") {
-        window.location.href = "/dashboard";
-        return;
-      }
-    });
-  });
 </script>
 
 <div class="pop-up">
@@ -38,7 +17,6 @@
     <h4>Contact:</h4>
   </div>
 </div>
-
 
 <style>
   img {
