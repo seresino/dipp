@@ -1,5 +1,10 @@
 <script>
   let currentQuestionIndex = 0;
+  import Graph from '../../components/Graph.svelte';
+  let 	a = [
+		{ x: null, y: null }
+	]
+  console.log(a)
 
   let questions = [
     { type: 'instructions', text: 'For the following items, please indicate on a 5-point scale how much you agree with the statements below. ‘1’ means “Not at all” and ‘5’ means “Very much”. Please feel free to use any number in the range from 1 to 5.' },
@@ -11,15 +16,10 @@
     { type: 'scale', statement: '... I could separate myself from my thoughts and feelings.', answer: null },
     { type: 'scale', statement: '... I could actually see that I am not my thoughts.', answer: null },
     { type: 'instructions', text: 'Click on the appropriate box in the grid to indicate how pleasant/unpleasant (horizontal axis) and how energetic/calm (vertical axis) you feel. For example, a happy and energized mood would go towards the top right corner. A completely neutral mood would be right in the middle where the axes cross.' },
-    { type: 'graph', statement: 'Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?', answer: null },
+    { type: 'graph', statement: 'Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?', answer: {x: null, y: null} },
     { type: 'scale', statement: 'On a scale of 1 to 5, where 1 means \'not accurate at all\' and 5 means \'extremely accurate,\' how accurately were you able to identify your current mood?', answer: null },
   ];
 
-  function goBack() {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex -= 1;
-    }
-  }
  </script>
 
 <div class="pop-up-shape">
@@ -30,6 +30,7 @@
          {#if question.type === 'instructions'}
            <div class="instructions-text">
              <p>{question.text}</p>
+             <button on:click={() => currentQuestionIndex++}>Next</button>
            </div>
          {:else if question.type === 'scale'}
             <div class="questions-text">
@@ -38,17 +39,35 @@
             <div class="radio-buttons">
               <span class="number">1</span>
               {#each Array(5).fill(undefined) as _, i (i)}
-                <input type="radio" bind:group={question.answer} value={i + 1}>
+                <input type="radio" bind:group={question.answer} value={i + 1} on:change={() => currentQuestionIndex++}>
               {/each}
               <span class="number">5</span>
             </div>
          {:else if question.type === 'graph'}
-           <!-- Render the graph here -->
+            <div class="chart">
+              <Graph points={[question.answer]}/>
+            </div>
+
+            {#each a as point}
+            <div class="radio-buttons">
+              {#each Array(11).fill(undefined) as _, i (i)}
+              <label>
+                <input type="radio" bind:group={question.answer.x} value={i - 5}>
+              </label>
+
+              {/each}
+            </div>
+            <div class="radio-buttons">
+              {#each Array(11).fill(undefined) as _, i (i)}
+                <input type="radio" bind:group={question.answer.y} value={i - 5}>
+              {/each}
+            </div>
+            {/each}
          {/if}
        {/if}
      {/each}
      <div class="button-container">
-      {#if currentQuestionIndex === 0}
+      <!-- {#if currentQuestionIndex === 0}
         <button on:click={() => currentQuestionIndex++}>Next</button>
       {:else if 0 < currentQuestionIndex && currentQuestionIndex < questions.length - 1}
         <button on:click={goBack}>Back</button>
@@ -56,7 +75,7 @@
       {:else if currentQuestionIndex === questions.length - 1}
         <button on:click={goBack}>Back</button>
         <button on:click={handleSubmit}>Finish</button>
-      {/if}
+      {/if} -->
      </div>
   </div>
   <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
@@ -158,4 +177,12 @@
   button:disabled {
     display: none;
   }
+  .chart {
+		width: 100%;
+		max-width: 640px;
+		height: calc(100% - 4em);
+		min-height: 280px;
+		max-height: 480px;
+		margin: 0 auto;
+	}
 </style>
