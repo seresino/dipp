@@ -44,33 +44,6 @@ function daysSinceStart() {
 // 	});
 // }
 
-export function setUserID(userID, loading = true, user = null) {
-	// Maybe try using set, see if its simpler
-	// authStore.set({ userID: userID });
-
-	authStore.update((curr) => {
-		return {
-			userID: userID,
-			user: {
-				email: user.email,
-				// Add other properties of `user` here
-			},
-			loading: loading,
-			// Add other properties of `curr` here
-		};
-	});
-}
-
-export function getUserID() {
-	// Live site will retrieve id from session --------------------------------
-	let userID;
-
-	authStore.subscribe((value) => {
-		userID = value.userID;
-	});
-	return userID;
-}
-
 export function getDay() {
 	return daysSinceStart() + 1;
 }
@@ -101,21 +74,31 @@ export const authStore = writable({
 	data: {},
 });
 
-export { authHandlers };
+export function setUserID(userID, loading = true, user = null) {
+	// Maybe try using set, see if its simpler
+	// authStore.set({ userID: userID });
 
-export const getCurrentUserEmail = () => {
-	return new Promise((resolve) => {
-		authStore.subscribe((value) => {
-			resolve(value.user ? value.user.email : null);
-		});
+	authStore.update((curr) => {
+		return {
+			userID: userID,
+			user: {
+				email: user.email,
+				// Add other properties of `user` here
+			},
+			loading: loading,
+			// Add other properties of `curr` here
+		};
 	});
-};
-
-// Needs access to server files
-async function getUserIDByUsername(username) {
-	const userQuery = await db
-		.select()
-		.from(users)
-		.where(eq(users.username, username));
-	return userQuery[0].id;
 }
+
+export function getUserID() {
+	// Live site will retrieve id from session --------------------------------
+	let userID;
+
+	authStore.subscribe((value) => {
+		userID = value.userID;
+	});
+	return userID;
+}
+
+export { authHandlers };
