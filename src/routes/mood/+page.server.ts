@@ -43,9 +43,9 @@ export const actions = {
     console.log(answers[0], answers[1], answers[2], answers[3], answers[4], answers[5], answers[6], answers[7], answers[8], answers[9]);
 
     // Update message if array is empty/null or has less than 9 elements
-		// if (!answers || answers.length !== 9) {
-    //   return fail(400, { message: "Error submitting questionnaire" });
-    // }
+		if (!answers || answers.length !== 9) {
+      return fail(400, { message: "Error submitting questionnaire" });
+    }
 
     let userTasksQuery = await db
 		.select()

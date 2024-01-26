@@ -89,7 +89,7 @@
           <div class="radio-buttons">
             <span class="number">-5</span>
             {#each Array(11).fill(undefined) as _, i (i)}
-              <input type="radio" bind:group={a[0].x} value={i - 5}>
+              <input type="radio" bind:group={question.answer.x} value={i - 5}>
             {/each}
             <span class="number">5</span>
           </div>
@@ -97,7 +97,7 @@
           <div class="radio-buttons">
             <span class="number">-5</span>
             {#each Array(11).fill(undefined) as _, i (i)}
-              <input type="radio" bind:group={a[0].y} value={i - 5}>
+              <input type="radio" bind:group={question.answer.y} value={i - 5}>
             {/each}
             <span class="number">5</span>
           </div>
