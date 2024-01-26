@@ -52,6 +52,7 @@ export const load = async () => {
 		);
 
 	return {
+		user: userQuery[0],
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],
 		day: day,

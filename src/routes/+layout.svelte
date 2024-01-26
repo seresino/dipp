@@ -1,8 +1,9 @@
 <script>
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authStore, getCurrentUserEmail, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
+  import { authStore, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
 
   export let data; // data returned by the load function
 
@@ -33,26 +34,28 @@
   onMount (() => {
     console.log("Mounting");
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = window.location.pathname;
+      const currentPath = $page.url.pathname;
 
       if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/login";
-        // goto('/login');
+        // window.location.href = "/login";
+        goto('/login');
         return;
       }
 
       if (user && currentPath == "/login") {
-        window.location.href = "/dashboard";
-        // goto('/dashboard');
+        // window.location.href = "/dashboard";
+        goto('/dashboard');
         return;
       }
 
       if (!user) {
         return;
       }
-
+      
+      // Reset authStore on every mount
       setUserID(getUserID(), false, user);
-
+      
+      // Replaces below
       // authStore.update((curr) => {
       //   return {
       //     ...curr,
