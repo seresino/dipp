@@ -40,7 +40,7 @@ export const actions = {
 		let answers = formData.get("answers[]");
     console.log("answers given to server: " + answers);
     answers = answers.split(" ,");
-    console.log(answers[0], answers[1], answers[2], answers[3], answers[4], answers[5], answers[6], answers[7], answers[8], answers[9]);
+    console.log(answers[0], answers[1], answers[2], answers[3], answers[4], answers[5], answers[6], answers[7], answers[8]);
 
     // Update message if array is empty/null or has less than 9 elements
 		if (!answers || answers.length !== 9) {
@@ -56,6 +56,7 @@ export const actions = {
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
+		console.log("today's task: " + userTasksQuery[0])
 		await db
 			.update(mood)
 			.set({
@@ -92,38 +93,57 @@ export const load = async () => {
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
+	console.log("today's task in load fn: " + userTasksQuery[0])
+		// Check if userTasksQuery is empty or not (if it is create new task)
+	if (userTasksQuery.length === 0) {
+		// Create new task
+		await db.insert(dailyTasks).values({
+			user_id: loggedInUserID,
+			date: getTodaysDate().toISOString(),
+			mood_id: null,
+			day_number: day,
+		});
+		// Refresh userTasksQuery
+		userTasksQuery = await db
+				.select()
+				.from(dailyTasks)
+				.where(
+						and(
+								eq(dailyTasks.user_id, loggedInUserID),
+								eq(dailyTasks.date, getTodaysDate().toISOString())
+						)
+				);
+	}
 
-  // i need to check here whether userTasksQuery is empty or not and also check if the userTasksQuery[0].mood_id is null or not
-  let moodQuery = await db
-  .select()
-  .from(mood)
-  .where(
-    and(
-      eq(mood.id, userTasksQuery[0].mood_id),
-    )
-  );
-  console.log("today's task: " + userTasksQuery[0])
-	if (moodQuery.length === 0) {
-    // i don't know if it's a problem with the seed data but this insert method is sometimes causing
-    // an error because it will try to insert it where there is already an id in the seed data,
-    // if you keep reloading the page, it will eventually find an id number it can take that is free
-		moodQuery = await db.insert(mood).values({
-			q1: null,
-			q2: null,
-			q3: null,
-      q4: null,
-      q5: null,
-      q6: null,
-      q7: null,
-      q8: null,
-      q9: null,
-    });
+	// Check if userTasksQuery[0].mood_id is null or not
+	let moodQuery;
+	if (userTasksQuery[0].mood_id === null) {
+			// Create a new mood entry for today and update the userTasksQuery[0].mood_id
+			moodQuery = await db.insert(mood).values({
+					q1: null,
+					q2: null,
+					q3: null,
+					q4: null,
+					q5: null,
+					q6: null,
+					q7: null,
+					q8: null,
+					q9: null,
+			}).returning();
+			console.log("newly created moodQuery (load fn): ", moodQuery);
+			// Update userTasksQuery[0].mood_id
+			await db.update(dailyTasks)
+					.set({ mood_id: moodQuery[0].id })
+					.where(eq(dailyTasks.id, userTasksQuery[0].id));
+	} else {
+			// Show message on screen saying already completed questionnaire for today
+			moodQuery = await db.select().from(mood).where(eq(mood.id, userTasksQuery[0].mood_id));
 	}
 
 	return {
-		user: userQuery[0],
-		userTasks: userTasksQuery[0],
-    mood: moodQuery[0],
-		day: day,
+			user: userQuery[0],
+			userTasks: userTasksQuery[0],
+			mood: moodQuery[0],
+			day: day,
 	};
 };
