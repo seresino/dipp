@@ -1,10 +1,21 @@
 import db from "$lib/server/db";
 import { dailyTasks, mood } from "$lib/server/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { fail } from "@sveltejs/kit";
-import { getUserID } from "$lib/utils/helperFunctions";
+import { users } from "$lib/server/schema";
+import { journalPrompts } from "$lib/server/schema";
+import { modules } from "$lib/server/schema";
+
+import {
+	getDay,
+	getModuleID,
+	getUserID,
+	getTodaysDate,
+} from "$lib/utils/helperFunctions";
 
 const loggedInUserID = getUserID();
+const day = getDay();
+const moduleID = getModuleID();
 
 export const actions = {
   add: async ({ request }) => {
@@ -36,7 +47,15 @@ export const actions = {
     //   return fail(400, { message: "Error submitting questionnaire" });
     // }
 
-    // Finally, add entry to the database
+    let userTasksQuery = await db
+		.select()
+		.from(dailyTasks)
+		.where(
+			and(
+				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.date, getTodaysDate().toISOString())
+			)
+		);
 		await db
 			.update(mood)
 			.set({
@@ -50,8 +69,61 @@ export const actions = {
         q8: answers[7],
         q9: answers[8],
 			})
-			.where(eq(mood.id, 1));
+			.where(eq(mood.id, userTasksQuery[0].mood_id));
 
 		return { message: "Questionnaire updated successfully" };
 	},
+};
+
+export const load = async () => {
+	// Load in module name
+	// Load in daily-task entry for that user for today
+	const userQuery = await db
+		.select()
+		.from(users)
+		.where(eq(users.id, loggedInUserID));
+
+	let userTasksQuery = await db
+		.select()
+		.from(dailyTasks)
+		.where(
+			and(
+				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.date, getTodaysDate().toISOString())
+			)
+		);
+
+  // i need to check here whether userTasksQuery is empty or not and also check if the userTasksQuery[0].mood_id is null or not
+  let moodQuery = await db
+  .select()
+  .from(mood)
+  .where(
+    and(
+      eq(mood.id, userTasksQuery[0].mood_id),
+    )
+  );
+  console.log("today's task: " + userTasksQuery[0])
+	if (moodQuery.length === 0) {
+    // i don't know if it's a problem with the seed data but this insert method is sometimes causing
+    // an error because it will try to insert it where there is already an id in the seed data,
+    // if you keep reloading the page, it will eventually find an id number it can take that is free
+		moodQuery = await db.insert(mood).values({
+			q1: null,
+			q2: null,
+			q3: null,
+      q4: null,
+      q5: null,
+      q6: null,
+      q7: null,
+      q8: null,
+      q9: null,
+    });
+	}
+
+	return {
+		user: userQuery[0],
+		userTasks: userTasksQuery[0],
+    mood: moodQuery[0],
+		day: day,
+	};
 };

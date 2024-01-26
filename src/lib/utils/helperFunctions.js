@@ -1,7 +1,7 @@
 // Start date for testing purposes --------------------------------
 const startDate = new Date("2024-01-15");
 // Todays date for testing purposes --------------------------------
-const today = new Date("2024-01-25");
+const today = new Date("2024-01-26");
 
 function subtractDatesInDays(date1, date2) {
 	date1.setUTCHours(0, 0, 0, 0);

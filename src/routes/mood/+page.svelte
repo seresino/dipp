@@ -110,7 +110,7 @@
           <p class="questionnaire-text">{question.text}</p>
           <!-- button to submit information from questionnaire -->
           <form action="{path}/?/update" method="post">
-              <input type="hidden" name="answers[]" value={answers}>
+            <input type="hidden" name="answers[]" value={answers}>
             <input type="submit" value="Submit" />
           </form>
         {/if}
