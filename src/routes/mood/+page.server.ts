@@ -20,17 +20,7 @@ const moduleID = getModuleID();
 export const actions = {
   add: async ({ request }) => {
     // Add blank entry to the database
-		await db.insert(mood).values({
-			q1: null,
-			q2: null,
-			q3: null,
-      q4: null,
-      q5: null,
-      q6: null,
-      q7: null,
-      q8: null,
-      q9: null,
-    });
+		await db.insert(mood).values({}).returning();
 	},
   update: async ({ request }) => {
     // Get the form data from the request
@@ -57,24 +47,21 @@ export const actions = {
 			)
 		);
 		console.log("today's task: " + userTasksQuery[0])
+
+		let updateFields = {};
+		for (let i = 0; i < 9; i++) {
+				updateFields['q' + (i + 1)] = answers[i];
+		}
 		await db
 			.update(mood)
-			.set({
-        q1: answers[0],
-        q2: answers[1],
-        q3: answers[2],
-        q4: answers[3],
-        q5: answers[4],
-        q6: answers[5],
-        q7: answers[6],
-        q8: answers[7],
-        q9: answers[8],
-			})
+			.set(updateFields)
 			.where(eq(mood.id, userTasksQuery[0].mood_id));
 
 		return { message: "Questionnaire updated successfully" };
 	},
 };
+
+
 
 export const load = async () => {
 	// Load in module name
@@ -94,7 +81,8 @@ export const load = async () => {
 			)
 		);
 	console.log("today's task in load fn: " + userTasksQuery[0])
-		// Check if userTasksQuery is empty or not (if it is create new task)
+
+	// Check if userTasksQuery is empty or not (if it is create new task)
 	if (userTasksQuery.length === 0) {
 		// Create new task
 		await db.insert(dailyTasks).values({
@@ -117,33 +105,30 @@ export const load = async () => {
 
 	// Check if userTasksQuery[0].mood_id is null or not
 	let moodQuery;
+	let isQuestionnaireCompleted = false;
 	if (userTasksQuery[0].mood_id === null) {
 			// Create a new mood entry for today and update the userTasksQuery[0].mood_id
-			moodQuery = await db.insert(mood).values({
-					q1: null,
-					q2: null,
-					q3: null,
-					q4: null,
-					q5: null,
-					q6: null,
-					q7: null,
-					q8: null,
-					q9: null,
-			}).returning();
+			moodQuery = await db.insert(mood).values({}).returning();
 			console.log("newly created moodQuery (load fn): ", moodQuery);
 			// Update userTasksQuery[0].mood_id
 			await db.update(dailyTasks)
 					.set({ mood_id: moodQuery[0].id })
 					.where(eq(dailyTasks.id, userTasksQuery[0].id));
 	} else {
-			// Show message on screen saying already completed questionnaire for today
-			moodQuery = await db.select().from(mood).where(eq(mood.id, userTasksQuery[0].mood_id));
+		// find the mood entry for today
+		moodQuery = await db.select().from(mood).where(eq(mood.id, userTasksQuery[0].mood_id));
+	}
+
+	if (moodQuery[0].q9 !== null) {
+		isQuestionnaireCompleted = true;
+		console.log("isQuestionnaireCompleted (load fn): ", isQuestionnaireCompleted);
 	}
 
 	return {
-			user: userQuery[0],
-			userTasks: userTasksQuery[0],
-			mood: moodQuery[0],
-			day: day,
+		user: userQuery[0],
+		userTasks: userTasksQuery[0],
+		mood: moodQuery[0],
+		day: day,
+		isQuestionnaireCompleted: isQuestionnaireCompleted,
 	};
 };

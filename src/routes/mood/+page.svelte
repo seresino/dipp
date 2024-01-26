@@ -1,27 +1,29 @@
 <script>
   import Graph from '../../components/Graph.svelte';
   import { retrieveAnswers } from '$lib/utils/helperFunctions';
+  export let data;
+  export let form;
 
   let currentQuestionIndex = 0;
-  let 	a = [
-		{ x: null, y: null }
-	];
+  let answers;
+  let questionnaireForm;
+  const isQuestionnaireCompleted = data.isQuestionnaireCompleted;
+  let path = "mood"; // directory of this route
   let questionnaire = [
     { type: 'instructions', text: 'Please indicate on a 5-point scale how much you agree with the following statements. ‘1’ means “Not at all” and ‘5’ means “Very much”.'},
-    { type: 'scale', statement: 'I paid attention to what I was doing, in the present moment', answer: null },
-    { type: 'scale', statement: 'I noticed physical sensations come and go', answer: null },
-    { type: 'scale', statement: 'I was aware of what was going on in my body', answer: null },
-    { type: 'scale', statement: 'I noticed pleasant and unpleasant thoughts and emotions', answer: null },
-    { type: 'scale', statement: 'I was aware of what was going on in my mind', answer: null },
-    { type: 'scale', statement: 'I could separate myself from my thoughts and feelings', answer: null },
-    { type: 'scale', statement: 'I could actually see that I am not my thoughts', answer: null },
+    { type: 'scale', statement: 'In the last 15 minutes I paid attention to what I was doing, in the present moment.', answer: null },
+    { type: 'scale', statement: 'In the last 15 minutes I noticed physical sensations come and go.', answer: null },
+    { type: 'scale', statement: 'In the last 15 minutes I was aware of what was going on in my body.', answer: null },
+    { type: 'scale', statement: 'In the last 15 minutes I noticed pleasant and unpleasant thoughts and emotions.', answer: null },
+    { type: 'scale', statement: 'In the last 15 minutes I was aware of what was going on in my mind.', answer: null },
+    { type: 'scale', statement: 'In the last 15 minutes I could separate myself from my thoughts and feelings.', answer: null },
+    { type: 'scale', statement: 'In the last 15 minutes I could actually see that I am not my thoughts.', answer: null },
     { type: 'graph', statement: 'Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?', answer: {x: null, y: null} },
     { type: 'scale', statement: 'On a scale of 1 to 5, where 1 means \'not accurate at all\' and 5 means \'extremely accurate,\' how accurately were you able to identify your current mood?', answer: null },
     { type: 'final', text: 'Thank you for completing the mood questionnaire. Please submit below.' },
   ];
-  let path = "mood"; // directory of this route
-  let answers;
 
+  // Log the answers for each question
   $: {
     questionnaire.forEach((question, index) => {
       if (question.type === 'graph') {
@@ -32,35 +34,68 @@
       }
     });
   }
+
+  // Retrieve the answers from the questionnaire
   $: {
     answers = retrieveAnswers(questionnaire);
     console.log(answers);
- }
+  }
 
+  // Function to handle final radio change and consequent automatic form submission
+  function handleRadioChange() {
+    questionnaireForm.submit();
+  }
  </script>
 
 <div class="pop-up-shape">
   <img class="blue-background" src="/images/mood-page.svg" alt="pop-up-shape" />
-
   <!-- main content -->
   <div class="pop-up-text">
 
-    <!-- loop through each question in questionnaire -->
-    {#each questionnaire as question, index (index)}
+    {#if form?.message}
+      <p class="instructions-text">{form.message}</p>
 
-    <!-- only display current question -->
-      {#if index === currentQuestionIndex}
+    {:else if isQuestionnaireCompleted}
+        <p class="instructions-text">Mood questionnaire has already been completed for today.</p>
 
-        <!-- check question type and display accordingly -->
-        {#if question.type === 'instructions'}
+    {:else}
 
-          <div class="instructions-text">
-            <p>{question.text}</p>
-          </div>
-          <!-- next button after instructions -->
-          <button on:click={() => currentQuestionIndex++}>Next</button>
+      <!-- loop through each question in questionnaire -->
+      {#each questionnaire as question, index (index)}
 
-        {:else if question.type === 'scale'}
+      <!-- only display current question -->
+        {#if index === currentQuestionIndex}
+
+          <!-- check question type and display accordingly -->
+          {#if question.type === 'instructions'}
+
+            <div class="instructions-text">
+              <p>{question.text}</p>
+            </div>
+            <!-- next button after instructions -->
+            <button on:click={() => currentQuestionIndex++}>Next</button>
+
+          {:else if currentQuestionIndex === questionnaire.length - 2}
+
+            <div class="questionnaire-text">
+              <p>{question.statement}</p>
+            </div>
+
+            <!-- radio buttons for scale questions -->
+            <div class="radio-buttons">
+              <span class="number">1</span>
+              {#each Array(5).fill(undefined) as _, i (i)}
+                <input type="radio" name="answer" bind:group={question.answer} value={i + 1} on:change={handleRadioChange}>
+              {/each}
+              <span class="number">5</span>
+            </div>
+
+            <form bind:this={questionnaireForm} action="{path}/?/update" method="post">
+              <input type="hidden" name="answers[]" value={answers}>
+              <!-- <input type="submit" value="Submit" /> -->
+            </form>
+
+          {:else if question.type === 'scale'}
 
           <div class="questionnaire-text">
             <p>{question.statement}</p>
@@ -75,66 +110,53 @@
               <span class="number">5</span>
             </div>
 
+          {:else if question.type === 'graph'}
 
+            <!-- graph -->
+            <div class="chart">
+              <Graph points={[question.answer]}/>
+            </div>
 
-        {:else if question.type === 'graph'}
+            <!-- radio buttons for graph co-ordinates -->
+            <p class="graph-text">Pleasantness</p>
+            <div class="radio-buttons">
+              <span class="number">-5</span>
+              {#each Array(11).fill(undefined) as _, i (i)}
+                <input type="radio" bind:group={question.answer.x} value={i - 5}>
+              {/each}
+              <span class="number">5</span>
+            </div>
+            <p class="graph-text">Energy</p>
+            <div class="radio-buttons">
+              <span class="number">-5</span>
+              {#each Array(11).fill(undefined) as _, i (i)}
+                <input type="radio" bind:group={question.answer.y} value={i - 5}>
+              {/each}
+              <span class="number">5</span>
+            </div>
 
-          <!-- graph -->
-          <div class="chart">
-            <Graph points={a}/>
-          </div>
+            <!-- next button after entering co-ordinates -->
+            <button on:click={() => currentQuestionIndex++}>Next</button>
 
-          <!-- radio buttons for graph co-ordinates -->
-          <p class="graph-text">Pleasantness</p>
-          <div class="radio-buttons">
-            <span class="number">-5</span>
-            {#each Array(11).fill(undefined) as _, i (i)}
-              <input type="radio" bind:group={question.answer.x} value={i - 5}>
-            {/each}
-            <span class="number">5</span>
-          </div>
-          <p class="graph-text">Energy</p>
-          <div class="radio-buttons">
-            <span class="number">-5</span>
-            {#each Array(11).fill(undefined) as _, i (i)}
-              <input type="radio" bind:group={question.answer.y} value={i - 5}>
-            {/each}
-            <span class="number">5</span>
-          </div>
-
-          <!-- next button after entering co-ordinates -->
-          <button on:click={() => currentQuestionIndex++}>Next</button>
-
-        <!-- end of questionnaire text -->
-        {:else if question.type === 'final'}
-          <p class="questionnaire-text">{question.text}</p>
-          <!-- button to submit information from questionnaire -->
-          <form action="{path}/?/update" method="post">
-            <input type="hidden" name="answers[]" value={answers}>
-            <input type="submit" value="Submit" />
-          </form>
+          {/if}
         {/if}
-
-      {/if}
-    {/each}
-     <!-- <div class="button-container">
-      {#if currentQuestionIndex === 0}
-        <button on:click={() => currentQuestionIndex++}>Next</button>
-      {:else if 0 < currentQuestionIndex && currentQuestionIndex < questionnaire.length - 1}
-        <button on:click={goBack}>Back</button>
-        <button on:click={() => currentQuestionIndex++}>Next</button>
-      {:else if currentQuestionIndex === questionnaire.length - 1}
-        <button on:click={goBack}>Back</button>
-        <button on:click={handleSubmit}>Finish</button>
-      {/if}
-     </div> -->
+      {/each}
+      <!-- <div class="button-container">
+        {#if currentQuestionIndex === 0}
+          <button on:click={() => currentQuestionIndex++}>Next</button>
+        {:else if 0 < currentQuestionIndex && currentQuestionIndex < questionnaire.length - 1}
+          <button on:click={goBack}>Back</button>
+          <button on:click={() => currentQuestionIndex++}>Next</button>
+        {:else if currentQuestionIndex === questionnaire.length - 1}
+          <button on:click={goBack}>Back</button>
+          <button on:click={handleSubmit}>Finish</button>
+        {/if}
+      </div> -->
+    {/if}
   </div>
   <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
   <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
 </div>
-
-
-
 
 <style>
   .pop-up-shape {
@@ -147,9 +169,6 @@
     width: 40px;
     height: 40px;
     z-index: 1000;
-  }
-  .blue-background {
-
   }
   .home-button {
     position: absolute;
@@ -193,7 +212,7 @@
     color: #FFF;
     text-align: center;
     font-family: Helvetica Neue;
-    font-size: 24px;
+    font-size: 22px;
     font-style: normal;
     font-weight: 300;
     margin: 50px;
