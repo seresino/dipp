@@ -2,8 +2,9 @@
   import {onMount, tick} from "svelte";
   import { auth } from "../lib/firebase/firebase";
   import { authHandlers, authStore } from "../store/store";
+  import { goto } from '$app/navigation';
 
-  const nonAuthRoutes = ["/", "/Login", "/About"];
+  const nonAuthRoutes = ["/", "/login", "/about"];
   let user;
 
   $: {
@@ -19,12 +20,14 @@
       const currentPath = window.location.pathname;
 
       if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/Login";
+        window.location.href = "/login";
+        // goto('/login');
         return;
       }
 
-      if (user && currentPath == "/Login") {
-        window.location.href = "/Dashboard";
+      if (user && currentPath == "/login") {
+        window.location.href = "/dashboard";
+        // goto('/dashboard');
         return;
       }
 
