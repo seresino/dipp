@@ -10,12 +10,6 @@ import {
 	varchar,
 } from "drizzle-orm/pg-core";
 
-// export const questionnaire = pgEnum("questionnaire", [
-// 	"Good",
-// 	"Bad",
-// 	"Neutral",
-// ]);
-
 export const users = pgTable("users", {
 	id: serial("id").primaryKey(),
 	username: varchar("username", { length: 20 }).unique().notNull(),
@@ -38,18 +32,21 @@ export const journalPrompts = pgTable("journal-prompts", {
 	prompt: varchar("prompt"),
 });
 
-export const mood = pgTable("mood", {
-	id: serial("id").primaryKey(),
-	q1: integer("q1"),
-	q2: integer("q2"),
-	q3: integer("q3"),
-	q4: integer("q4"),
-	q5: integer("q5"),
-	q6: integer("q6"),
-	q7: integer("q7"),
-	q8: varchar("q8"),
-	q9: integer("q9"),
-});
+export const questionnaire = pgEnum("questionnaire", [
+	"Good",
+	"Bad",
+	"Neutral",
+]);
+
+// Mood Table  - generating fields first...
+let fields = { id: serial("id").primaryKey() };
+for (let i = 1; i <= 9; i++) {
+	fields[`q${i}`] = integer(`q${i}`);
+}
+fields["q8"] = varchar("q8");
+//... then exporting
+export const mood = pgTable("mood", fields);
+//
 
 export const dailyTasks = pgTable("daily-tasks", {
 	id: serial("id").primaryKey(),
@@ -57,6 +54,6 @@ export const dailyTasks = pgTable("daily-tasks", {
 	date: date("date"),
 	user_id: integer("user_id").references(() => users.id),
 	journal: varchar("journal"),
-	meditation: boolean("meditation").default(false),
+	meditation: boolean("meditation"),
 	mood_id: integer("mood_id").references(() => mood.id),
 });
