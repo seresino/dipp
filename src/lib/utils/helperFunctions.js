@@ -30,20 +30,6 @@ function daysSinceStart() {
 	return subtractDatesInDays(today, startDate);
 }
 
-// export function setUserID(userID, loading = true) {
-// 	authStore.update((curr) => {
-// 		return {
-// 			...curr,
-// 			userID: userID,
-// 			user: {
-// 				...user,
-// 				email: user.email,
-// 			},
-// 			loading: loading,
-// 		};
-// 	});
-// }
-
 export function getDay() {
 	return daysSinceStart() + 1;
 }
@@ -69,15 +55,12 @@ export function getTodaysDate() {
 
 export const authStore = writable({
 	userID: null,
-	loading: true,
 	user: null,
 	data: {},
 });
 
-export function setUserID(userID, loading = true, user = null) {
-	console.log(
-		"AuSt/ ID: " + userID + ", Loading: " + loading + ", User: " + user
-	);
+export function setUserID(userID, user = null) {
+	console.log("AuSt/ ID: " + userID + ", User: " + user);
 
 	// Maybe try using set, see if its simpler
 	// authStore.set({ userID: userID });
@@ -86,7 +69,6 @@ export function setUserID(userID, loading = true, user = null) {
 		return {
 			userID: userID,
 			user: user,
-			loading: loading,
 		};
 	});
 }

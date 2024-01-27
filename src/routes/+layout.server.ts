@@ -16,7 +16,7 @@ authStore.subscribe((value) => {
 	userID = value.userID; // This isn't working for some reason ----------------------------------------------------------------
 
 	// // HARDCODED ----------------------------------------------------------------
-	// if (value.loading) {
+	// if (value.user) {
 	// 	userID = 2;
 	// }
 	console.log("userID (serverside): " + userID);

@@ -65,7 +65,7 @@
   }
 </script>
 
-{#if !$authStore.loading}
+{#if !$authStore.userID}
   <div class="module-container">
     <img class="module-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
     <div class="module-text">
