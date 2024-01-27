@@ -7,7 +7,10 @@ import {
 	serial,
 	date,
 	uniqueIndex,
+	text,
 	varchar,
+	json,
+	PgArray,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -56,4 +59,23 @@ export const dailyTasks = pgTable("daily-tasks", {
 	journal: varchar("journal"),
 	meditation: boolean("meditation"),
 	mood_id: integer("mood_id").references(() => mood.id),
+});
+
+export const tasks = pgTable("tasks", {
+	id: serial("id").primaryKey(),
+	task: varchar("task"),
+	time: integer("time"),
+	goal: text("goal"),
+	background: text("background"),
+	materials: text("materials").array(),
+	instructions: json("instructions"),
+	module_id: integer("module_id").references(() => modules.id),
+});
+
+export const weeklyTasks = pgTable("weekly-tasks", {
+	id: serial("id").primaryKey(),
+	start_timestamp: timestamp("start_timestamp").defaultNow(),
+	complete_timestamp: timestamp("complete_timestamp"),
+	task_id: integer("task_id").references(() => tasks.id),
+	user_id: integer("user_id").references(() => users.id),
 });
