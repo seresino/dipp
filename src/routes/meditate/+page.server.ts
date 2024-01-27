@@ -24,7 +24,6 @@ export const actions = {
 		let meditation = formData.get("meditated");
     console.log("meditation status given to server: " + meditation);
 
-    // Update message if array is empty/null or has less than 9 elements
 		if (!meditation) {
       return fail(400, { message: "Error submitting meditation data" });
     }
