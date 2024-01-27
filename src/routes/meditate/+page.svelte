@@ -1,11 +1,39 @@
 <script>
   import AudioPlayer from '../../components/AudioPlayer.svelte';
+  // i want to set up dynamic imports to avoid hard coding
+  import moduleOneAudio from '../../assets/meditationone.mp3'
+  import moduleTwoAudio from '../../assets/meditationtwo.mp3'
+  import moduleThreeAudio from '../../assets/meditationthree.mp3'
+  export let data;
+
+  let audioFile;
+  const user = data.user;
+  const module = data.module;
+  const userTasks = data.userTasks;
+  const day = data.day;
+  let testVariable;
+
+  console.log("module number in meditate/+page.svelte: " + module.id);
+
+  switch(module.id) {
+    case 1:
+      audioFile = moduleOneAudio;
+      break;
+    case 2:
+      audioFile = moduleTwoAudio;
+      break;
+    case 3:
+      audioFile = moduleThreeAudio;
+      break;
+    default:
+      console.error("Invalid module number");
+ }
 </script>
 
 <div class="pop-up-shape">
   <img class="blue-background" src="/images/meditation-page.svg" alt="pop-up-shape" />
   <div class="pop-up-text">
-    <AudioPlayer />
+    <AudioPlayer {audioFile}/>
   </div>
   <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
   <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>

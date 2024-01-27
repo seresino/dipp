@@ -25,7 +25,7 @@ export const dictionary = {
 		"/instructions": [~6],
 		"/journal": [~7],
 		"/login": [8],
-		"/meditate": [9],
+		"/meditate": [~9],
 		"/mood": [10],
 		"/test": [~11]
 	};
