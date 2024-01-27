@@ -3,7 +3,9 @@ import { users } from "$lib/server/schema";
 import { journalPrompts } from "$lib/server/schema";
 import { modules } from "$lib/server/schema";
 import { mood } from "$lib/server/schema";
+import { tasks } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
+import { weeklyTasks } from "$lib/server/schema";
 
 const generatePassword = () => {
 	return "pass";
@@ -514,6 +516,105 @@ const seed = async ({}) => {
 		await db.insert(mood).values(user2MoodData);
 		await db.insert(dailyTasks).values(user2DailyData);
 	}
+
+	// const taskData = [
+	// 	{
+	// 		task: "Reading",
+	// 		time: 30,
+	// 		goal: JSON.stringify({
+	// 			goal: "To gain comprehensive knowledge about psilocybin – its nature, effects, and the experience it induces.",
+	// 		}),
+	// 		materials: [
+	// 			"The reading materials provided below",
+	// 			"Pen and paper or a digital device for note-taking",
+	// 		],
+	// 		instructions:
+	// 			"Reading:\nGoal: To gain comprehensive knowledge about psilocybin – its nature, effects, and the experience it induces.\n\nMaterials Needed:\nThe reading materials provided below \nPen and paper or a digital device for note-taking\n\nInstructions:\nReading:\nPlease set aside about 30 minutes to read the provided material. Pay special attention to aspects like setting intentions, navigating challenging moments, and the importance of integration post-experience.\nNote-Taking:\nAs you read, you might find it helpful to take notes on key points, especially those that resonate with your personal interests or concerns.",
+	// 		module_id: 1,
+	// 	},
+	// 	{
+	// 		task: "4-6 Breathing Technique",
+	// 		time: 15,
+	// 		goal: JSON.stringify({
+	// 			goal: "To practise the 4-6 Breathing Technique for inducing a state of calm.",
+	// 		}),
+	// 		materials: [
+	// 			"A quiet and comfortable space.",
+	// 			"Optional: Calming meditation music.",
+	// 		],
+	// 		instructions:
+	// 			"Preparation: Find a quiet, comfortable place to sit or lie down where you won't be disturbed.\nBreathing Practice:\nInhale slowly through your nose for a count of 4, allowing your chest and lower abdomen to expand.\nExhale slowly through your mouth for a count of 6, releasing the air gradually.\nContinue this pattern for about 5-10 minutes, focusing on maintaining the rhythm of 4-second inhalation and 6-second exhalation. Try to notice the sense of calmness that accompanies this practice.\nNote: Some individuals may experience dizziness. If you’re sitting or lying down, don’t get up too quickly after the practice. Adjust the breathing duration if necessary. Regular practice enhances relaxation skills.",
+	// 		module_id: 2,
+	// 	},
+	// 	{
+	// 		task: "Simple Mantra Affirmation Technique",
+	// 		time: 15,
+	// 		goal: JSON.stringify({
+	// 			goal: "To develop and practise a personal mantra for use during intense moments in a psychedelic experience. A mantra is just a word or short phrase that is repeated.",
+	// 		}),
+	// 		materials: ["Pen and paper or a digital device for note-taking."],
+	// 		instructions:
+	// 			'Choose Your Mantra: Reflect and select a personal mantra that is comforting and reassuring. Examples include "I am at peace," or "I trust in this journey."\nMantra Practice:\nRepeat your chosen mantra aloud or in your mind, focusing on the words, their rhythm, and meaning.\nPractise this for about 10-15 minutes.\nIf you find your thoughts straying, gently guide your focus back to your mantra.',
+	// 		module_id: 2,
+	// 	},
+	// ];
+	// await db.insert(tasks).values(taskData);
+
+	const task1 = {
+		task: "Reading: (30 minutes)",
+		time: 30,
+		goal: "To gain comprehensive knowledge about psilocybin – its nature, effects, and the experience it induces.",
+		background: "",
+		materials: [
+			"The reading materials provided below",
+			"Pen and paper or a digital device for note-taking",
+		],
+		instructions: JSON.stringify({
+			reading:
+				"Please set aside about 30 minutes to read the provided material. Pay special attention to aspects like setting intentions, navigating challenging moments, and the importance of integration post-experience.",
+			noteTaking:
+				"As you read, you might find it helpful to take notes on key points, especially those that resonate with your personal interests or concerns.",
+		}),
+		module_id: 1,
+	};
+
+	const task2 = {
+		task: "4-6 Breathing Technique (15 minutes)",
+		time: 15,
+		goal: "To practise the 4-6 Breathing Technique for inducing a state of calm.",
+		background:
+			"This simple method, involving a four-second inhale followed by a six-second exhale, helps regulate the autonomic nervous system, which is responsible for the body's stress responses. By consciously slowing down the breath, the technique shifts the body from a state of alertness and anxiety to one of relaxation and calm, making it an excellent practice before the session begins. What's even more valuable is knowing that you can return to this breathing technique during the psychedelic experience if things become challenging.",
+		materials: [
+			"A quiet and comfortable space.",
+			"Optional: Calming meditation music.",
+		],
+		instructions: JSON.stringify({
+			preparation:
+				"Find a quiet, comfortable place to sit or lie down where you won't be disturbed.",
+			breathingPractice:
+				"Inhale slowly through your nose for a count of 4, allowing your chest and lower abdomen to expand. Exhale slowly through your mouth for a count of 6, releasing the air gradually. Continue this pattern for about 5-10 minutes, focusing on maintaining the rhythm of 4-second inhalation and 6-second exhalation. Try to notice the sense of calmness that accompanies this practice.",
+			note: "Some individuals may experience dizziness. If you’re sitting or lying down, don’t get up too quickly after the practice. Adjust the breathing duration if necessary. Regular practice enhances relaxation skills.",
+		}),
+		module_id: 2,
+	};
+
+	const task3 = {
+		task: "Simple Mantra Affirmation Technique (15 minutes)",
+		time: 15,
+		goal: "To develop and practise a personal mantra for use during intense moments in a psychedelic experience. A mantra is just a word or short phrase that is repeated.",
+		background:
+			'The Simple Mantra Affirmation Technique is a valuable practice for maintaining calm and grounding during intense moments in a psychedelic experience. It involves developing a personal mantra, such as "I am at peace" or "I trust in this journey," which can provide comfort and reassurance. By repeating your chosen mantra and integrating it into your daily routine, you can establish a deep connection with the words, rhythm, and meaning of the mantra. This familiarity allows you to turn to your mantra for support during the psychedelic experience, helping you navigate challenging moments and maintain composure, ultimately contributing to a more peaceful and manageable journey.',
+		materials: ["Pen and paper or a digital device for note-taking."],
+		instructions: JSON.stringify({
+			chooseYourMantra:
+				'Reflect and select a personal mantra that is comforting and reassuring. Examples include "I am at peace," or "I trust in this journey."',
+			mantraPractice:
+				"Repeat your chosen mantra aloud or in your mind, focusing on the words, their rhythm, and meaning. Practise this for about 10-15 minutes. If you find your thoughts straying, gently guide your focus back to your mantra.",
+		}),
+		module_id: 2,
+	};
+
+	await db.insert(tasks).values([task1, task2, task3]);
 };
 
 export default seed;
