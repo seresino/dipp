@@ -1,4 +1,5 @@
 <script>
+	import { goto } from "$app/navigation";
   import { authHandlers } from "$lib/utils/helperFunctions.js";
 
   let path = "login" // directory of this route
@@ -19,6 +20,7 @@
 
     try {
       await authHandlers.login(username, password);
+      goto("/dashboard");
     } catch(err) {
       console.log('There was an auth error', err);
       error = true;

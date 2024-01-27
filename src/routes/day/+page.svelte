@@ -1,5 +1,7 @@
 <!-- Day.svelte -->
 <script>
+  import { authStore } from "$lib/utils/helperFunctions";
+
   export let data; // data returned by the load function
   let path = "day" // directory of this route
 
@@ -63,95 +65,95 @@
   }
 </script>
 
-
-<div class="module-container">
-  <img class="module-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
-  <div class="module-text">
-    <div class="top-text">
-      <div class="module-info-pill">
-        <a class="info-button" href="/instructions?initial=instructions">
-          <img class="meditation-icon" src="/images/meditation-icon.svg" alt="meditation-icon">
-          <p class="info-text">Instructions</p>
-        </a>
-        <a class="info-button" href="/instructions?initial=tasks">
-          <img class="tasks-icon" src="/images/tasks-icon.svg" alt="tasks-icon">
-          <p class="info-text">Tasks</p>
+{#if !$authStore.loading}
+  <div class="module-container">
+    <img class="module-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
+    <div class="module-text">
+      <div class="top-text">
+        <div class="module-info-pill">
+          <a class="info-button" href="/instructions?initial=instructions">
+            <img class="meditation-icon" src="/images/meditation-icon.svg" alt="meditation-icon">
+            <p class="info-text">Instructions</p>
+          </a>
+          <a class="info-button" href="/instructions?initial=tasks">
+            <img class="tasks-icon" src="/images/tasks-icon.svg" alt="tasks-icon">
+            <p class="info-text">Tasks</p>
+          </a>
+        </div>
+        <a class="home-button" href="/dashboard">
+          <img src="/images/home-button.svg" alt="home-button">
         </a>
       </div>
-      <a class="home-button" href="/dashboard">
-        <img src="/images/home-button.svg" alt="home-button">
-      </a>
+      <div class="bottom-text">Module {module.id} - {module.name}</div>
     </div>
-    <div class="bottom-text">Module {module.id} - {module.name}</div>
   </div>
-</div>
 
-<div class="progress-container">
-  <img class="progress-shape" src="/images/progress-box-shape.svg" alt="module-shape">
-  <div class="progress-absolute">
-    <div class="progress-section">
-      <p class="progress-text">Day {day}</p>
-      <div class="activity-bar">
-        {#each Object.entries(progressBar) as [task, completion]}
-          <div class={completion}></div>
-        {/each}
-        <!-- <div class="activity-pill-completed"></div>
-        <div class="activity-pill"></div>
-        <div class="activity-pill"></div> -->
+  <div class="progress-container">
+    <img class="progress-shape" src="/images/progress-box-shape.svg" alt="module-shape">
+    <div class="progress-absolute">
+      <div class="progress-section">
+        <p class="progress-text">Day {day}</p>
+        <div class="activity-bar">
+          {#each Object.entries(progressBar) as [task, completion]}
+            <div class={completion}></div>
+          {/each}
+          <!-- <div class="activity-pill-completed"></div>
+          <div class="activity-pill"></div>
+          <div class="activity-pill"></div> -->
+        </div>
+        <p class="progress-text">{taskCompletion.filter(value => value === true).length}/{taskCompletion.length}</p>
       </div>
-      <p class="progress-text">{taskCompletion.filter(value => value === true).length}/{taskCompletion.length}</p>
     </div>
   </div>
-</div>
 
-{#if user.meditation}
- <div class="activity-container">
-    <div class={activityButtons.meditate}>
-      <h1>Meditate</h1>
-      <a href="/meditate">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
-    <div class={activityButtons.mood}>
-      <h1>Mood</h1>
-      <a href="/mood">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
-    <div class={activityButtons.journal}>
-      <h1>Journal</h1>
-      <a href="/journal">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
- </div>
-{:else}
- <div class="activity-container">
-    <div class={activityButtons.mood}>
-      <h1>Mood</h1>
-      <a href="/mood">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
-    <div class={activityButtons.journal}>
-      <h1>Journal</h1>
-      <a href="/journal">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
- </div>
+  {#if user.meditation}
+  <div class="activity-container">
+      <div class={activityButtons.meditate}>
+        <h1>Meditate</h1>
+        <a href="/meditate">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
+      <div class={activityButtons.mood}>
+        <h1>Mood</h1>
+        <a href="/mood">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
+      <div class={activityButtons.journal}>
+        <h1>Journal</h1>
+        <a href="/journal">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
+  </div>
+  {:else}
+  <div class="activity-container">
+      <div class={activityButtons.mood}>
+        <h1>Mood</h1>
+        <a href="/mood">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
+      <div class={activityButtons.journal}>
+        <h1>Journal</h1>
+        <a href="/journal">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
+  </div>
+  {/if}
 {/if}
-
 
 
 <style>

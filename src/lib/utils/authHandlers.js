@@ -33,10 +33,12 @@ export const authHandlers = {
 
 		// setUserID(userID, false, user);
 		// setUserID(null); // null user
+		console.log("login");
 		setUserID(2, false, user);
 	},
 	logout: async () => {
 		await signOut(auth);
+		console.log("logout");
 		setUserID(null);
 	},
 };

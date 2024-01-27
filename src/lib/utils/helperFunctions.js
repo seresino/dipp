@@ -75,18 +75,18 @@ export const authStore = writable({
 });
 
 export function setUserID(userID, loading = true, user = null) {
+	console.log(
+		"AuSt/ ID: " + userID + ", Loading: " + loading + ", User: " + user
+	);
+
 	// Maybe try using set, see if its simpler
 	// authStore.set({ userID: userID });
 
-	authStore.update((curr) => {
+	authStore.update(() => {
 		return {
 			userID: userID,
-			user: {
-				email: user.email,
-				// Add other properties of `user` here
-			},
+			user: user,
 			loading: loading,
-			// Add other properties of `curr` here
 		};
 	});
 }

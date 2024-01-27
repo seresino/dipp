@@ -3,6 +3,7 @@ import { users } from "$lib/server/schema";
 import { eq } from "drizzle-orm";
 
 import { authStore } from "$lib/utils/helperFunctions";
+import { validatePassword } from "firebase/auth";
 
 let userID;
 
@@ -12,8 +13,12 @@ authStore.subscribe((value) => {
 		console.log(`obj.${prop} = ${value[prop]}`);
 	}
 
-	userID = value.userID;
-	// userID = 2;
+	userID = value.userID; // This isn't working for some reason ----------------------------------------------------------------
+
+	// // HARDCODED ----------------------------------------------------------------
+	// if (value.loading) {
+	// 	userID = 2;
+	// }
 	console.log("userID (serverside): " + userID);
 });
 
@@ -23,7 +28,6 @@ export const load = async () => {
 	console.log("userQuery return: " + userQuery[0]);
 	return {
 		user: userQuery[0],
-		// // @ts-ignore
-		// ID: userID,
+		// Should load the day in here too ----------------------------------------------------------------
 	};
 };

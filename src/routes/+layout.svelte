@@ -8,7 +8,7 @@
   export let data; // data returned by the load function
 
   const nonAuthRoutes = ["/", "/login", "/about"];
-  const userVariable = data.user;;
+  const userVariable = data.user;
 
   let user;
 
@@ -20,6 +20,7 @@
     });
   }
 
+  // // Redirect undefined routes ----------------------------------------------------------------
   // export async function handle({ request, resolve }) {
   //   const response = await resolve(request);
 
@@ -31,11 +32,18 @@
   //   return response;
   // }
 
+  // Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
   onMount (() => {
-    console.log("Mounting");
+    console.log("Mounting layout.svelte");
+    console.log("USER-Variable: " + userVariable)
+    console.log("USER: " + user)
+    
+    // user = userVariable // Replace user with this if it works ----------------------------------------------------------------
+
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = $page.url.pathname;
 
+      user = userVariable // Replace user with this if it works ----------------------------------------------------------------
       if (!user && !nonAuthRoutes.includes(currentPath)) {
         // window.location.href = "/login";
         goto('/login');
@@ -52,19 +60,20 @@
         return;
       }
       
-      // Reset authStore on every mount
-      setUserID(getUserID(), false, user);
-      
-      // Replaces below
-      // authStore.update((curr) => {
-      //   return {
-      //     ...curr,
-      //     user,
-      //     loading: false,
-      //   };
-      // });
+      // Does the order of this need to switch ----------------------------------------------------
+      if (userVariable){
+        // Reset authStore on every mount
+        console.log("onMount")
+        setUserID(getUserID(), false, userVariable);
+      }
     });
   });
+
+
+  function clearUser() {
+    console.log("clearUser")
+    setUserID(null);
+  }
 </script>
 
 
@@ -79,11 +88,14 @@
     <div class="about-pill">
       <a href="/about"><p class="about">About</p></a>
     </div>
-    {#if userVariable}
+    <div class="about-pill">
+      <a href="#" on:click|preventDefault={clearUser}><p class="about">Clear User</p></a>
+    </div>
+    {#if user}
       <div class="logout-pill">
         <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a>
       </div>
-      <p>welcome, {userVariable.username} - {userVariable.id}</p>
+      <p>welcome, {user.username} - {user.id}</p>
     {/if}
   </div>
 </div>

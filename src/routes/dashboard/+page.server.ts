@@ -21,18 +21,25 @@ const loggedInUserID = getUserID();
 const day = getDay();
 const moduleID = getModuleID();
 
-// REMOVE THIS AND USER QUERY BELOW --------------------------------
 let userID;
+const username = "P1BGSM"; // HARDCODED ----------------------------------------------------------------
+
 authStore.subscribe((value) => {
 	userID = value.userID;
-	// userID = 2;
 });
 
 export const load = async () => {
-	const userQuery = await db.select().from(users).where(eq(users.id, userID));
-
 	// Load in module name
 	// Load in daily-task entry for that user for today
+
+	// const userQuery = await db.select().from(users).where(eq(users.id, userID));
+
+	// This will always load user 2
+	const userQuery = await db
+		.select()
+		.from(users)
+		.where(eq(users.username, username)); // USING HARD CODE ----------------------------------------------------------------
+
 	const moduleQuery = await db
 		.select()
 		.from(modules)
@@ -46,7 +53,7 @@ export const load = async () => {
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.user_id, userQuery[0].id),
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
@@ -56,5 +63,7 @@ export const load = async () => {
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],
 		day: day,
+		// @ts-ignore
+		ID: userID,
 	};
 };
