@@ -1,84 +1,127 @@
 <script>
-  let audioPlayer;
-  let isPlaying = false;
-  let currentTime = 0;
-  let duration = 0;
+import myAudio from "../breathing.mp3";
 
-  function togglePlayback() {
+ let audioPlayer;
+ let isPlaying = false;
+ let currentTime = 0;
+ let duration = 0;
+
+ function togglePlayback() {
     if (isPlaying) {
       audioPlayer.pause();
     } else {
       audioPlayer.play();
     }
-  }
+    isPlaying = !isPlaying;
+ }
 
-  function updatePlaybackStatus() {
-    isPlaying = !audioPlayer.paused;
-    currentTime = audioPlayer.currentTime;
-    duration = audioPlayer.duration;
-  }
+ function restartTrack() {
+  audioPlayer.pause();
+  isPlaying = false;
+  audioPlayer.currentTime = 0;
+ }
+
+ $: {
+    updatePlaybackStatus();
+ }
+
+ function updatePlaybackStatus() {
+  if (!audioPlayer) return; // Exit the function if audioPlayer is undefined
+  isPlaying = !audioPlayer.paused;
+  currentTime = audioPlayer.currentTime;
+  duration = audioPlayer.duration;
+}
+
+ function formatTime(time) {
+    let minutes = Math.floor(time / 60);
+    let seconds = Math.floor(time - minutes * 60);
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+ }
+
+ function handleEnded() {
+    restartTrack();
+    // Submit your form here
+    // document.querySelector('#yourFormId').submit();
+ }
 </script>
 
-<audio bind:this={audioPlayer} on:timeupdate={updatePlaybackStatus} controls>
-  <source src="test-audio.m4a" type="audio/m4a">
-  Your browser does not support the audio element.
+<audio bind:this={audioPlayer} on:loadedmetadata={updatePlaybackStatus} on:timeupdate={updatePlaybackStatus} on:ended={handleEnded}>
+ <source src={myAudio} type="audio/mp3">
+ Your browser does not support the audio element.
 </audio>
 
-<div class="custom-audio-player">
-  <button on:click={togglePlayback}>
-    {#if isPlaying}
-      Pause
-    {:else}
-      Play
-    {/if}
-  </button>
-  <div class="playbar">
-    <div class="playbar-progress" style="transform: rotate({(currentTime / duration) * 360}deg)"></div>
+<h1>Click to Begin Meditation</h1>
+<button class="play-button" on:click={togglePlayback}>
+  <div class="circle">
+    <h1>{isPlaying ? 'Pause' : 'Play'}</h1>
   </div>
+</button>
+<div class="timer-content">
+ <button class="restart-button" on:click={restartTrack}><p class="restart">Restart</p></button>
+ <div class="timer-text">
+    <span class="white-text">{formatTime(currentTime)}</span><span class="restart">/{formatTime(duration)}</span>
+ </div>
 </div>
 
+
 <style>
-  .custom-audio-player {
+  h1 {
+    color: black;
+    text-align: center;
+    font-family: Helvetica Neue;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 300;
+    padding: 50px;
+  }
+  .play-button {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    text-align: center;
-  }
-
-  button {
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-
-  button:hover {
-    background-color: #0056b3; /* Hover background color */
-  }
-
-  .playbar {
-    margin-top: 20px;
-    width: 120px; /* Adjust the size of the circular playbar */
-    height: 120px; /* Adjust the size of the circular playbar */
-    border-radius: 50%; /* Make it circular */
-    background-color: #eee; /* Playbar background color */
-    position: relative;
-    transform: rotate(0deg);
-  }
-
-  .playbar-progress {
-    width: 100%;
-    height: 100%;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    background-color: #007bff; /* Playbar progress color */
-    position: absolute;
-    clip-path: polygon(50% 50%, 100% 0, 100% 100%); /* Create a circular progress path */
-    transform-origin: center center;
-    transform: rotate(0deg);
-    transition: transform 0.2s;
+    border: 1px solid #FFF;
+    padding: 5px 20px 5px 20px;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .timer-content {
+    display: flex;
+    width: 400px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+  }
+  .restart-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    border: 1px solid #FFF;
+    padding: 5px 20px 5px 20px;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .restart {
+    color: #000;
+    text-align: center;
+    font-family: Helvetica Neue;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .white-text {
+    color: white;
+    text-align: center;
+    font-family: Helvetica Neue;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 </style>
-
