@@ -50,8 +50,8 @@ export const actions = {
 		const userID = await getUserIDByUsername(username);
 		console.log("login function UserID: ", userID);
 
-		setUserID(userID, false, user);
-		// setUserID(2, false, user);
+		setUserID(userID);
+		// setUserID(2);
 
 		// 	return { message: "User added successfully" };
 	},

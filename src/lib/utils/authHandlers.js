@@ -15,7 +15,7 @@ export const authHandlers = {
 			pass
 		);
 		const user = userCredential.user;
-		setUserID(2, false, user);
+		setUserID(2);
 	},
 	login: async (username, pass) => {
 		const email = username + "@dipp.com";
@@ -34,7 +34,7 @@ export const authHandlers = {
 		// setUserID(userID, false, user);
 		// setUserID(null); // null user
 		console.log("login");
-		setUserID(2, false, user);
+		setUserID(2);
 	},
 	logout: async () => {
 		await signOut(auth);

@@ -59,8 +59,8 @@ export const authStore = writable({
 	data: {},
 });
 
-export function setUserID(userID, user = null) {
-	console.log("AuSt/ ID: " + userID + ", User: " + user);
+export function setUserID(userID) {
+	console.log("AuSt/ ID: " + userID);
 
 	// Maybe try using set, see if its simpler
 	// authStore.set({ userID: userID });
@@ -68,7 +68,6 @@ export function setUserID(userID, user = null) {
 	authStore.update(() => {
 		return {
 			userID: userID,
-			user: user,
 		};
 	});
 }
@@ -84,3 +83,37 @@ export function getUserID() {
 }
 
 export { authHandlers };
+
+import { auth } from "$lib/firebase/firebase";
+import { goto } from "$app/navigation";
+const nonAuthRoutes = ["/", "/login", "/about"];
+export function mount(user, page) {
+	console.log("Mounting layout.svelte");
+	console.log("user: " + user.username);
+
+	const unsubscribe = auth.onAuthStateChanged(async (user) => {
+		const currentPath = page.url.pathname;
+
+		if (!user && !nonAuthRoutes.includes(currentPath)) {
+			// window.location.href = "/login";
+			goto("/login");
+			return;
+		}
+
+		if (user && currentPath == "/login") {
+			// window.location.href = "/dashboard";
+			goto("/dashboard");
+			return;
+		}
+
+		if (!user) {
+			return;
+		}
+
+		// Does the order of this need to switch ----------------------------------------------------
+		if (user) {
+			// Reset authStore on every mount
+			console.log("onMount");
+		}
+	});
+}

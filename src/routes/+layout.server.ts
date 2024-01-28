@@ -8,11 +8,6 @@ import { validatePassword } from "firebase/auth";
 let userID;
 
 authStore.subscribe((value) => {
-	console.log("AuthStore Value:" + value);
-	for (const prop in value) {
-		console.log(`obj.${prop} = ${value[prop]}`);
-	}
-
 	userID = value.userID; // This isn't working for some reason ----------------------------------------------------------------
 
 	// // HARDCODED ----------------------------------------------------------------

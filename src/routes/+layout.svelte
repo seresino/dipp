@@ -6,19 +6,10 @@
   import { page } from '$app/stores';
 
   export let data; // data returned by the load function
+  const user = data.user;
 
   const nonAuthRoutes = ["/", "/login", "/about"];
-  const userVariable = data.user;
 
-  let user;
-
-  // This piece of code is subscribing to changes in the authStore. Whenever the authStore value changes, the provided function is executed.
-  $: {
-    authStore.subscribe(async value => {
-      user = value.user;
-      await tick();
-    });
-  }
 
   // // Redirect undefined routes ----------------------------------------------------------------
   // export async function handle({ request, resolve }) {
@@ -35,15 +26,14 @@
   // Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
   onMount (() => {
     console.log("Mounting layout.svelte");
-    console.log("USER-Variable: " + userVariable)
-    console.log("USER: " + user)
+    console.log("user: " + user)
     
-    // user = userVariable // Replace user with this if it works ----------------------------------------------------------------
+    // user = user // Replace user with this if it works ----------------------------------------------------------------
 
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = $page.url.pathname;
 
-      user = userVariable // Replace user with this if it works ----------------------------------------------------------------
+      // user = user // Replace user with this if it works ----------------------------------------------------------------
       if (!user && !nonAuthRoutes.includes(currentPath)) {
         // window.location.href = "/login";
         goto('/login');
@@ -61,10 +51,10 @@
       }
       
       // Does the order of this need to switch ----------------------------------------------------
-      if (userVariable){
+      if (user){
         // Reset authStore on every mount
         console.log("onMount")
-        setUserID(getUserID(), false, userVariable);
+        setUserID(getUserID());
       }
     });
   });
