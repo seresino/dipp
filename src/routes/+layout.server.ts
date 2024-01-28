@@ -6,7 +6,7 @@ import { authStore, getUserID } from "$lib/utils/helperFunctions";
 import { validatePassword } from "firebase/auth";
 
 let userID;
-userID = getUserID();
+userID = await getUserID();
 
 export const load = async () => {
 	const userQuery = await db.select().from(users).where(eq(users.id, userID));

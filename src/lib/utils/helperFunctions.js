@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import { get } from "svelte/store";
 import { authHandlers } from "$lib/utils/authHandlers";
 
 // Start date for testing purposes --------------------------------
@@ -55,31 +56,19 @@ export function getTodaysDate() {
 
 export const authStore = writable({
 	userID: null,
-	user: null,
-	data: {},
 });
 
 export function setUserID(userID) {
+	console.log("SET authStore");
+	authStore.set({ userID: userID });
 	console.log("AuSt/ ID: " + userID);
-
-	// Maybe try using set, see if its simpler
-	// authStore.set({ userID: userID });
-
-	authStore.update(() => {
-		return {
-			userID: userID,
-		};
-	});
+	console.log("AuSt/ ID get: " + get(authStore).userID);
 }
 
-export function getUserID() {
-	// Live site will retrieve id from session --------------------------------
-	let userID;
-
-	authStore.subscribe((value) => {
-		userID = value.userID;
-	});
-	return userID;
+export async function getUserID() {
+	console.log("GET authStore:" + get(authStore).userID);
+	// console.log("AuSt/ ID get: " + get(authStore).userID);
+	return get(authStore).userID;
 }
 
 export { authHandlers };
@@ -89,10 +78,10 @@ import { goto } from "$app/navigation";
 const nonAuthRoutes = ["/", "/login", "/about"];
 export function mount(user, page) {
 	console.log("Mounting layout.svelte");
-	console.log("user: " + user.username);
+	console.log("user: " + user);
 
 	const unsubscribe = auth.onAuthStateChanged(async (user) => {
-		const currentPath = page.url.pathname;
+		const currentPath = $page.url.pathname;
 
 		if (!user && !nonAuthRoutes.includes(currentPath)) {
 			// window.location.href = "/login";
@@ -108,12 +97,6 @@ export function mount(user, page) {
 
 		if (!user) {
 			return;
-		}
-
-		// Does the order of this need to switch ----------------------------------------------------
-		if (user) {
-			// Reset authStore on every mount
-			console.log("onMount");
 		}
 	});
 }

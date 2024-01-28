@@ -9,7 +9,7 @@
   let authenticating = false;
 
   async function handleAuthenticate() {
-    if (authenticating) {return;}
+    if (authenticating) {return;} // Don't think we need this ----------------------------------------------------------------
 
     if (!username || !password ) {
       error = true

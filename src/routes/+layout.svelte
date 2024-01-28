@@ -1,7 +1,7 @@
 <script>
-  import {onMount, tick} from "svelte";
+  import {onMount} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authStore, authHandlers, setUserID, getUserID } from "$lib/utils/helperFunctions";
+  import { authStore, authHandlers, setUserID, getUserID, mount } from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
 
@@ -26,23 +26,20 @@
   // Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
   onMount (() => {
     console.log("Mounting layout.svelte");
-    console.log("user: " + user)
-    
-    // user = user // Replace user with this if it works ----------------------------------------------------------------
+    console.log("user: " + user);
 
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = $page.url.pathname;
 
-      // user = user // Replace user with this if it works ----------------------------------------------------------------
       if (!user && !nonAuthRoutes.includes(currentPath)) {
         // window.location.href = "/login";
-        goto('/login');
+        goto("/login");
         return;
       }
 
-      if (!user && currentPath == "/login") {
+      if (user && currentPath == "/login") {
         // window.location.href = "/dashboard";
-        goto('/dashboard');
+        goto("/dashboard");
         return;
       }
 
@@ -56,6 +53,7 @@
   function clearUser() {
     console.log("clearUser")
     setUserID(null);
+    getUserID();
   }
 </script>
 

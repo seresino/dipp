@@ -1,18 +1,24 @@
 <script>
-  import { authStore, authHandlers } from "$lib/utils/helperFunctions";
+  import {onMount} from "svelte";
+  import { page } from '$app/stores';
+  import { authStore, authHandlers, mount } from "$lib/utils/helperFunctions";
   import DateTime from "../../components/DateTime.svelte";
   import {tick} from "svelte";
 
 
   export let data; // data returned by the load function
   let path = "dashboard" // directory of this route
-
+  
+  // if ($authStore.userID){
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
   const user = data.user;
+  // }
 
-  console.log(user);
+  // onMount (() => {
+  //   mount(user, $page)
+  // });
 </script>
 
 {#if $authStore.userID}

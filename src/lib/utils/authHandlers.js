@@ -4,7 +4,7 @@ import {
 	signOut,
 } from "firebase/auth";
 import { auth } from "$lib/firebase/firebase";
-import { authStore, setUserID } from "$lib/utils/helperFunctions";
+import { authStore, setUserID, getUserID } from "$lib/utils/helperFunctions";
 
 export const authHandlers = {
 	signup: async (username, pass) => {
@@ -35,6 +35,7 @@ export const authHandlers = {
 		// setUserID(null); // null user
 		console.log("login");
 		setUserID(2);
+		getUserID();
 	},
 	logout: async () => {
 		await signOut(auth);

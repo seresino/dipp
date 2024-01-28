@@ -15,7 +15,7 @@ import {
 } from "$lib/utils/helperFunctions";
 
 // Would acc import these in from somewhere else --------------------------------
-const loggedInUserID = getUserID();
+const loggedInUserID = 2; // HARDCODED - Change to getUserID ----------------------------------------------------------------
 
 const day = getDay();
 const moduleID = getModuleID();

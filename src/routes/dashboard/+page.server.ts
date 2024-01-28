@@ -5,6 +5,7 @@ import { modules } from "$lib/server/schema";
 import { mood } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
 import { fail } from "@sveltejs/kit";
+import { get } from "svelte/store";
 import { desc, eq, and } from "drizzle-orm";
 import { authStore } from "$lib/utils/helperFunctions";
 
@@ -15,30 +16,30 @@ import {
 	getTodaysDate,
 } from "$lib/utils/helperFunctions";
 
-// Would acc import these in from somewhere else --------------------------------
-const loggedInUserID = getUserID();
-
 const day = getDay();
 const moduleID = getModuleID();
 
-let userID;
-const username = "P1BGSM"; // HARDCODED ----------------------------------------------------------------
-
-authStore.subscribe((value) => {
-	userID = value.userID;
-});
-
 export const load = async () => {
+	let userID;
+	userID = await getUserID();
+	console.log("USER ID: " + userID);
+
+	const username = "P1BGSM"; // HARDCODED ----------------------------------------------------------------
+
 	// Load in module name
 	// Load in daily-task entry for that user for today
 
 	// const userQuery = await db.select().from(users).where(eq(users.id, userID));
 
 	// This will always load user 2
-	const userQuery = await db
+	let userQuery = await db.select().from(users).where(eq(users.id, userID));
+	console.log(userQuery[0]);
+
+	userQuery = await db
 		.select()
 		.from(users)
 		.where(eq(users.username, username)); // USING HARD CODE ----------------------------------------------------------------
+	console.log(userQuery[0].username);
 
 	const moduleQuery = await db
 		.select()
