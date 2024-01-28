@@ -10,7 +10,7 @@
   const module = data.module;
 </script>
 
-{#if !$authStore.userID}
+{#if $authStore.userID}
   <div class="pop-up">
     <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
     <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />

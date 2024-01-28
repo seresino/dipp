@@ -15,7 +15,7 @@
   console.log(user);
 </script>
 
-{#if !$authStore.userID}
+{#if $authStore.userID}
 <!-- {#if user} -->
 
   <div class="dashboard">

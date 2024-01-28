@@ -2,7 +2,7 @@
   import { authStore } from "$lib/utils/helperFunctions";
 </script>
 
-{#if !$authStore.userID}
+{#if $authStore.userID}
   <div class="pop-up-shape">
     <img class="blue-background" src="/images/mood-page.svg" alt="pop-up-shape" />
     <div class="pop-up-text">
