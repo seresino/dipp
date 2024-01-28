@@ -40,7 +40,7 @@
         return;
       }
 
-      if (user && currentPath == "/login") {
+      if (!user && currentPath == "/login") {
         // window.location.href = "/dashboard";
         goto('/dashboard');
         return;
@@ -48,13 +48,6 @@
 
       if (!user) {
         return;
-      }
-      
-      // Does the order of this need to switch ----------------------------------------------------
-      if (user){
-        // Reset authStore on every mount
-        console.log("onMount")
-        setUserID(getUserID());
       }
     });
   });
