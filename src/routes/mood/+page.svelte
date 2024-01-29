@@ -4,11 +4,12 @@
   export let data;
   export let form;
 
+  const path = "mood"; // directory of this route
+  const completed = data.completed;
+
   let currentQuestionIndex = 0;
   let answers;
   let questionnaireForm;
-  const completed = data.completed;
-  let path = "mood"; // directory of this route
   let questionnaire = [
     { type: 'instructions', text: 'Please indicate on a 5-point scale how much you agree with the following statements. ‘1’ means “Not at all” and ‘5’ means “Very much”.'},
     { type: 'scale', statement: 'In the last 15 minutes I paid attention to what I was doing, in the present moment.', answer: null },
