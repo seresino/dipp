@@ -6,6 +6,7 @@
 
   const module = data.module;
   const tasks = data.tasks;
+  const usertasks = data.weeklyTasks;
 
   let path = "module" // directory of this route
   let view = $page.url.searchParams.get('view') || '';
@@ -14,8 +15,11 @@
   let selectedTask = null;
   let completed = false; // New variable to hold the checkbox state
   let updateForm; // New variable to hold the form to update weekly_task entry to be completed with timestamp
-  let createForm; // New variable to hold the form to create weekly_task entry
   let timestamp; // New variable to hold the current timestamp
+
+  function isTaskComplete(task) {
+    return usertasks.some(usertask => usertask.task_id == task.id && usertask.complete_timestamp);
+  }
 
   function updateQueryParameters(view, id = null) {
     const query = new URLSearchParams($page.url.searchParams.toString());
@@ -84,10 +88,10 @@
       {:else if selectedButton === 'tasks'}
         {#if !selectedTask}
           {#each tasks.slice().sort((a, b) => a.id - b.id) as task, index}
-            <div class="task-shape" on:click={() => selectTask(task)}>
+            <div class="task-shape {isTaskComplete(task) ? 'grey' : ''}" on:click={() => selectTask(task)}>
               <div class="task-number-box">{index + 1}</div>
               <div class="task-shape-text">
-                <h2>{task.id}: {task.task}</h2>
+                <h2>{task.task}</h2>
                 <p class="goal">{task.goal.split('.')[0]}.</p>
                 </div>
             </div>
@@ -105,11 +109,15 @@
               {/each}
             </ul>
           </div>
-          <form bind:this={updateForm} action="{path}/?/update" method="post">
-            <label for="completed">Completed</label>
-            <input type="checkbox" id="completed" name="completed" bind:checked={completed} on:change={handleCheck}>
-            <input type="hidden" name="taskID" value={selectedTask.id}>
-          </form>
+          {#if isTaskComplete(selectedTask)}
+            <p class="complete">Task completed</p>
+          {:else}
+            <form bind:this={updateForm} action="{path}/?/update" method="post">
+                <label for="completed">Completed</label>
+                <input type="checkbox" id="completed" name="completed" bind:checked={completed} on:change={handleCheck}>
+                <input type="hidden" name="taskID" value={selectedTask.id}>
+            </form>
+          {/if}
           <button on:click={() => { selectedTask = null; updateQueryParameters('tasks'); }}>Back</button>
         {/if}
 
@@ -239,5 +247,9 @@
   .grey {
     color: #888888;
     background-color: #F3F3F3;
+  }
+  .complete {
+    color: green;
+    font-style: italic;
   }
 </style>

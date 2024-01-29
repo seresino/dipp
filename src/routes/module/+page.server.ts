@@ -103,8 +103,17 @@ export const load = async () => {
 		.from(tasks)
 		.where(eq(tasks.module_id, moduleID));
 
+	const weeklyTasksQuery = await db
+	  .select()
+		.from(weeklyTasks)
+		.where(
+			and(
+				eq(weeklyTasks.user_id, loggedInUserID)
+			)
+		);
 	return {
 		module: moduleQuery[0],
 		tasks: tasksQuery,
+		weeklyTasks: weeklyTasksQuery,
 	};
 };
