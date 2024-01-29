@@ -37,7 +37,7 @@
         return;
       }
 
-      if (user && currentPath == "/login") {
+      if (!user && currentPath == "/login") {
         // window.location.href = "/dashboard";
         goto("/dashboard");
         return;
