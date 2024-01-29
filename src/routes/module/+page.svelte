@@ -7,27 +7,29 @@
   const module = data.module;
   const tasks = data.tasks;
   const usertasks = data.weeklyTasks;
+  const path = "module" // directory of this route
 
-  let path = "module" // directory of this route
   let view = $page.url.searchParams.get('view') || '';
   let selectedButton = view.includes('-') ? view.split('-')[0] : view;
   let parameterID = view.includes('-') ? view.split('-')[1] : null;
   let selectedTask = null;
-  let completed = false; // New variable to hold the checkbox state
-  let updateForm; // New variable to hold the form to update weekly_task entry to be completed with timestamp
-  let timestamp; // New variable to hold the current timestamp
+  let completed = false;
+  let updateForm;
 
+  // checks whether there is a task in the weeklyTasks table that corresponds to this task and has been completed
   function isTaskComplete(task) {
     return usertasks.some(usertask => usertask.task_id == task.id && usertask.complete_timestamp);
   }
 
+  // updates query parameters of current page when toggle buttons are clicked or tasks are expanded
   function updateQueryParameters(view, id = null) {
     const query = new URLSearchParams($page.url.searchParams.toString());
     query.set('view', id ? `${view}-${id}` : view);
     goto(`?${query.toString()}`);
   }
 
-  async function submitTask(taskID) {
+  // sends a request to the server to add new entry to the weeklyTasks table, where start_timestamp will be set
+  async function addWeeklyTask(taskID) {
     const formData = new FormData();
     formData.append('taskID', taskID);
 
@@ -43,26 +45,22 @@
     }
   }
 
+  // function that deals with task being selected from list
   function selectTask(task) {
-    selectedTask = task
-    console.log("selected task id in selectTask function when you click on task: " + task.id);
-    updateQueryParameters('tasks', task.id.toString());
-    // submit create form method to create new weekly-tasks entry, which will be added to the database with default start_timestamp of now
-    timestamp = new Date();
-    console.log("timestamp when task is selected :" + timestamp);
-    // If the checkbox is checked, submit the update form
-    submitTask(selectedTask.id);;
+    selectedTask = task     // assign task to selectedTask variable in order to render html for task info
+    updateQueryParameters('tasks', task.id.toString());     // update query parameters
+    addWeeklyTask(selectedTask.id);     // create new task entry in db
   }
 
-  // Function to handle checkbox change
-  function handleCheck() {
+  // function to handle checkbox change and send update request to server, where complete_timestamp will be set
+  function handleCheckBox() {
     if (completed) {
-        timestamp = new Date();
-        console.log("timestamp when task is checked :" + timestamp);
-        // If the checkbox is checked, submit the update form
         updateForm.submit();
     }
   }
+
+  // listener which assigns selectedTask to whichever task matches the current query parameter ID
+  // (ensures selectedTask is not null when expanded task info page is refreshed)
   $: selectedTask = tasks.find(task => task.id == parameterID);
 </script>
 
@@ -70,7 +68,9 @@
   <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
   <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />
   <div class="pop-up-container">
+
     <div class='button-container'>
+
       <button type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'} on:click={() => { selectedTask = null; updateQueryParameters('instructions'); }}>
         <img src="/images/meditation-grey-icon.svg" alt="meditation-grey-icon" />
         <p>Instructions</p>
@@ -79,13 +79,17 @@
         <img src="/images/task-grey-icon.svg" alt="task-grey-icon" />
         <p>Tasks</p>
       </button>
+
     </div>
+
     <div class="content">
 
       {#if selectedButton === 'instructions'}
         <h1>Module {module.id}: {module.name}</h1>
         <p>{module.instructions}</p>
+
       {:else if selectedButton === 'tasks'}
+
         {#if !selectedTask}
           {#each tasks.slice().sort((a, b) => a.id - b.id) as task, index}
             <div class="task-shape {isTaskComplete(task) ? 'grey' : ''}" on:click={() => selectTask(task)}>
@@ -96,16 +100,25 @@
                 </div>
             </div>
           {/each}
+
         {:else}
           <div class="task-details">
             <h2>{selectedTask.task} ({selectedTask.time} minutes)</h2>
-            <p class="task-info">Goal: {selectedTask.goal}</p>
-            {#if selectedTask.background}<p class="task-info">Background: {selectedTask.background}</p>{/if}
-            <p class="task-info">Materials Needed: {selectedTask.materials}</p>
-            <p class="task-info">Instructions:</p>
+            <p>Goal:</p>
+            <p>{selectedTask.goal}</p>
+            {#if selectedTask.background}
+              <p>Background: </p>
+              <p>{selectedTask.background}</p>
+            {/if}
+            <p>Materials Needed:</p>
+            {#each Object.values(selectedTask.materials) as material}
+              <li>{material}</li>
+            {/each}
+            <p>Instructions:</p>
             <ul>
               {#each Object.keys(selectedTask.instructions) as instructionKey}
-               <li>{instructionKey}: {selectedTask.instructions[instructionKey]}</li>
+               <li>{instructionKey}<br>{selectedTask.instructions[instructionKey]}</li>
+               <br>
               {/each}
             </ul>
           </div>
@@ -114,7 +127,7 @@
           {:else}
             <form bind:this={updateForm} action="{path}/?/update" method="post">
                 <label for="completed">Completed</label>
-                <input type="checkbox" id="completed" name="completed" bind:checked={completed} on:change={handleCheck}>
+                <input type="checkbox" id="completed" name="completed" bind:checked={completed} on:change={handleCheckBox}>
                 <input type="hidden" name="taskID" value={selectedTask.id}>
             </form>
           {/if}
@@ -122,6 +135,7 @@
         {/if}
 
       {/if}
+
     </div>
   </div>
 </div>
@@ -186,6 +200,10 @@
     align-items: left;
     gap: 20px;
     height: 400px;
+  }
+  .task-details li {
+    font-size: 16px;
+    margin: 0 20px 0 20px;
   }
   .task-details::-webkit-scrollbar {
     width: 10px;
