@@ -69,11 +69,11 @@
   <div class="module-text">
     <div class="top-text">
       <div class="module-info-pill">
-        <a class="info-button" href="/instructions?initial=instructions">
+        <a class="info-button" href="/module?view=instructions">
           <img class="meditation-icon" src="/images/meditation-icon.svg" alt="meditation-icon">
           <p class="info-text">Instructions</p>
         </a>
-        <a class="info-button" href="/instructions?initial=tasks">
+        <a class="info-button" href="/module?view=tasks">
           <img class="tasks-icon" src="/images/tasks-icon.svg" alt="tasks-icon">
           <p class="info-text">Tasks</p>
         </a>

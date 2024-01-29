@@ -1,18 +1,65 @@
 <script>
   import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
 
   export let data; // data returned by the load function
-  let path = "day" // directory of this route
-
-  let selectedButton = $page.url.searchParams.get('initial') || 'instructions';
-  let selectedTask = null; // New variable to hold the selected task
 
   const module = data.module;
   const tasks = data.tasks;
 
-  function selectTask(task) {
-    selectedTask = task;
+  let path = "module" // directory of this route
+  let view = $page.url.searchParams.get('view') || '';
+  let selectedButton = view.includes('-') ? view.split('-')[0] : view;
+  let parameterID = view.includes('-') ? view.split('-')[1] : null;
+  let selectedTask = null;
+  let completed = false; // New variable to hold the checkbox state
+  let updateForm; // New variable to hold the form to update weekly_task entry to be completed with timestamp
+  let createForm; // New variable to hold the form to create weekly_task entry
+  let timestamp; // New variable to hold the current timestamp
+
+  function updateQueryParameters(view, id = null) {
+    const query = new URLSearchParams($page.url.searchParams.toString());
+    query.set('view', id ? `${view}-${id}` : view);
+    goto(`?${query.toString()}`);
   }
+
+  async function submitTask(taskID) {
+    const formData = new FormData();
+    formData.append('taskID', taskID);
+
+    const response = await fetch(`${path}/?/add`, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    } else {
+        console.log('Task submitted successfully');
+    }
+  }
+
+  function selectTask(task) {
+    selectedTask = task
+    console.log("selected task id in selectTask function when you click on task: " + task.id);
+    updateQueryParameters('tasks', task.id.toString());
+    // submit create form method to create new weekly-tasks entry, which will be added to the database with default start_timestamp of now
+    timestamp = new Date();
+    console.log("timestamp when task is selected :" + timestamp);
+    // If the checkbox is checked, submit the update form
+    submitTask(selectedTask.id);;
+  }
+
+  // Function to handle checkbox change
+  function handleCheck() {
+    if (completed) {
+        timestamp = new Date();
+        console.log("timestamp when task is checked :" + timestamp);
+        // If the checkbox is checked, submit the update form
+        updateForm.submit();
+    }
+  }
+  $: selectedTask = tasks.find(task => task.id == parameterID);
 </script>
 
 <div class="pop-up">
@@ -20,11 +67,11 @@
   <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />
   <div class="pop-up-container">
     <div class='button-container'>
-      <button type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'}>
+      <button type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'} on:click={() => { selectedTask = null; updateQueryParameters('instructions'); }}>
         <img src="/images/meditation-grey-icon.svg" alt="meditation-grey-icon" />
         <p>Instructions</p>
       </button>
-      <button type="button" class:black={selectedButton === 'tasks'} class:grey={selectedButton !== 'tasks'} data-toggle="modal" on:click={() => selectedButton = 'tasks'}>
+      <button type="button" class:black={selectedButton === 'tasks'} class:grey={selectedButton !== 'tasks'} data-toggle="modal" on:click={() => selectedButton = 'tasks'} on:click={() => updateQueryParameters('tasks')}>
         <img src="/images/task-grey-icon.svg" alt="task-grey-icon" />
         <p>Tasks</p>
       </button>
@@ -36,12 +83,12 @@
         <p>{module.instructions}</p>
       {:else if selectedButton === 'tasks'}
         {#if !selectedTask}
-          {#each tasks as task, index}
+          {#each tasks.slice().sort((a, b) => a.id - b.id) as task, index}
             <div class="task-shape" on:click={() => selectTask(task)}>
-                <div class="task-number-box">{index + 1}</div>
-                <div class="task-shape-text">
-                  <h2>{task.task}</h2>
-                  <p class="goal">{task.goal.split('.')[0]}.</p>
+              <div class="task-number-box">{index + 1}</div>
+              <div class="task-shape-text">
+                <h2>{task.id}: {task.task}</h2>
+                <p class="goal">{task.goal.split('.')[0]}.</p>
                 </div>
             </div>
           {/each}
@@ -57,11 +104,15 @@
                <li>{instructionKey}: {selectedTask.instructions[instructionKey]}</li>
               {/each}
             </ul>
+          </div>
+          <form bind:this={updateForm} action="{path}/?/update" method="post">
             <label for="completed">Completed</label>
-            <input type="checkbox" id="completed" name="completed">
-            <button on:click={() => selectedTask = null}>Back</button>
-        </div>
+            <input type="checkbox" id="completed" name="completed" bind:checked={completed} on:change={handleCheck}>
+            <input type="hidden" name="taskID" value={selectedTask.id}>
+          </form>
+          <button on:click={() => { selectedTask = null; updateQueryParameters('tasks'); }}>Back</button>
         {/if}
+
       {/if}
     </div>
   </div>
@@ -78,7 +129,6 @@
      padding: 10%;
      width: 100%;
      height: 100%;
-     border: hotpink 1px solid;
   }
   .task-shape {
     border: 1px #D5D5D5 solid;
@@ -127,8 +177,18 @@
     justify-content: top;
     align-items: left;
     gap: 20px;
-    height: 500px;
-    border: hotpink 1px solid;
+    height: 400px;
+  }
+  .task-details::-webkit-scrollbar {
+    width: 10px;
+  }
+  .task-details::-webkit-scrollbar-thumb {
+    background: #5DB3E5; /* Color of the scroll thumb */
+    border-radius: 10px;
+  }
+
+  .task-details::-webkit-scrollbar-thumb:hover {
+    background: #168ACE; /* Color of the scroll thumb when hovered */
   }
   .back-button {
     position: absolute;
@@ -150,7 +210,6 @@
     position:absolute;
     top:0; bottom:0; left:0; right:0;
     padding: 100px 100px 50px 100px;
-    border: hotpink 1px solid;
   }
   .button-container {
     display: flex;
@@ -160,7 +219,6 @@
     gap: 20px;
     width: 100%;
     margin-top: 20px;
-    border: hotpink 1px solid;
   }
   button {
     width: 100px;
@@ -171,17 +229,15 @@
     justify-content: center;
     gap: 5px;
     cursor: pointer;
+    border: none;
+    border-radius: 34px;
   }
   .black {
     color: white;
     background-color: black;
-    border: 1px black solid;
-    border-radius: 34px;
   }
   .grey {
     color: #888888;
     background-color: #F3F3F3;
-    border: none;
-    border-radius: 34px;
   }
 </style>
