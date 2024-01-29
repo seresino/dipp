@@ -7,7 +7,7 @@
   let currentQuestionIndex = 0;
   let answers;
   let questionnaireForm;
-  const isQuestionnaireCompleted = data.isQuestionnaireCompleted;
+  const completed = data.completed;
   let path = "mood"; // directory of this route
   let questionnaire = [
     { type: 'instructions', text: 'Please indicate on a 5-point scale how much you agree with the following statements. ‘1’ means “Not at all” and ‘5’ means “Very much”.'},
@@ -55,7 +55,7 @@
     {#if form?.message}
       <p class="instructions-text">{form.message}</p>
 
-    {:else if isQuestionnaireCompleted}
+    {:else if completed}
         <p class="instructions-text">Mood questionnaire has already been completed for today.</p>
 
     {:else}
