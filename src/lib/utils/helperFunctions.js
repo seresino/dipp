@@ -54,3 +54,7 @@ export function getTodaysDate() {
 
 // const formattedDate = `${year}-${month}-${day}`;
 // const formattedDate2 = currentDate.toLocaleDateString()
+
+export function truncateWords(str, numWords) {
+	return str.split(" ").splice(0, numWords).join(" ");
+}

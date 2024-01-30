@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
+  import { truncateWords } from '$lib/utils/helperFunctions.js';
 
   export let data; // data returned by the load function
 
@@ -108,7 +109,7 @@
               <div class="task-number-box">{index + 1}</div>
               <div class="task-shape-text">
                 <h2>{task.task}</h2>
-                <p class="goal">{task.goal.split('.')[0]}.</p>
+                <p class="goal">{truncateWords(task.goal, 22)}...</p>
                 </div>
             </div>
           {/each}
@@ -165,7 +166,7 @@
      height: 100%;
   }
   .task-shape {
-    border: 1px #D5D5D5 solid;
+    border: 2px #D5D5D5 solid;
     border-radius: 20px;
     padding: 10px;
     display: flex;
@@ -181,9 +182,9 @@
   .task-number-box {
     background-color: #5DB3E5;
     min-width: 60px;
-    height: 90%;
-    border: 1px solid #168ACE;
-    border-radius: 10px;
+    height: 80%;
+    border: 2px solid #168ACE;
+    border-radius: 20px;
     box-shadow: 0px 4px 13.1px -4px rgba(0, 0, 0, 0.25) inset;
     font-size: 30px;
     color: white;
