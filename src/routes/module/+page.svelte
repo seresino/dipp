@@ -70,7 +70,6 @@
     if (parameterID !== null) {
         const weeklyTasks = weeklytasks.map(entry => entry.task_id);
         if (!weeklyTasks.includes(Number(parameterID))) {
-          console.log("redirect incoming!");
           window.location.href = "/module?view=tasks";
         }
     }
