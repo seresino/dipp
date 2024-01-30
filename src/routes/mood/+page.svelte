@@ -44,7 +44,7 @@
 
   // function to redirect on mount
   onMount(() => {
-    // redirects to task info page if user goes straight to URL of expanded task without row existing in table
+    // redirects to day page if user tries to access /meditate without current daily task entry in table
     if (usertasks.length === 0) {
       window.location.href = "/day";
     }
