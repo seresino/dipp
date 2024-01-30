@@ -23,9 +23,6 @@
     height: 40px;
     z-index: 1000;
   }
-  .blue-background {
-
-  }
   .home-button {
     position: absolute;
     top: 40px;

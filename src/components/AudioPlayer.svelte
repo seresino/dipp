@@ -2,7 +2,6 @@
   export let audioFile;
 
   let audioPlayer;
-  let meditationForm;
   let path = "meditate";
   let isPlaying = false;
   let currentTime = 0;
@@ -23,10 +22,6 @@
     audioPlayer.currentTime = 0;
   }
 
-  $: {
-    updatePlaybackStatus();
-  }
-
   function updatePlaybackStatus() {
     if (!audioPlayer) return; // Exit the function if audioPlayer is undefined
       isPlaying = !audioPlayer.paused;
@@ -34,27 +29,47 @@
       duration = audioPlayer.duration;
   }
 
- function formatTime(time) {
+  function formatTime(time) {
     let minutes = Math.floor(time / 60);
     let seconds = Math.floor(time - minutes * 60);
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
- }
+  }
 
+  // since no input tag needs to be rendered on page, using js to submit form
+  async function submitForm() {
+    const formData = new FormData();
+    formData.append('meditated', 'true');
+
+    const response = await fetch(`${path}/?/update`, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    } else {
+        console.log('Task submitted successfully');
+    }
+  }
+
+ // function to submit the form data to the server once track has ended
  function handleEnded() {
     restartTrack();
-    meditationForm.submit();
+    submitForm();
  }
+
+ // reactive statement that will run whenever any variables / values that function depends on change
+ $: {
+    updatePlaybackStatus();
+  }
 </script>
 
 <audio bind:this={audioPlayer} on:loadedmetadata={updatePlaybackStatus} on:timeupdate={updatePlaybackStatus} on:ended={handleEnded}>
   <source src={audioFile} type="audio/mp3">
   Your browser does not support the audio element.
 </audio>
-<form bind:this={meditationForm} action="{path}/?/update" method="post">
-  <input type="hidden" name="meditated" value="true">
-</form>
 
-<h1>Click to Begin Meditation</h1>
+<h1>Click Play to Begin Meditation</h1>
 <button class="play-button" on:click={togglePlayback}>
   <div class="circle">
     <h1>{isPlaying ? 'Pause' : 'Play'}</h1>

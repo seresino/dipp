@@ -1,20 +1,17 @@
 <script>
+  import { onMount } from 'svelte';
   import AudioPlayer from '../../components/AudioPlayer.svelte';
-  // i want to set up dynamic imports to avoid hard coding
+  // need set up dynamic imports to avoid hard coding these. will use URLs once files received so leaving for now
   import moduleOneAudio from '../../assets/meditationone.mp3'
   import moduleTwoAudio from '../../assets/meditationtwo.mp3'
   import moduleThreeAudio from '../../assets/meditationthree.mp3'
   export let data;
 
   let audioFile;
-  const user = data.user;
   const module = data.module;
-  const userTasks = data.userTasks;
-  const day = data.day;
-  let testVariable;
+  const usertasks = data.userTasks;
 
-  console.log("module number in meditate/+page.svelte: " + module.id);
-
+  // sets audioFile based on current module
   switch(module.id) {
     case 1:
       audioFile = moduleOneAudio;
@@ -28,6 +25,13 @@
     default:
       console.error("Invalid module number");
  }
+
+   onMount(() => {
+    // redirects to day page if user goes straight to /mood without daily task entry in table
+    if (usertasks.length === 0) {
+      window.location.href = "/day";
+    }
+  });
 </script>
 
 <div class="pop-up-shape">
