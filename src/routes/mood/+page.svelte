@@ -1,11 +1,18 @@
 <script>
+  import { onMount } from 'svelte';
   import Graph from '../../components/Graph.svelte';
   import { retrieveAnswers } from '$lib/utils/helperFunctions';
   export let data;
   export let form;
 
   const path = "mood"; // directory of this route
-  const completed = data.completed;
+  const usertasks = data.userTasks;
+  const mood = data.mood;
+  let completed = false;
+
+  if (mood) {
+    completed = Boolean(mood.q9);
+  }
 
   let currentQuestionIndex = 0;
   let answers;
@@ -24,28 +31,31 @@
     { type: 'final', text: 'Thank you for completing the mood questionnaire. Please submit below.' },
   ];
 
-  // Log the answers for each question
-  $: {
-    questionnaire.forEach((question, index) => {
-      if (question.type === 'graph') {
-        console.log(`Question ${index}: ${question.answer.x}, ${question.answer.y}`);
-      }
-      else if (question.type == 'scale') {
-        console.log(`Question ${index}: ${question.answer}`);
-      }
-    });
-  }
-
   // Retrieve the answers from the questionnaire
   $: {
     answers = retrieveAnswers(questionnaire);
-    console.log(answers);
   }
 
   // Function to handle final radio change and consequent automatic form submission
   function handleRadioChange() {
     questionnaireForm.submit();
+    alert(form.message);
+    setTimeout(() => {
+        window.location.href = "/day";
+    }, 2000); // Redirects after 2 seconds
   }
+
+  // function to redirect to task info page if user goes straight to URL of expanded task without row existing in table
+  onMount(() => {
+    if (usertasks.length === 0) {
+      window.location.href = "/day";
+    }
+    if (completed) {
+      setTimeout(() => {
+        window.location.href = "/day";
+    }, 2000); // Redirects after 2 seconds
+    }
+  });
  </script>
 
 <div class="pop-up-shape">
@@ -53,12 +63,8 @@
   <!-- main content -->
   <div class="pop-up-text">
 
-    {#if form?.message}
-      <p class="instructions-text">{form.message}</p>
-
-    {:else if completed}
-        <p class="instructions-text">Mood questionnaire has already been completed for today.</p>
-
+    {#if completed}
+        <p class="instructions-text">Mood questionnaire completed for today.</p>
     {:else}
 
       <!-- loop through each question in questionnaire -->
