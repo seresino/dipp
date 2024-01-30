@@ -87,13 +87,14 @@ export const load = async () => {
 		.where(eq(tasks.module_id, moduleID));
 
 	const weeklyTasksQuery = await db
-	  .select()
+		.select()
 		.from(weeklyTasks)
 		.where(
 			and(
-				eq(weeklyTasks.user_id, loggedInUserID)
+				eq(weeklyTasks.user_id, loggedInUserID),
 			)
 		);
+
 	return {
 		module: moduleQuery[0],
 		tasks: tasksQuery,

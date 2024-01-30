@@ -1,12 +1,13 @@
 <script>
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
 
   export let data; // data returned by the load function
 
   const module = data.module;
   const tasks = data.tasks;
-  const usertasks = data.weeklyTasks;
+  const weeklytasks = data.weeklyTasks;
   const path = "module" // directory of this route
 
   let view = $page.url.searchParams.get('view') || '';
@@ -18,7 +19,7 @@
 
   // checks whether there is a task in the weeklyTasks table that corresponds to this task and has been completed
   function isTaskComplete(task) {
-    return usertasks.some(usertask => usertask.task_id == task.id && usertask.complete_timestamp);
+    return weeklytasks.some(weeklytask => weeklytask.task_id == task.id && weeklytask.complete_timestamp);
   }
 
   // updates query parameters of current page when toggle buttons are clicked or tasks are expanded
@@ -62,6 +63,17 @@
   // listener which assigns selectedTask to whichever task matches the current query parameter ID
   // (ensures selectedTask is not null when expanded task info page is refreshed)
   $: selectedTask = tasks.find(task => task.id == parameterID);
+
+  // function to redirect to task info page if user goes straight to URL of expanded task without row existing in table
+  onMount(() => {
+    if (parameterID !== null) {
+        const weeklyTasks = weeklytasks.map(entry => entry.task_id);
+        if (!weeklyTasks.includes(Number(parameterID))) {
+          console.log("redirect incoming!");
+          window.location.href = "/module?view=tasks";
+        }
+    }
+  });
 </script>
 
 <div class="pop-up">
