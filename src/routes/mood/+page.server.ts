@@ -69,26 +69,6 @@ export const load = async () => {
 			)
 		);
 
-	// if (userTasksQuery.length === 0) {
-	// 	// Create new task
-	// 	await db.insert(dailyTasks).values({
-	// 		user_id: loggedInUserID,
-	// 		date: getTodaysDate().toISOString(),
-	// 		mood_id: null,
-	// 		day_number: day,
-	// 	});
-	// 	// Refresh userTasksQuery
-	// 	userTasksQuery = await db
-	// 		.select()
-	// 		.from(dailyTasks)
-	// 		.where(
-	// 			and(
-	// 				eq(dailyTasks.user_id, loggedInUserID),
-	// 				eq(dailyTasks.date, getTodaysDate().toISOString())
-	// 			)
-	// 		);
-	// }
-
 	// Check if userTasksQuery[0].mood_id is null or not
 	let moodQuery = [];
 	if (userTasksQuery.length !== 0) {

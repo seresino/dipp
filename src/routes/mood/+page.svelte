@@ -10,6 +10,7 @@
   const mood = data.mood;
   let completed = false;
 
+  // checks if the user has completed the questionnaire
   if (mood) {
     completed = Boolean(mood.q9);
   }
@@ -39,17 +40,15 @@
   // Function to handle final radio change and consequent automatic form submission
   function handleRadioChange() {
     questionnaireForm.submit();
-    alert(form.message);
-    setTimeout(() => {
-        window.location.href = "/day";
-    }, 2000); // Redirects after 2 seconds
   }
 
-  // function to redirect to task info page if user goes straight to URL of expanded task without row existing in table
+  // function to redirect on mount
   onMount(() => {
+    // redirects to task info page if user goes straight to URL of expanded task without row existing in table
     if (usertasks.length === 0) {
       window.location.href = "/day";
     }
+    // redirects to day page if questionnaire completed
     if (completed) {
       setTimeout(() => {
         window.location.href = "/day";
