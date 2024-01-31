@@ -76,12 +76,11 @@
   });
 </script>
 
-<div class="pop-up">
-  <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
-  <div class="pop-up-container">
-
+<div class="pop-up white">
+  <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
+  <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
+  <div class="pop-up-content">
     <div class='button-container'>
-
       <button type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'} on:click={() => { selectedTask = null; updateQueryParameters('instructions'); }}>
         <img src="/images/meditation-grey-icon.svg" alt="meditation-grey-icon" />
         <p>Instructions</p>
@@ -90,7 +89,6 @@
         <img src="/images/task-grey-icon.svg" alt="task-grey-icon" />
         <p>Tasks</p>
       </button>
-
     </div>
 
     <div class="content">
@@ -227,35 +225,12 @@
   .task-details::-webkit-scrollbar-thumb:hover {
     background: #168ACE; /* Color of the scroll thumb when hovered */
   }
-  .back-button {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    z-index: 1000;
-  }
-  .back-button img {
-    width: 5vw;
-    min-width: 10px;
-  }
-  .pop-up {
-    position: relative;
-  }
-  .pop-up-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: top;
-    position:absolute;
-    top:0; bottom:0; left:0; right:0;
-    padding: 100px 100px 50px 100px;
-  }
   .button-container {
-    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 20px;
     width: 100%;
-    margin-top: 20px;
   }
   button {
     width: 100px;

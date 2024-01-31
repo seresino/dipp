@@ -71,22 +71,18 @@
     align-items: right;
     resize: none;
   }
-
   textarea::placeholder {
     color: #D5D5D5; /* Change this to the color you prefer */
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px; /* Change this to the size you prefer */
     /* Add other styles as needed */
   }
-
   textarea:focus{
-    border: 1px solid #5DB3E5;
+    border: 2px solid #5DB3E5;
   }
-
   textarea:focus::placeholder {
     color: transparent;
   }
-
   textarea:disabled {
     background-color: #ededed; /* Change this to the color you prefer */
   }
@@ -104,5 +100,4 @@
     width: 70%;
     margin: 20px 0 20px 0;
   }
-
 </style>

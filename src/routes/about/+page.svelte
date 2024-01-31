@@ -22,7 +22,7 @@
   });
 </script>
 
-<div class="pop-up">
+<div class="pop-up white">
   <a class="circular-button back" href="/dashboard"><img src="/images/cross-circle-button.svg" alt="back button" /></a>
   <div class="pop-up-content left">
     <h4>About the Trial</h4>

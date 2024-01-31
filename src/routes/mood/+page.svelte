@@ -57,177 +57,144 @@
   });
  </script>
 
-<div class="pop-up-shape">
-  <img class="blue-background" src="/images/mood-page.svg" alt="pop-up-shape" />
-  <!-- main content -->
-  <div class="pop-up-text">
+<div class="pop-up medium">
+  <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button"></a>
+  <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
+  <div class="pop-up-content center">
+    <div class=container>
+      {#if completed}
+        <div class="instructions-text">
+          <p>Mood questionnaire completed for today.</p>
+        </div>
+      {:else}
 
-    {#if completed}
-        <p class="instructions-text">Mood questionnaire completed for today.</p>
-    {:else}
+        <!-- loop through each question in questionnaire -->
+        {#each questionnaire as question, index (index)}
 
-      <!-- loop through each question in questionnaire -->
-      {#each questionnaire as question, index (index)}
+        <!-- only display current question -->
+          {#if index === currentQuestionIndex}
 
-      <!-- only display current question -->
-        {#if index === currentQuestionIndex}
+            <!-- check question type and display accordingly -->
+            {#if question.type === 'instructions'}
 
-          <!-- check question type and display accordingly -->
-          {#if question.type === 'instructions'}
+              <div class="instructions-text">
+                <p>{question.text}</p>
+              </div>
+              <!-- next button after instructions -->
+              <button class="form-button" on:click={() => currentQuestionIndex++}>Next</button>
 
-            <div class="instructions-text">
-              <p>{question.text}</p>
-            </div>
-            <!-- next button after instructions -->
-            <button on:click={() => currentQuestionIndex++}>Next</button>
+            {:else if currentQuestionIndex === questionnaire.length - 2}
 
-          {:else if currentQuestionIndex === questionnaire.length - 2}
+              <div class="questionnaire-text">
+                <p>{question.statement}</p>
+              </div>
+
+              <!-- radio buttons for scale questions -->
+              <div class="radio-buttons">
+                <span class="number">1</span>
+                {#each Array(5).fill(undefined) as _, i (i)}
+                  <input type="radio" name="answer" bind:group={question.answer} value={i + 1} on:change={handleRadioChange}>
+                {/each}
+                <span class="number">5</span>
+              </div>
+
+              <form bind:this={questionnaireForm} action="{path}/?/update" method="post">
+                <input type="hidden" name="answers[]" value={answers}>
+                <!-- <input type="submit" value="Submit" /> -->
+              </form>
+
+            {:else if question.type === 'scale'}
 
             <div class="questionnaire-text">
               <p>{question.statement}</p>
             </div>
 
             <!-- radio buttons for scale questions -->
-            <div class="radio-buttons">
-              <span class="number">1</span>
-              {#each Array(5).fill(undefined) as _, i (i)}
-                <input type="radio" name="answer" bind:group={question.answer} value={i + 1} on:change={handleRadioChange}>
-              {/each}
-              <span class="number">5</span>
-            </div>
+              <div class="radio-buttons">
+                <span class="number">1</span>
+                {#each Array(5).fill(undefined) as _, i (i)}
+                  <input type="radio" name="answer" bind:group={question.answer} value={i + 1} on:change={() => currentQuestionIndex++}>
+                {/each}
+                <span class="number">5</span>
+              </div>
 
-            <form bind:this={questionnaireForm} action="{path}/?/update" method="post">
-              <input type="hidden" name="answers[]" value={answers}>
-              <!-- <input type="submit" value="Submit" /> -->
-            </form>
+            {:else if question.type === 'graph'}
 
-          {:else if question.type === 'scale'}
+              <!-- graph -->
+              <div class="chart">
+                <Graph points={[question.answer]}/>
+              </div>
 
-          <div class="questionnaire-text">
-            <p>{question.statement}</p>
-          </div>
+              <!-- radio buttons for graph co-ordinates -->
+              <p class="graph-text">Pleasantness</p>
+              <div class="radio-buttons">
+                <span class="number">-5</span>
+                {#each Array(11).fill(undefined) as _, i (i)}
+                  <input type="radio" bind:group={question.answer.x} value={i - 5}>
+                {/each}
+                <span class="number">5</span>
+              </div>
+              <p class="graph-text">Energy</p>
+              <div class="radio-buttons">
+                <span class="number">-5</span>
+                {#each Array(11).fill(undefined) as _, i (i)}
+                  <input type="radio" bind:group={question.answer.y} value={i - 5}>
+                {/each}
+                <span class="number">5</span>
+              </div>
 
-          <!-- radio buttons for scale questions -->
-            <div class="radio-buttons">
-              <span class="number">1</span>
-              {#each Array(5).fill(undefined) as _, i (i)}
-                <input type="radio" name="answer" bind:group={question.answer} value={i + 1} on:change={() => currentQuestionIndex++}>
-              {/each}
-              <span class="number">5</span>
-            </div>
+              <!-- next button after entering co-ordinates -->
+              <button class="form-button" on:click={() => currentQuestionIndex++}>Next</button>
 
-          {:else if question.type === 'graph'}
-
-            <!-- graph -->
-            <div class="chart">
-              <Graph points={[question.answer]}/>
-            </div>
-
-            <!-- radio buttons for graph co-ordinates -->
-            <p class="graph-text">Pleasantness</p>
-            <div class="radio-buttons">
-              <span class="number">-5</span>
-              {#each Array(11).fill(undefined) as _, i (i)}
-                <input type="radio" bind:group={question.answer.x} value={i - 5}>
-              {/each}
-              <span class="number">5</span>
-            </div>
-            <p class="graph-text">Energy</p>
-            <div class="radio-buttons">
-              <span class="number">-5</span>
-              {#each Array(11).fill(undefined) as _, i (i)}
-                <input type="radio" bind:group={question.answer.y} value={i - 5}>
-              {/each}
-              <span class="number">5</span>
-            </div>
-
-            <!-- next button after entering co-ordinates -->
-            <button on:click={() => currentQuestionIndex++}>Next</button>
-
+            {/if}
           {/if}
-        {/if}
-      {/each}
-      <!-- <div class="button-container">
-        {#if currentQuestionIndex === 0}
-          <button on:click={() => currentQuestionIndex++}>Next</button>
-        {:else if 0 < currentQuestionIndex && currentQuestionIndex < questionnaire.length - 1}
-          <button on:click={goBack}>Back</button>
-          <button on:click={() => currentQuestionIndex++}>Next</button>
-        {:else if currentQuestionIndex === questionnaire.length - 1}
-          <button on:click={goBack}>Back</button>
-          <button on:click={handleSubmit}>Finish</button>
-        {/if}
-      </div> -->
-    {/if}
+        {/each}
+        <!-- <div class="button-container">
+          {#if currentQuestionIndex === 0}
+            <button on:click={() => currentQuestionIndex++}>Next</button>
+          {:else if 0 < currentQuestionIndex && currentQuestionIndex < questionnaire.length - 1}
+            <button on:click={goBack}>Back</button>
+            <button on:click={() => currentQuestionIndex++}>Next</button>
+          {:else if currentQuestionIndex === questionnaire.length - 1}
+            <button on:click={goBack}>Back</button>
+            <button on:click={handleSubmit}>Finish</button>
+          {/if}
+        </div> -->
+      {/if}
+    </div>
   </div>
-  <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
-  <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
 </div>
 
 <style>
-  .pop-up-shape {
-    position: relative;
+  .container {
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     width: 100%;
+     min-height: 40svh;
+     gap: 2vh;
   }
-  .back-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 40px;
-    height: 40px;
-    z-index: 1000;
-  }
-  .home-button {
-    position: absolute;
-    top: 40px;
-    right: 50px;
-    width: 40px;
-    height: 40px;
-    z-index: 1000;
-  }
-  .pop-up-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
-  .instructions-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
+  .instructions-text p {
     color: #FFF;
     text-align: center;
-    font-family: Helvetica Neue;
-    font-size: 28px;
-    font-style: normal;
+    font-size: 22px;
     font-weight: 300;
-    margin: 50px;
   }
-  .questionnaire-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 70%;
+  .questionnaire-text p {
     color: #FFF;
     text-align: center;
     font-family: Helvetica Neue;
     font-size: 22px;
     font-style: normal;
     font-weight: 300;
-    margin: 50px;
   }
   /* Style the radio button when checked */
   input[type="radio"]{
     appearance: none;
     width: 20px;
     height: 20px;
+    max-width: 5vw;
+    max-height: 5vw;
     border: 0.1px #888888 solid;
     border-radius: 50%;
     background-color: white;
@@ -240,9 +207,7 @@
   input[type="radio"]:hover{
     background-color: #5DB3E5;
   }
-  /* Display the radio buttons in a horizontal line */
   .radio-buttons {
-    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
@@ -252,22 +217,9 @@
     color: white;
     margin: 0 10px;
   }
-  button {
-    cursor: pointer;
-  }
-  button:disabled {
-    display: none;
-  }
   .chart {
-		display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-		height: 100%;
-    min-height: 500px;
-		max-height: 500px;
-    max-width: 500px;
+    max-width: 400px;
 	}
   .graph-text {
     display: flex;
