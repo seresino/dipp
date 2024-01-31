@@ -58,7 +58,7 @@ export function getTodaysDate() {
 
 export function truncateWords(str, numWords) {
 	return str.split(" ").splice(0, numWords).join(" ");
-
+}
 
 export function retrieveAnswers(questionnaire) {
 	let answers = [];

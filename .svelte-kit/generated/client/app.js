@@ -22,11 +22,11 @@ export const dictionary = {
 		"/about": [3],
 		"/dashboard": [~4],
 		"/day": [~5],
-		"/journal": [~7],
-		"/login": [8],
-		"/meditate": [~9],
+		"/journal": [~6],
+		"/login": [7],
+		"/meditate": [~8],
 		"/module": [~9],
-		"/mood": [10],
+		"/mood": [~10],
 		"/test": [~11]
 	};
 
