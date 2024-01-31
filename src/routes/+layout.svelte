@@ -85,6 +85,7 @@
     align-items: center;
     min-height: calc(100vh - 178px);
     max-width: 100%;
+    padding: 20px;
   }
   .header {
     width: 100%;

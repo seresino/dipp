@@ -9,89 +9,62 @@
   const userTasks = data.userTasks;
 </script>
 
-<h1>Add User</h1>
-
 {#if !$authStore.loading}
 
+<div class="pop-up light">
+  <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
+  <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
+  <div class="pop-up-content center">
+    <div class="container">
+      <h1>Your Daily Journal Entry</h1>
 
-<div class="pop-up-shape">
-  <img class="blue-background" src="/images/journal-page.svg" alt="pop-up-shape" />
-  <div class="pop-up-text">
-    <h1>Your Daily Journal Entry</h1>
-    {#if form?.message}
-      <p class="message">{form.message}</p>
-    {/if}
+      {#if form?.message}
+        <p class="message">{form.message}</p>
+      {/if}
 
-    {#if !userTasks.journal}
-    <form action="{path}/?/update" method="post">
-      <input type="hidden" name="id" value={userTasks.id} />
-      <div class="enterTask">
+      {#if !userTasks.journal}
+      <form action="{path}/?/update" method="post">
+        <input type="hidden" name="id" value={userTasks.id} />
         <textarea name="journal" placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}" />
-      </div>
-      <div class="submit">
-        <input type="submit" value="Submit" />
-      </div>
-    </form>
-    {:else}
-      <div class="enterTask">
-        <textarea name="journal" placeholder="{userTasks.journal}" disabled/>
-      </div>
-    {/if}
+        <div class="left">
+          <input class="form-button" type="submit" value="Submit" />
+        </div>
+      </form>
+      {:else}
+        <div class="enterTask">
+          <textarea name="journal" placeholder="{userTasks.journal}" disabled/>
+        </div>
+      {/if}
+    </div>
   </div>
-  <a href="/dashboard"><img class="home-button" src="/images/home-button.svg" alt="home button"></a>
-  <a class="back-button" href="/day"><img src="/images/back-button.svg" alt="back button" /></a>
+
 </div>
 
 
 {/if}
 
 <style>
-  .pop-up-shape {
-    position: relative;
-  }
-  .back-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 40px;
-    height: 40px;
-    z-index: 1000;
-  }
-  .home-button {
-    position: absolute;
-    top: 40px;
-    right: 50px;
-    width: 40px;
-    height: 40px;
-    z-index: 1000;
-  }
-  .pop-up-text {
-    display: flex;
+  .container {
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    align-items: left;
+    width: 100%;
+    gap: 20px;
   }
-  h1 {
+  .container h1 {
     color: #FFF;
-    font-family: Helvetica Neue;
     font-size: 32px;
     font-weight: 300;
-    width: 70%;
+    text-align: left;
   }
-
-  .enterTask textarea {
+  form {
+    gap: 20px;
+  }
+  textarea {
     padding: 20px;
-    margin: 20px 0 20px 0;
-    box-sizing: border-box;
     border-radius: 20px;
-    border: 1px solid #D5D5D5;
+    border: 2px solid #D5D5D5;
     background: #FFF;
-    width: 812px;
+    width: 100%;
     height: 379px;
     display: flex;
     flex-direction: column;
@@ -106,44 +79,26 @@
     /* Add other styles as needed */
   }
 
-  .enterTask textarea:focus{
+  textarea:focus{
     border: 1px solid #5DB3E5;
   }
 
-  .enterTask textarea:focus::placeholder {
+  textarea:focus::placeholder {
     color: transparent;
   }
 
-  .enterTask textarea:disabled {
+  textarea:disabled {
     background-color: #ededed; /* Change this to the color you prefer */
   }
-  .enterTask textarea:disabled::placeholder {
+  textarea:disabled::placeholder {
     color: #888888; /* Change this to the color you prefer */
   }
-
-  .submit {
-    width: 100%;
-    display: flex;
+  .left {
     flex-direction: row;
     justify-content: right;
-    align-items: center;
   }
-  .submit input {
-    cursor: pointer;
-    border-radius: 20px;
-    border: 1px solid #029CF6;
-    width: 101px;
-    height: 39px;
-    background: #FFF;
-  }
-
-  .submit input:hover{
-    opacity: 0.7;
-  }
-
   .message {
     color: white;
-    font-family: Helvetica Neue;
     font-size: 16px;
     font-weight: 300;
     width: 70%;

@@ -26,7 +26,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 20px 0 20px;
   }
   .landing-logo img {
     object-fit: contain;

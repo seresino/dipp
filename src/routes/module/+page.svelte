@@ -78,7 +78,6 @@
 
 <div class="pop-up">
   <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
-  <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />
   <div class="pop-up-container">
 
     <div class='button-container'>
