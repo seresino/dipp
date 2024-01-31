@@ -1,7 +1,7 @@
 // Start date for testing purposes --------------------------------
 const startDate = new Date("2024-01-15");
 // Todays date for testing purposes --------------------------------
-const today = new Date("2024-01-25");
+const today = new Date("2024-01-26");
 
 function subtractDatesInDays(date1, date2) {
 	date1.setUTCHours(0, 0, 0, 0);
@@ -54,3 +54,20 @@ export function getTodaysDate() {
 
 // const formattedDate = `${year}-${month}-${day}`;
 // const formattedDate2 = currentDate.toLocaleDateString()
+
+
+
+
+
+
+export function retrieveAnswers(questionnaire) {
+	let answers = [];
+  questionnaire.forEach((question, index) => {
+		if (question.type === 'graph') {
+				answers.push(`${question.answer.x},${question.answer.y} `);
+		} else if (question.type === 'scale') {
+				answers.push(`${question.answer} `);
+		}
+  });
+	return answers;
+}
