@@ -47,64 +47,80 @@
 </script>
 
 
-<div class="Header">
-  <div class="HeaderLogo">
-    <a href="/dashboard">
-      <img class="dipp-svg" src="/images/header-logo.svg" alt="logo" />
-    </a>
-    <p class="FullText">Digital Intervention for Psychedelic Preparedness</p>
-  </div>
-  <div class="pill-buttons">
-    <div class="about-pill">
-      <a href="/about"><p class="about">About</p></a>
+
+<div class="main-container">
+  <div class="header">
+    <div class="header-logo">
+      <a href="/dashboard">
+        <img class="dipp-svg" src="/images/header-logo.svg" alt="logo" />
+      </a>
+      <p class="logo-text">Digital Intervention for Psychedelic Preparedness</p>
     </div>
-    {#if user}
-      <div class="logout-pill">
-        <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+    <div class="pill-buttons">
+      <div class="about-pill">
+        <a href="/about"><p class="about">About</p></a>
       </div>
-    {/if}
+      {#if user}
+        <div class="logout-pill">
+          <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
-<div class="mainContainer">
-  <slot/>
+  <div class="slot-container">
+    <slot/>
+  </div>
 </div>
 
 <style>
-  .mainContainer {
+  .main-container {
+    display:block;
     min-height: 100svh;
     width: 100svw;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: top;
-    align-items: center;
   }
-  .Header {
-    width: 100svw;
+  .slot-container {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 178px);
+    max-width: 100%;
+  }
+  .header {
+    width: 100%;
     padding: 40px;
-    background-color: transparent;
-    display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
-  .HeaderLogo {
-    display: flex;
+  .header-logo {
     flex-direction: row;
     justify-content: left;
     align-items: center;
+    gap: 40px;
   }
   .dipp-svg {
     padding: 10px;
-    padding-right: 100px;
+
   }
-  .FullText {
+  .logo-text {
     color: black;
     font-size: 20px;
     font-family: Helvetica Neue;
     font-weight: 500;
   }
+  @media (max-width: 1000px) {
+    .logo-text {
+      display: none;
+    }
+    .pill-buttons {
+      display: none;
+    }
+    .header {
+      justify-content: center;
+    }
+  }
+
   .pill-buttons {
-    display: flex;
     flex-direction: row;
     justify-content: right;
     align-items: center;
@@ -115,7 +131,6 @@
     height: 43px;
     border-radius: 38px;
     border: 1px black solid;
-    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -126,14 +141,9 @@
     border-radius: 38px;
     border: 1px black solid;
     background-color: black;
-    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-  }
-  a {
-    text-decoration: none;
-    color: black;
   }
   .about {
     color: black;

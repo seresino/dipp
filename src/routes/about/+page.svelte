@@ -24,7 +24,7 @@
 
 <div class="pop-up">
   <a class="back-button" href="/dashboard"><img src="/images/cross-circle.svg" alt="back button" /></a>
-  <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />
+  <!-- <img src="/images/pop-up-shape.svg" alt="pop-up-shape" /> -->
   <div class="pop-up-content">
     <h4>About the Trial</h4>
     <br>
@@ -41,10 +41,6 @@
 
 
 <style>
-  img {
-    width: 80vh;
-    min-width: 500px;
-  }
   .back-button {
     position: absolute;
     width: 40px;
@@ -57,12 +53,16 @@
   }
   .pop-up {
     position: relative;
+    width: 80vw;
+    max-width: 1000px;
+    min-height: 80vh;
+    background-color: white;
+    border-radius: 10px;
   }
   .pop-up-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position:absolute;
     top:0; bottom:0; left:0; right:0;
     padding: 100px 100px 50px 100px;
   }

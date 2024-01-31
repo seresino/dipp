@@ -47,27 +47,21 @@
     <p class="error">The information you have entered is not correct</p>
   {/if}
   <div class="input-div">
-    <div class="Labels">Username</div>
-    <label>
-      <input class="InputBox" bind:value={email} type="text" />
-    </label>
+    <div class="labels">Username</div>
+    <input class="input-box" bind:value={email} type="text" />
   </div>
   <div class="input-div">
-    <div class="Labels">Password</div>
-    <label>
-      <input class="InputBox" bind:value={password} type="password" />
-    </label>
+    <div class="labels">Password</div>
+    <input class="input-box" bind:value={password} type="password" />
   </div>
   {#if register}
     <div class="input-div">
-      <div class="Labels">Confirm Password</div>
-      <label>
-        <input class="InputBox" bind:value={confirmPass} type="password" />
-      </label>
+      <div class="labels">Confirm Password</div>
+      <input class="input-box" bind:value={confirmPass} type="password" />
     </div>
   {/if}
   <div class="options-div">
-    <button class="Options" type="submit">
+    <button class="options" type="submit">
       {#if authenticating}
         Loading...
       {:else}
@@ -80,7 +74,7 @@
     </button>
   </div>
   <!-- <div class="options-div">
-    <div class="Options" on:click={handleRegister}>
+    <div class="options" on:click={handleRegister}>
       {#if register}
         Already have an account? Login
       {:else}
@@ -92,58 +86,45 @@
 
 <style>
   form {
-    width : 626px;
-    height : 227px;
+    max-width: 90%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background : white;
-    border-radius : 38px;
+    border-radius : 40px;
     border: 2px #168ACE solid;
+    padding: 40px 0 20px 0;
   }
   .input-div {
-    width: 75%;
-    display : flex;
-    justify-content: space-between;
+    width: 80%;
+    justify-content: space-evenly;
     align-items : center;
-    padding: 5px 10px 5px 10px;
+    gap: 10px;
+    padding: 5px 20px 5px 20px;
    }
-  .InputBox {
+  .input-box {
     width : 280px;
+    max-width: 40vw;
     height : 49px;
     background : white;
     border-radius : 38px;
     border : 1px #168ACE solid;
     padding: 0 20px 0 20px;
   }
-  .Labels {
-    color : black;
-    font-size : 20px;
-    font-family : Helvetica Neue;
-    font-weight : 500;
-    word-wrap : break-word;
+  .labels {
+    font-size: px;
   }
   .options-div {
     width: 75%;
-    display : flex;
     justify-content : right;
     align-items : center;
-    padding: 12px 40px 0px 20px;
+    padding: 12px 20px 0px 20px;
 
   }
-  .Options {
+  .options {
     color : #B5B5B5;
     font-size : 16px;
-    font-family : Helvetica Neue;
-    font-weight : 500;
-    word-wrap : break-word;
     margin: 0px 0px 0px 10px;
-    cursor: pointer;
-  }
-  button {
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
   }
 </style>
