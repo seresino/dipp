@@ -6,6 +6,7 @@ import { getDay, getModuleID } from "$lib/utils/helperFunctions";
 
 // Would acc import these in from somewhere else --------------------------------
 const loggedInUserID = 2;
+const moduleID = getModuleID();
 
 export const load = async () => {
 	// Load in module name

@@ -11,7 +11,7 @@
   const userTasks = data.userTasks;
   const day = data.day;
 
-  const nonAuthRoutes = ["/", "/Login", "/About"];
+  const nonAuthRoutes = ["/", "/login", "/about"];
 
   onMount (() => {
     console.log("Mounting");
@@ -19,12 +19,12 @@
       const currentPath = window.location.pathname;
 
       if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/Login";
+        window.location.href = "/login";
         return;
       }
 
-      if (user && currentPath == "/Login") {
-        window.location.href = "/Dashboard";
+      if (user && currentPath == "/login") {
+        window.location.href = "/dashboard";
         return;
       }
     });
