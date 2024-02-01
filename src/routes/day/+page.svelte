@@ -105,7 +105,7 @@
 </div>
 
 {#if user.meditation}
- <div class="activity-container">
+ <div class="triplet-container">
     <div class={activityButtons.meditate}>
       <h1>Meditate</h1>
       <a href="/meditate">
@@ -155,18 +155,7 @@
 
 
 <style>
-  .activity-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(32%, 1fr));
-      width: 1100px;
-      padding: 20px;
-      gap: 20px;
-  }
-  @media screen and (max-width: 600px) {
-    .activity-container {
-        grid-template-columns: 1fr;
-    }
-}
+
   .activity {
     position: relative;
     width: 100%;

@@ -27,27 +27,35 @@
   });
 </script>
 
-<div id="liveDate">
+<div class="date" id="liveDate">
   <span class="day">{formattedDate.split(' ')[0]}</span> <!-- Display day -->
   <span class="month">{formattedDate.split(' ')[1]}</span> <!-- Display month -->
 </div>
 
 <style>
   .day {
-    display: inline;
     font-size: 128px;
-    color: white;
-    font-family: Helvetica Neue;
-    font-weight: 400;
-    margin-right: 20px;
+    line-height: 128px;
+    margin-right: 1vw;
   }
-
   .month {
-    display: inline;
     font-size: 24px;
-    color: white;
-    font-family: Helvetica Neue;
-    font-weight: 400;
-    text-transform: uppercase; /* Convert month to uppercase */
+    text-transform: uppercase;
+  }
+  .date {
+    flex-direction: row;
+    align-items:baseline;
+    padding: 0 10px 0 0;
+  }
+  @media (max-width: 768px) {
+    .day {
+      font-size: 24px;
+      line-height:normal;
+      margin-right: 2vw;
+    }
+    .date {
+      align-items:center;
+      padding: 0;
+    }
   }
 </style>

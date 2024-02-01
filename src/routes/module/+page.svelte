@@ -81,11 +81,11 @@
   <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
   <div class="pop-up-content">
     <div class='button-container'>
-      <button type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'} on:click={() => { selectedTask = null; updateQueryParameters('instructions'); }}>
+      <button class="form-button" type="button" class:black={selectedButton === 'instructions'} class:grey={selectedButton !== 'instructions'} data-toggle="modal" on:click={() => selectedButton = 'instructions'} on:click={() => { selectedTask = null; updateQueryParameters('instructions'); }}>
         <img src="/images/meditation-grey-icon.svg" alt="meditation-grey-icon" />
         <p>Instructions</p>
       </button>
-      <button type="button" class:black={selectedButton === 'tasks'} class:grey={selectedButton !== 'tasks'} data-toggle="modal" on:click={() => selectedButton = 'tasks'} on:click={() => updateQueryParameters('tasks')}>
+      <button type="button" class="form-button" class:black={selectedButton === 'tasks'} class:grey={selectedButton !== 'tasks'} data-toggle="modal" on:click={() => selectedButton = 'tasks'} on:click={() => updateQueryParameters('tasks')}>
         <img src="/images/task-grey-icon.svg" alt="task-grey-icon" />
         <p>Tasks</p>
       </button>
@@ -101,9 +101,9 @@
 
         {#if !selectedTask}
           {#each tasks.slice().sort((a, b) => a.id - b.id) as task, index}
-            <div class="task-shape {isTaskComplete(task) ? 'grey' : ''}" on:click={() => selectTask(task)}>
+            <div class="task-item {isTaskComplete(task) ? 'grey' : ''}" on:click={() => selectTask(task)}>
               <div class="task-number-box">{index + 1}</div>
-              <div class="task-shape-text">
+              <div class="task-item-content">
                 <h2>{task.task}</h2>
                 <p class="goal">{truncateWords(task.goal, 22)}...</p>
                 </div>
@@ -134,13 +134,13 @@
           {#if isTaskComplete(selectedTask)}
             <p class="complete">Task completed</p>
           {:else}
-            <form bind:this={updateForm} action="{path}/?/update" method="post">
+            <form class="block" bind:this={updateForm} action="{path}/?/update" method="post">
                 <label for="completed">Completed</label>
                 <input type="checkbox" id="completed" name="completed" bind:checked={completed} on:change={handleCheckBox}>
                 <input type="hidden" name="taskID" value={selectedTask.id}>
             </form>
           {/if}
-          <button on:click={() => { selectedTask = null; updateQueryParameters('tasks'); }}>Back</button>
+          <button class="form-button" on:click={() => { selectedTask = null; updateQueryParameters('tasks'); }}>Back</button>
         {/if}
 
       {/if}
@@ -157,11 +157,12 @@
      justify-content: top;
      align-items: left;
      gap: 20px;
-     padding: 10%;
+     padding: 10% 10%;
      width: 100%;
      height: 100%;
+     min-height: 50svh;
   }
-  .task-shape {
+  .task-item {
     border: 2px #D5D5D5 solid;
     border-radius: 20px;
     padding: 10px;
@@ -175,6 +176,7 @@
     font-size: 20px;
     font-weight: normal;
   }
+
   .task-number-box {
     background-color: #5DB3E5;
     min-width: 60px;
@@ -189,8 +191,7 @@
     justify-content: center;
     margin-right: 20px;
   }
-  .task-shape-text {
-    display: flex;
+  .task-item-content {
     flex-direction: column;
     justify-content: top;
     align-items: left;
@@ -202,13 +203,14 @@
     margin: 5px 0 5px 0;
   }
   .task-details {
-    overflow: scroll;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     justify-content: top;
     align-items: left;
     gap: 20px;
-    height: 400px;
+    height: 300px;
+    margin-bottom: 20px;
   }
   .task-details li {
     font-size: 16px;
@@ -232,28 +234,24 @@
     gap: 20px;
     width: 100%;
   }
-  button {
-    width: 100px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
-    border: none;
-    border-radius: 34px;
-  }
   .black {
     color: white;
     background-color: black;
   }
   .grey {
     color: #888888;
-    background-color: #F3F3F3;
   }
   .complete {
     color: green;
     font-style: italic;
+  }
+  .block {
+    display: block;
+    padding: 10px;
+  }
+  @media (max-width: 1000px) {
+    .goal {
+      display: none;
+    }
   }
 </style>
