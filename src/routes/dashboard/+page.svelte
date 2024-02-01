@@ -33,7 +33,7 @@
 
 {#if !$authStore.loading}
 
-<div class="dashboard-container">
+<div class="dashboard-container dashboard-colour">
   <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
   <div class="dashboard-contents white-text">
     <div class="top-text">
@@ -185,71 +185,6 @@
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
-  }
-
-
-  .dashboard-container {
-    position: relative;
-    font-weight: 400;
-  }
-  .dashboard-container img {
-    width: 1020px;
-    max-width: 100%;
-  }
-  .dashboard-contents {
-    width: 100%;
-    flex-direction: column;
-    justify-content: space-between;
-    position:absolute;
-    top:0; bottom:0; left:0; right:0;
-    padding: 20px 30px 40px 30px;
-  }
-  .top-text {
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: auto;
-    font-size: 48px;
-    padding: 10px;
-  }
-  @media (max-width: 768px) {
-    .day {
-      font-size: 24px;
-    }
-    .dashboard-container img {
-      display: none;
-    }
-    .dashboard-container {
-      background-color:#5DB3E5;
-      width: 1056px;
-      max-width: 90%;
-      border-radius: 20px;
-      border: 2px solid #168ACE;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-    .dashboard-contents {
-      position: static;
-      padding: 0;
-    }
-    .day-pill {
-      width: 100%;
-      max-width: 220px;
-      height: 80%;
-      max-height: 80px;
-    }
-    .module-pill {
-
-      margin-left: 10%;
-      width: 70%;
-      max-width: 200px;
-      height: 50%;
-      max-height: 80px;
-    }
-  }
-  .bottom-text {
-    margin-top: auto;
-    padding: 10px;
-    font-size: 36px;
   }
 </style>
 

@@ -85,11 +85,11 @@
     align-items: center;
     min-height: calc(100vh - 178px);
     max-width: 100%;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
   }
   .header {
     width: 100%;
-    padding: 40px;
+    padding: 20px;
     flex-direction: row;
     justify-content: space-between;
   }

@@ -34,8 +34,8 @@
 
 <style>
   .day {
-    font-size: 128px;
-    line-height: 128px;
+    font-size: 98px;
+    line-height: 98px;
     margin-right: 1vw;
   }
   .month {
