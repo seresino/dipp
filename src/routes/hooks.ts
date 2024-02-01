@@ -10,20 +10,20 @@
 // 	return response;
 // }
 
-import { get } from "svelte/store";
-import { session } from "$app/stores";
+// import { get } from "svelte/store";
+// import { session } from "$app/stores";
 
-export async function handle({ event, resolve }) {
-	const sessionData = get(session);
-	event.locals.res.setHeader(
-		"Set-Cookie",
-		`userID=${sessionData.userID}; HttpOnly; Path=/`
-	);
-	// event.locals.res.setHeader('Set-Cookie', `userID=${null}; HttpOnly; Path=/`);
+// export async function handle({ event, resolve }) {
+// 	const sessionData = get(session);
+// 	event.locals.res.setHeader(
+// 		"Set-Cookie",
+// 		`userID=${sessionData.userID}; HttpOnly; Path=/`
+// 	);
+// 	// event.locals.res.setHeader('Set-Cookie', `userID=${null}; HttpOnly; Path=/`);
 
-	const response = await resolve(event);
-	return response;
-}
+// 	const response = await resolve(event);
+// 	return response;
+// }
 
 // // src/lib/routes/dashboard.svelte
 // /** @type {import('./$types').LayoutServerLoad} */

@@ -8,6 +8,7 @@ import { fail } from "@sveltejs/kit";
 import { get } from "svelte/store";
 import { desc, eq, and } from "drizzle-orm";
 import { authStore } from "$lib/utils/helperFunctions";
+import { redirect } from "@sveltejs/kit";
 
 import {
 	getDay,
@@ -19,7 +20,12 @@ import {
 const day = getDay();
 const moduleID = getModuleID();
 
-export const load = async () => {
+export const load = async ({ locals }) => {
+	// redirect user if not logged in
+	if (!locals.user) {
+		throw redirect(302, "/");
+	}
+
 	let userID;
 	userID = await getUserID();
 	console.log("USER ID: " + userID);
@@ -32,7 +38,10 @@ export const load = async () => {
 	// const userQuery = await db.select().from(users).where(eq(users.id, userID));
 
 	// This will always load user 2
-	let userQuery = await db.select().from(users).where(eq(users.id, userID));
+	let userQuery = await db
+		.select()
+		.from(users)
+		.where(eq(users.username, username));
 	console.log(userQuery[0]);
 
 	userQuery = await db
@@ -60,7 +69,8 @@ export const load = async () => {
 		);
 
 	return {
-		user: userQuery[0],
+		// user: userQuery[0],
+		user: locals.user,
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],
 		day: day,

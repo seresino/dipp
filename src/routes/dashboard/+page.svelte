@@ -21,8 +21,8 @@
   // });
 </script>
 
-{#if $authStore.userID}
-<!-- {#if user} -->
+<!-- {#if $authStore.userID} -->
+{#if user}
 
   <div class="dashboard">
     <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">

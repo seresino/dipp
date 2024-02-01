@@ -8,29 +8,31 @@
   let error = false;
   let authenticating = false;
 
-  async function handleAuthenticate() {
-    if (authenticating) {return;} // Don't think we need this ----------------------------------------------------------------
+  export let form
 
-    if (!username || !password ) {
-      error = true
-      return
-    }
+  // async function handleAuthenticate() {
+  //   if (authenticating) {return;} // Don't think we need this ----------------------------------------------------------------
 
-    authenticating = true;
+  //   if (!username || !password ) {
+  //     error = true
+  //     return
+  //   }
 
-    try {
-      await authHandlers.login(username, password);
-      goto("/dashboard");
-    } catch(err) {
-      console.log('There was an auth error', err);
-      error = true;
-    }
-  }
+  //   authenticating = true;
 
-  function handleSubmit(event) {
-    event.preventDefault(); // Prevent the default form submission
-    handleAuthenticate(); // Call your authentication function
-  }
+  //   try {
+  //     await authHandlers.login(username, password);
+  //     goto("/dashboard");
+  //   } catch(err) {
+  //     console.log('There was an auth error', err);
+  //     error = true;
+  //   }
+  // }
+
+  // function handleSubmit(event) {
+  //   event.preventDefault(); // Prevent the default form submission
+  //   handleAuthenticate(); // Call your authentication function
+  // }
 </script>
 
 <!-- <form action="{path}/?/login" method="post">
@@ -60,7 +62,7 @@
     </div>
   </form> -->
 
-<form on:submit={handleSubmit}>
+<!-- <form on:submit={handleSubmit}>
   {#if error}
     <p class="error">The information you have entered is not correct</p>
   {/if}
@@ -85,6 +87,29 @@
       {/if}
     </button>
   </div>
+</form> -->
+
+
+<form action="?/login" method="POST" use:enhance>
+	<div>
+		<label for="username">Username</label>
+		<input id="username" name="username" type="text" required />
+	</div>
+
+	<div>
+		<label for="password">Password</label>
+		<input id="password" name="password" type="password" required />
+	</div>
+
+	{#if form?.invalid}
+		<p class="error">Username and password is required.</p>
+	{/if}
+
+	{#if form?.credentials}
+		<p class="error">You have entered the wrong credentials.</p>
+	{/if}
+
+	<button type="submit">Log in</button>
 </form>
 
 <style>
