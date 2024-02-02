@@ -54,36 +54,8 @@ export function getTodaysDate() {
 // const formattedDate = `${year}-${month}-${day}`;
 // const formattedDate2 = currentDate.toLocaleDateString()
 
-export const authStore = writable({
-	userID: null,
-});
-
 export { authHandlers };
 
-import { auth } from "$lib/firebase/firebase";
-import { goto } from "$app/navigation";
-const nonAuthRoutes = ["/", "/login", "/about"];
-export function mount(user, page) {
-	console.log("Mounting layout.svelte");
-	console.log("user: " + user);
-
-	const unsubscribe = auth.onAuthStateChanged(async (user) => {
-		const currentPath = $page.url.pathname;
-
-		if (!user && !nonAuthRoutes.includes(currentPath)) {
-			// window.location.href = "/login";
-			goto("/login");
-			return;
-		}
-
-		if (user && currentPath == "/login") {
-			// window.location.href = "/dashboard";
-			goto("/dashboard");
-			return;
-		}
-
-		if (!user) {
-			return;
-		}
-	});
+export function getDefaultRedirect() {
+	return "/login";
 }

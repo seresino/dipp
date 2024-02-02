@@ -5,7 +5,11 @@ import { fail } from "@sveltejs/kit";
 import { eq, and } from "drizzle-orm";
 import { redirect } from "@sveltejs/kit";
 
-import { getDay, getTodaysDate } from "$lib/utils/helperFunctions";
+import {
+	getDay,
+	getTodaysDate,
+	getDefaultRedirect,
+} from "$lib/utils/helperFunctions";
 
 export const actions = {
 	update: async ({ request }) => {
@@ -34,7 +38,7 @@ export const load = async ({ locals }) => {
 
 	// redirect user if not logged in
 	if (!user) {
-		throw redirect(302, "/");
+		throw redirect(302, getDefaultRedirect());
 	}
 
 	const userTasksQuery = await db

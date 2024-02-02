@@ -3,14 +3,25 @@ import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
 import { modules } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
+import { redirect } from "@sveltejs/kit";
 
-import { getDay, getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
+import {
+	getDay,
+	getModuleID,
+	getTodaysDate,
+	getDefaultRedirect,
+} from "$lib/utils/helperFunctions";
 
 const day = getDay();
 const moduleID = getModuleID();
 
 export const load = async ({ locals }) => {
 	const user = locals.user;
+
+	// redirect user if not logged in
+	if (!user) {
+		throw redirect(302, getDefaultRedirect());
+	}
 
 	const moduleQuery = await db
 		.select()

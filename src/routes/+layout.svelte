@@ -1,7 +1,7 @@
 <script>
   import {onMount} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authStore, authHandlers, mount } from "$lib/utils/helperFunctions";
+  import { authStore, authHandlers} from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms'

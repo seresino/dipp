@@ -50,3 +50,31 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// load page as normal
 	return await resolve(event);
 };
+
+const nonAuthRoutes = ["/", "/login", "/about"];
+
+// Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
+// onMount (() => {
+//   console.log("Mounting layout.svelte");
+//   console.log("user: " + user);
+
+//   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+//     const currentPath = $page.url.pathname;
+
+//     if (!user && !nonAuthRoutes.includes(currentPath)) {
+//       // window.location.href = "/login";
+//       goto("/login");
+//       return;
+//     }
+
+//     if (!user && currentPath == "/login") {
+//       // window.location.href = "/dashboard";
+//       goto("/dashboard");
+//       return;
+//     }
+
+//     if (!user) {
+//       return;
+//     }
+//   });
+// });

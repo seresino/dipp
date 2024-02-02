@@ -4,7 +4,11 @@ import { dailyTasks } from "$lib/server/schema";
 import { eq, and } from "drizzle-orm";
 import { redirect } from "@sveltejs/kit";
 
-import { getDay, getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
+import {
+	getDay,
+	getModuleID,
+	getDefaultRedirect,
+} from "$lib/utils/helperFunctions";
 
 const day = getDay();
 const moduleID = getModuleID();
@@ -14,7 +18,7 @@ export const load = async ({ locals }) => {
 
 	// redirect user if not logged in
 	if (!user) {
-		throw redirect(302, "/");
+		throw redirect(302, getDefaultRedirect());
 	}
 
 	// Load in module name
