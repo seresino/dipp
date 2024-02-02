@@ -58,19 +58,6 @@ export const authStore = writable({
 	userID: null,
 });
 
-export function setUserID(userID) {
-	console.log("SET authStore");
-	authStore.set({ userID: userID });
-	console.log("AuSt/ ID: " + userID);
-	console.log("AuSt/ ID get: " + get(authStore).userID);
-}
-
-export async function getUserID() {
-	console.log("GET authStore:" + get(authStore).userID);
-	// console.log("AuSt/ ID get: " + get(authStore).userID);
-	return get(authStore).userID;
-}
-
 export { authHandlers };
 
 import { auth } from "$lib/firebase/firebase";

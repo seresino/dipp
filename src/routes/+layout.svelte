@@ -1,7 +1,7 @@
 <script>
   import {onMount} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authStore, authHandlers, setUserID, getUserID, mount } from "$lib/utils/helperFunctions";
+  import { authStore, authHandlers, mount } from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms'
@@ -10,51 +10,7 @@
   let user;
   try {
     user = data.user[0];
-  } catch(error){
-  }
-
-  const nonAuthRoutes = ["/", "/login", "/about"];
-
-
-  // // Redirect undefined routes ----------------------------------------------------------------
-  // export async function handle({ request, resolve }) {
-  //   const response = await resolve(request);
-
-  //   // If the response status is 404 (Not Found), redirect to the dashboard
-  //   if (response.status === 404) {
-  //     return goto('/dashboard');
-  //   }
-
-  //   return response;
-  // }
-
-  // Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
-  // onMount (() => {
-  //   console.log("Mounting layout.svelte");
-  //   console.log("user: " + user);
-
-  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
-  //     const currentPath = $page.url.pathname;
-
-  //     if (!user && !nonAuthRoutes.includes(currentPath)) {
-  //       // window.location.href = "/login";
-  //       goto("/login");
-  //       return;
-  //     }
-
-  //     if (!user && currentPath == "/login") {
-  //       // window.location.href = "/dashboard";
-  //       goto("/dashboard");
-  //       return;
-  //     }
-
-  //     if (!user) {
-  //       return;
-  //     }
-  //   });
-  // });
-
-
+  } catch(error){}
 </script>
 
 
