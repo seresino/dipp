@@ -117,7 +117,7 @@
 
   form label {
     position: relative;
-    border: 1px solid white;
+    border: solid white;
     border-radius: 5px;
   }
 
@@ -137,7 +137,7 @@
   }
 
   form label:focus-within{
-    border-color: lime;
+    border: solid lime;
   }
 
   form input:focus {
@@ -171,7 +171,7 @@
     top: 0;
     left: 24px;
     background: green;
-    border: 1px solid lime;
+    border: solid lime;
     font-size: 0.7rem;
   }
 

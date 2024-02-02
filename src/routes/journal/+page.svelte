@@ -62,7 +62,7 @@
   textarea {
     padding: 20px;
     border-radius: 20px;
-    border: 2px solid #D5D5D5;
+    border: solid #D5D5D5;
     background: #FFF;
     width: 100%;
     height: 379px;
@@ -78,7 +78,7 @@
     /* Add other styles as needed */
   }
   textarea:focus{
-    border: 2px solid #5DB3E5;
+    border: solid #5DB3E5;
   }
   textarea:focus::placeholder {
     color: transparent;

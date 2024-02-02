@@ -149,7 +149,7 @@
     max-height: 60px;
     flex-shrink: 0;
     border-radius: 38px;
-    border: 1px solid #168ACE;
+    border: solid #168ACE;
   }
   .module-pill-text {
     font-size: 14px;
@@ -170,7 +170,7 @@
     height: 80%;
     max-height: 80px;
     border-radius: 38px;
-    border: 1px solid var(--1, #5DB3E5);
+    border: solid #5DB3E5;
     display: flex;
     flex-direction: column;
     align-items: center;

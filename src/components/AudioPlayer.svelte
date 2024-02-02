@@ -99,7 +99,7 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 1px solid #FFF;
+    border: solid #FFF;
     padding: 50px 0 50px 0;
   }
   .timer-content {
@@ -114,7 +114,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    border: 1px solid #FFF;
+    border: solid #FFF;
     padding: 5px 20px 5px 20px;
     background-color: transparent;
   }

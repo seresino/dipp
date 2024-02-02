@@ -91,7 +91,7 @@
     align-items: center;
     background : white;
     border-radius : 40px;
-    border: 2px #168ACE solid;
+    border: solid #168ACE;
     padding: 40px 0 20px 0;
   }
   .input-div {

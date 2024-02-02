@@ -151,7 +151,7 @@
     position: relative;
     height: 394px;
     max-height: 100%;
-    border: 1px #168ACE solid;
+    border: solid #168ACE;
     border-radius: 20px;
     }
   .activity-contents {

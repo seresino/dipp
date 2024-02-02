@@ -163,7 +163,7 @@
      min-height: 50svh;
   }
   .task-item {
-    border: 2px #D5D5D5 solid;
+    border: solid #D5D5D5;
     border-radius: 20px;
     padding: 10px;
     display: flex;
@@ -181,7 +181,7 @@
     background-color: #5DB3E5;
     min-width: 60px;
     height: 80%;
-    border: 2px solid #168ACE;
+    border: solid #168ACE;
     border-radius: 20px;
     box-shadow: 0px 4px 13.1px -4px rgba(0, 0, 0, 0.25) inset;
     font-size: 30px;

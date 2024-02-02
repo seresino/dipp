@@ -49,30 +49,94 @@
 
 
 <div class="main-container">
-  <div class="header">
-    <div class="header-logo">
-      <a href="/dashboard">
-        <img class="dipp-svg" src="/images/header-logo.svg" alt="logo" />
-      </a>
-      <p class="logo-text">Digital Intervention for Psychedelic Preparedness</p>
-    </div>
-    <div class="pill-buttons">
-      <div class="about-pill">
-        <a href="/about"><p class="about">About</p></a>
-      </div>
-      {#if user}
-        <div class="logout-pill">
-          <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
-        </div>
-      {/if}
-    </div>
+  <nav class="navbar">
+  <div class="header-logo">
+    <a href="/dashboard">
+      <img class="dipp-svg" src="/images/header-logo.svg" alt="logo" />
+    </a>
+    <p class="logo-text">Digital Intervention for Psychedelic Preparedness</p>
   </div>
+  <div class="container">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li>
+            <a class="about-pill" href="/about"><p class="about">About</p></a>
+        </li>
+        {#if user}
+          <li>
+              <a class="logout-pill" href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+          </li>
+        {/if}
+      </ul>
+    </div>
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+  </nav>
   <div class="slot-container">
     <slot/>
   </div>
 </div>
 
 <style>
+  /* boostrap adjustments for hamburger menu */
+  .navbar {
+    display: flex;
+    padding: 20px;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    width: 100%;
+
+    position: relative;
+    min-height: 150px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+  }
+  .logo-text {
+    width: 480px;
+  }
+  .icon-bar {
+    background-color: black;
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content:right;
+    padding: 0;
+    margin: 0 0 0 auto
+  }
+  .nav>li>a {
+    position: relative;
+    display: flex;
+    margin: 3px;
+  }
+  .navbar-nav {
+    margin: 0px;
+  }
+   .navbar-toggle {
+    position: relative;
+    float: left;
+    margin: 0 8px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+  .navbar-collapse {
+    padding: 0 10px;
+    border-top: none;
+  }
+  .nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: inherit;
+  }
+
+
   .main-container {
     display:block;
     min-height: 100svh;
@@ -87,17 +151,12 @@
     max-width: 100%;
     padding: 0 20px 20px 20px;
   }
-  .header {
-    width: 100%;
-    padding: 20px;
-    flex-direction: row;
-    justify-content: space-between;
-  }
   .header-logo {
     flex-direction: row;
     justify-content: left;
     align-items: center;
-    gap: 40px;
+    gap: 20px;
+    margin-right: auto;
   }
   .dipp-svg {
     padding: 10px;
@@ -113,25 +172,12 @@
     .logo-text {
       display: none;
     }
-    .pill-buttons {
-      display: none;
-    }
-    .header {
-      justify-content: center;
-    }
-  }
-
-  .pill-buttons {
-    flex-direction: row;
-    justify-content: right;
-    align-items: center;
-    gap: 20px;
   }
   .about-pill {
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: 1px black solid;
+    border: solid black;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -140,7 +186,7 @@
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: 1px black solid;
+    border: solid black;
     background-color: black;
     flex-direction: row;
     justify-content: center;
