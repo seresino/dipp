@@ -2,6 +2,8 @@ import type { Handle } from "@sveltejs/kit";
 import { eq } from "drizzle-orm";
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
+import type { HandleServerError } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 
 /*
 	You can use a custom redirect if you want...
@@ -26,6 +28,10 @@ import { users } from "$lib/server/schema";
 	...but doing it inside `load` for the protected
 	routes you can invalidate the data on the page
 */
+
+export const handleError: HandleServerError = ({ error, event }) => {
+	throw redirect(303, "/");
+};
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// get cookies from browser
@@ -55,9 +61,6 @@ const nonAuthRoutes = ["/", "/login", "/about"];
 
 // Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
 // onMount (() => {
-//   console.log("Mounting layout.svelte");
-//   console.log("user: " + user);
-
 //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
 //     const currentPath = $page.url.pathname;
 
