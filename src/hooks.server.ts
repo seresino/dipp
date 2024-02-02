@@ -1,7 +1,5 @@
 import type { Handle } from "@sveltejs/kit";
-// import { db } from "$lib/server/database";
-
-import { desc, eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
 
@@ -43,11 +41,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		.select()
 		.from(users)
 		.where(eq(users.id, Number(userID)));
-
-	// const user = await db.user.findUnique({
-	// 	where: { userAuthToken: userID },
-	// 	select: { username: true, role: true },
-	// });
 
 	// if `user` exists set `events.local`
 	if (user) {

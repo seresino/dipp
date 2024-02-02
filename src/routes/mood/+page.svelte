@@ -1,8 +1,11 @@
 <script>
   import { authStore } from "$lib/utils/helperFunctions";
+
+  export let data;
+  const user = data.user[0];
 </script>
 
-{#if $authStore.userID}
+{#if user}
   <div class="pop-up-shape">
     <img class="blue-background" src="/images/mood-page.svg" alt="pop-up-shape" />
     <div class="pop-up-text">

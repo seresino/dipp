@@ -1,94 +1,8 @@
 <script>
-	import { goto } from "$app/navigation";
-  import { authHandlers } from "$lib/utils/helperFunctions.js";
-
-  let path = "login" // directory of this route
-  let username = "";
-  let password = "";
-  let error = false;
-  let authenticating = false;
+  import { enhance } from '$app/forms'
 
   export let form
-
-  // async function handleAuthenticate() {
-  //   if (authenticating) {return;} // Don't think we need this ----------------------------------------------------------------
-
-  //   if (!username || !password ) {
-  //     error = true
-  //     return
-  //   }
-
-  //   authenticating = true;
-
-  //   try {
-  //     await authHandlers.login(username, password);
-  //     goto("/dashboard");
-  //   } catch(err) {
-  //     console.log('There was an auth error', err);
-  //     error = true;
-  //   }
-  // }
-
-  // function handleSubmit(event) {
-  //   event.preventDefault(); // Prevent the default form submission
-  //   handleAuthenticate(); // Call your authentication function
-  // }
 </script>
-
-<!-- <form action="{path}/?/login" method="post">
-    {#if error}
-      <p class="error">The information you have entered is not correct</p>
-    {/if}
-    <div class="input-div">
-      <div class="Labels">Username</div>
-      <label>
-        <input class="InputBox" bind:value={username} name="username" type="text" />
-      </label>
-    </div>
-    <div class="input-div">
-      <div class="Labels">Password</div>
-      <label>
-        <input class="InputBox" bind:value={password} name="password" type="password" />
-      </label>
-    </div>
-    <div class="options-div">
-      <button class="Options" type="submit">
-        {#if authenticating}
-          Loading...
-        {:else}
-            Login
-        {/if}
-      </button>
-    </div>
-  </form> -->
-
-<!-- <form on:submit={handleSubmit}>
-  {#if error}
-    <p class="error">The information you have entered is not correct</p>
-  {/if}
-  <div class="input-div">
-    <div class="Labels">Username</div>
-    <label>
-      <input class="InputBox" bind:value={username} type="text" />
-    </label>
-  </div>
-  <div class="input-div">
-    <div class="Labels">Password</div>
-    <label>
-      <input class="InputBox" bind:value={password} type="password" />
-    </label>
-  </div>
-  <div class="options-div">
-    <button class="Options" type="submit">
-      {#if authenticating}
-        Loading...
-      {:else}
-        Login
-      {/if}
-    </button>
-  </div>
-</form> -->
-
 
 <form action="?/login" method="POST" use:enhance>
 	<div>
@@ -109,7 +23,7 @@
 		<p class="error">You have entered the wrong credentials.</p>
 	{/if}
 
-	<button type="submit">Log in</button>
+	<button type="submit" data-sveltekit-reload>Log in</button>
 </form>
 
 <style>

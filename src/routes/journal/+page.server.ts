@@ -3,11 +3,9 @@ import { dailyTasks } from "$lib/server/schema";
 import { journalPrompts } from "$lib/server/schema";
 import { fail } from "@sveltejs/kit";
 import { eq, and } from "drizzle-orm";
+import { redirect } from "@sveltejs/kit";
 
-import { getDay, getUserID, getTodaysDate } from "$lib/utils/helperFunctions";
-
-// Would acc import these in from somewhere else --------------------------------
-const loggedInUserID = getUserID();
+import { getDay, getTodaysDate } from "$lib/utils/helperFunctions";
 
 export const actions = {
 	update: async ({ request }) => {
@@ -31,13 +29,20 @@ export const actions = {
 };
 
 // find journal prompt with id === day of prep
-export const load = async () => {
+export const load = async ({ locals }) => {
+	const user = locals.user;
+
+	// redirect user if not logged in
+	if (!user) {
+		throw redirect(302, "/");
+	}
+
 	const userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.user_id, user.id),
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
@@ -47,6 +52,7 @@ export const load = async () => {
 		.from(journalPrompts)
 		.where(eq(journalPrompts.id, getDay()));
 	return {
+		user: user,
 		journalPrompt: journalPromptQuery[0],
 		userTasks: userTasksQuery[0],
 	};

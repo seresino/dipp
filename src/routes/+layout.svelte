@@ -4,9 +4,14 @@
   import { authStore, authHandlers, setUserID, getUserID, mount } from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
+  import { enhance } from '$app/forms'
 
   export let data; // data returned by the load function
-  const user = data.user;
+  let user;
+  try {
+    user = data.user[0];
+  } catch(error){
+  }
 
   const nonAuthRoutes = ["/", "/login", "/about"];
 
@@ -24,37 +29,32 @@
   // }
 
   // Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
-  onMount (() => {
-    console.log("Mounting layout.svelte");
-    console.log("user: " + user);
+  // onMount (() => {
+  //   console.log("Mounting layout.svelte");
+  //   console.log("user: " + user);
 
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = $page.url.pathname;
+  //   const unsubscribe = auth.onAuthStateChanged(async (user) => {
+  //     const currentPath = $page.url.pathname;
 
-      if (!user && !nonAuthRoutes.includes(currentPath)) {
-        // window.location.href = "/login";
-        goto("/login");
-        return;
-      }
+  //     if (!user && !nonAuthRoutes.includes(currentPath)) {
+  //       // window.location.href = "/login";
+  //       goto("/login");
+  //       return;
+  //     }
 
-      if (!user && currentPath == "/login") {
-        // window.location.href = "/dashboard";
-        goto("/dashboard");
-        return;
-      }
+  //     if (!user && currentPath == "/login") {
+  //       // window.location.href = "/dashboard";
+  //       goto("/dashboard");
+  //       return;
+  //     }
 
-      if (!user) {
-        return;
-      }
-    });
-  });
+  //     if (!user) {
+  //       return;
+  //     }
+  //   });
+  // });
 
 
-  function clearUser() {
-    console.log("clearUser")
-    setUserID(null);
-    getUserID();
-  }
 </script>
 
 
@@ -69,14 +69,13 @@
     <div class="about-pill">
       <a href="/about"><p class="about">About</p></a>
     </div>
-    <div class="about-pill">
-      <a href="#" on:click|preventDefault={clearUser}><p class="about">Clear User</p></a>
-    </div>
     {#if user}
       <div class="logout-pill">
-        <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a>
+        <!-- <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a> -->
+        <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
+          <button type="submit">Log out</button>
+        </form>
       </div>
-      <p>welcome, {user.username} - {user.id}</p>
     {/if}
   </div>
 </div>

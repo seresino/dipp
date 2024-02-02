@@ -1,13 +1,15 @@
 import db from "$lib/server/db";
 import { modules } from "$lib/server/schema";
 import { eq } from "drizzle-orm";
+import { redirect } from "@sveltejs/kit";
 
-import { getDay, getModuleID } from "$lib/utils/helperFunctions";
+export const load = async ({ locals }) => {
+	const user = locals.user;
 
-// Would acc import these in from somewhere else --------------------------------
-const loggedInUserID = 2;
-
-export const load = async () => {
+	// redirect user if not logged in
+	if (!user) {
+		throw redirect(302, "/");
+	}
 	// Load in module name
 	// Load in daily-task entry for that user for today
 	const moduleQuery = await db
@@ -16,6 +18,7 @@ export const load = async () => {
 		.where(eq(modules.id, moduleID));
 
 	return {
+		user: user,
 		module: moduleQuery[0],
 	};
 };

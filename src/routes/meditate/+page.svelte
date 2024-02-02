@@ -1,9 +1,12 @@
 <script>
   import AudioPlayer from '../../components/AudioPlayer.svelte';
   import { authStore } from "$lib/utils/helperFunctions";
+
+  export let data; // data returned by the load function
+  const user = data.user[0];
 </script>
 
-{#if $authStore.userID}
+{#if user}
   <div class="pop-up-shape">
     <img class="blue-background" src="/images/meditation-page.svg" alt="pop-up-shape" />
     <div class="pop-up-text">

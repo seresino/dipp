@@ -1,34 +1,18 @@
 <script>
-  import {onMount} from "svelte";
-  import { page } from '$app/stores';
-  import { authStore, authHandlers, mount } from "$lib/utils/helperFunctions";
   import DateTime from "../../components/DateTime.svelte";
-  import {tick} from "svelte";
-
 
   export let data; // data returned by the load function
-  let path = "dashboard" // directory of this route
-  
-  // if ($authStore.userID){
   const module = data.module;
-  const userTasks = data.userTasks;
   const day = data.day;
-  const user = data.user;
-  // }
-
-  // onMount (() => {
-  //   mount(user, $page)
-  // });
+  const user = data.user[0];
 </script>
 
-<!-- {#if $authStore.userID} -->
 {#if user}
-
   <div class="dashboard">
     <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
     <div class="dashboard-text">
       <div class="top-text">
-        <div class="day">Day {day} - {data.ID}</div>
+        <div class="day">Day {day}</div>
         <div class="date">
           <DateTime />
         </div>

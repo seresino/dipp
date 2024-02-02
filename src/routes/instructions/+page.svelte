@@ -3,14 +3,14 @@
   import { authStore } from "$lib/utils/helperFunctions";
 
   export let data; // data returned by the load function
-  let path = "day" // directory of this route
+  const user = data.user;
 
   let selectedButton = $page.url.searchParams.get('initial') || 'instructions';
 
   const module = data.module;
 </script>
 
-{#if $authStore.userID}
+{#if user}
   <div class="pop-up">
     <a class="back-button" href="/day"><img src="/images/cross-circle.svg" alt="back button" /></a>
     <img src="/images/pop-up-shape.svg" alt="pop-up-shape" />

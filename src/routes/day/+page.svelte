@@ -5,7 +5,7 @@
   export let data; // data returned by the load function
   let path = "day" // directory of this route
 
-  const user = data.user;
+  const user = data.user[0];
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
@@ -65,7 +65,7 @@
   }
 </script>
 
-{#if $authStore.userID}
+{#if user}
   <div class="module-container">
     <img class="module-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
     <div class="module-text">
