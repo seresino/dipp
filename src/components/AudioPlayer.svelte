@@ -69,11 +69,9 @@
   Your browser does not support the audio element.
 </audio>
 
-<h1>Click Play to Begin Meditation</h1>
+<h1 class="title">Click Play to Begin Meditation</h1>
 <button class="play-button" on:click={togglePlayback}>
-  <div class="circle">
-    <h1>{isPlaying ? 'Pause' : 'Play'}</h1>
-  </div>
+  <h1>{isPlaying ? 'Pause' : 'Play'}</h1>
 </button>
 <div class="timer-content">
   <button class="restart-button" on:click={restartTrack}><p class="restart">Restart</p></button>
@@ -84,46 +82,41 @@
 
 
 <style>
+  .title {
+    padding: 0 0 50px 0;
+  }
   h1 {
-    color: black;
     text-align: center;
     font-family: Helvetica Neue;
     font-size: 32px;
     font-style: normal;
     font-weight: 300;
-    padding: 50px;
   }
   .play-button {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 1px solid #FFF;
-    padding: 5px 20px 5px 20px;
-    background-color: transparent;
-    cursor: pointer;
+    border: solid #FFF;
+    padding: 50px 0 50px 0;
   }
   .timer-content {
-    display: flex;
-    width: 400px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 50px;
+    gap: 20px;
+    padding: 50px 0 50px 0;
   }
   .restart-button {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    border: 1px solid #FFF;
+    border: solid #FFF;
     padding: 5px 20px 5px 20px;
     background-color: transparent;
-    cursor: pointer;
   }
   .restart {
     color: #000;

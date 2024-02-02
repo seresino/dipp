@@ -47,75 +47,137 @@
 </script>
 
 
-<div class="Header">
-  <div class="HeaderLogo">
+
+<div class="main-container">
+  <nav class="navbar">
+  <div class="header-logo">
     <a href="/dashboard">
       <img class="dipp-svg" src="/images/header-logo.svg" alt="logo" />
     </a>
-    <p class="FullText">Digital Intervention for Psychedelic Preparedness</p>
+    <p class="logo-text">Digital Intervention for Psychedelic Preparedness</p>
   </div>
-  <div class="pill-buttons">
-    <div class="about-pill">
-      <a href="/about"><p class="about">About</p></a>
+  <div class="container">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li>
+            <a class="about-pill" href="/about"><p class="about">About</p></a>
+        </li>
+        {#if user}
+          <li>
+              <a class="logout-pill" href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+          </li>
+        {/if}
+      </ul>
     </div>
-    {#if user}
-      <div class="logout-pill">
-        <a href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
-      </div>
-    {/if}
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
   </div>
-</div>
-<div class="mainContainer">
-  <slot/>
+  </nav>
+  <div class="slot-container">
+    <slot/>
+  </div>
 </div>
 
 <style>
-  .mainContainer {
-    min-height: 100svh;
-    width: 100svw;
-    color: black;
+  /* boostrap adjustments for hamburger menu */
+  .navbar {
     display: flex;
-    flex-direction: column;
-    justify-content: top;
+    padding: 20px;
+    flex-direction: row;
+    justify-content:space-between;
     align-items: center;
+    width: 100%;
+
+    position: relative;
+    min-height: 150px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
   }
-  .Header {
-    width: 100svw;
-    padding: 40px;
-    background-color: transparent;
+  .logo-text {
+    width: 480px;
+  }
+  .icon-bar {
+    background-color: black;
+  }
+  .container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content:right;
+    padding: 0;
+    margin: 0 0 0 auto
   }
-  .HeaderLogo {
+  .nav>li>a {
+    position: relative;
     display: flex;
+    margin: 3px;
+  }
+  .navbar-nav {
+    margin: 0px;
+  }
+   .navbar-toggle {
+    position: relative;
+    float: left;
+    margin: 0 8px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+  .navbar-collapse {
+    padding: 0 10px;
+    border-top: none;
+  }
+  .nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: inherit;
+  }
+
+
+  .main-container {
+    display:block;
+    min-height: 100svh;
+    width: 100svw;
+  }
+  .slot-container {
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 178px);
+    max-width: 100%;
+    padding: 0 20px 20px 20px;
+  }
+  .header-logo {
     flex-direction: row;
     justify-content: left;
     align-items: center;
+    gap: 20px;
+    margin-right: auto;
   }
   .dipp-svg {
     padding: 10px;
-    padding-right: 100px;
+
   }
-  .FullText {
+  .logo-text {
     color: black;
     font-size: 20px;
     font-family: Helvetica Neue;
     font-weight: 500;
   }
-  .pill-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
-    align-items: center;
-    gap: 20px;
+  @media (max-width: 1000px) {
+    .logo-text {
+      display: none;
+    }
   }
   .about-pill {
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: 1px black solid;
-    display: flex;
+    border: solid black;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -124,16 +186,11 @@
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: 1px black solid;
+    border: solid black;
     background-color: black;
-    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-  }
-  a {
-    text-decoration: none;
-    color: black;
   }
   .about {
     color: black;
