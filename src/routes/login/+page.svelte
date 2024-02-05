@@ -1,87 +1,29 @@
 <script>
-  import { authHandlers } from "../../store/store";
-
-  let email = "";
-  let password = "";
-  let confirmPass = "";
-  let error = false;
-  let register = false;
-  let authenticating = false;
-
-  async function handleAuthenticate() {
-    if (authenticating) {return;}
-
-    if (!email || !password || (register && !confirmPass)) {
-      error = true
-      return
-    }
-
-    authenticating = true;
-
-    try {
-      if (!register) {
-        await authHandlers.login(email, password);
-      } else {
-        await authHandlers.signup(email, password);
-      }
-    } catch(err) {
-      console.log('There was an auth error', err);
-      error = true;
-      authenticating = false;
-    }
-
-  }
-
-  function handleRegister () {
-    register = !register
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault(); // Prevent the default form submission
-    handleAuthenticate(); // Call your authentication function
-  }
+  import { enhance } from '$app/forms'
+  export let form
 </script>
 
-<form on:submit={handleSubmit}>
-  {#if error}
-    <p class="error">The information you have entered is not correct</p>
-  {/if}
-  <div class="input-div">
-    <div class="labels">Username</div>
-    <input class="input-box" bind:value={email} type="text" />
-  </div>
-  <div class="input-div">
-    <div class="labels">Password</div>
-    <input class="input-box" bind:value={password} type="password" />
-  </div>
-  {#if register}
-    <div class="input-div">
-      <div class="labels">Confirm Password</div>
-      <input class="input-box" bind:value={confirmPass} type="password" />
-    </div>
-  {/if}
-  <div class="options-div">
-    <button class="options" type="submit">
-      {#if authenticating}
-        Loading...
-      {:else}
-        {#if register}
-          Register
-        {:else}
-          Login
-        {/if}
-      {/if}
-    </button>
-  </div>
-  <!-- <div class="options-div">
-    <div class="options" on:click={handleRegister}>
-      {#if register}
-        Already have an account? Login
-      {:else}
-        Don't have an account? Register
-      {/if}
-    </div>
-  </div> -->
+
+<form action="?/login" method="POST" use:enhance>
+	<div>
+		<label for="username">Username</label>
+		<input id="username" name="username" type="text" required />
+	</div>
+
+	<div>
+		<label for="password">Password</label>
+		<input id="password" name="password" type="password" required />
+	</div>
+
+	{#if form?.invalid}
+		<p class="error">Username and password is required.</p>
+	{/if}
+
+	{#if form?.credentials}
+		<p class="error">You have entered the wrong credentials.</p>
+	{/if}
+
+	<button type="submit" data-sveltekit-reload>Log in</button>
 </form>
 
 <style>

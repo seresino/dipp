@@ -1,49 +1,16 @@
 <script>
-  import {onMount, tick} from "svelte";
+  import {onMount} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authHandlers, authStore } from "../store/store";
+  import { authStore, authHandlers} from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
+  import { enhance } from '$app/forms'
 
-  const nonAuthRoutes = ["/", "/login", "/about"];
+  export let data; // data returned by the load function
   let user;
-
-  $: {
-    authStore.subscribe(async value => {
-      user = value.user;
-      await tick();
-    });
- }
-
-  onMount (() => {
-    console.log("Mounting");
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = window.location.pathname;
-
-      if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/login";
-        // goto('/login');
-        return;
-      }
-
-      if (user && currentPath == "/login") {
-        window.location.href = "/dashboard";
-        // goto('/dashboard');
-        return;
-      }
-
-      if (!user) {
-        return;
-      }
-
-      authStore.update((curr) => {
-        return {
-          ...curr,
-          user,
-          loading: false,
-        };
-      });
-    });
-  });
+  try {
+    user = data.user[0];
+  } catch(error){}
 </script>
 
 
@@ -69,7 +36,9 @@
         {/if}
       </ul>
     </div>
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+    <!-- Responsive -->
+    <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -78,7 +47,17 @@
   </div>
   </nav>
   <div class="slot-container">
-    <slot/>
+    <slot/> -->
+
+    {#if user}
+      <div class="logout-pill">
+        <!-- <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a> -->
+        <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
+          <button type="submit">Log out</button>
+        </form>
+      </div>
+    {/if}
+
   </div>
 </div>
 

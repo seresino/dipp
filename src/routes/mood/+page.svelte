@@ -3,6 +3,7 @@
   import Graph from '../../components/Graph.svelte';
   import { retrieveAnswers } from '$lib/utils/helperFunctions';
   export let data;
+  const user = data.user[0];
   export let form;
 
   const path = "mood"; // directory of this route
@@ -57,6 +58,7 @@
   });
  </script>
 
+{#if user}
 <div class="pop-up medium">
   <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button"></a>
   <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
@@ -164,6 +166,7 @@
     </div>
   </div>
 </div>
+{/if}
 
 <style>
   .container {

@@ -6,6 +6,7 @@
   import moduleTwoAudio from '../../assets/meditationtwo.mp3'
   import moduleThreeAudio from '../../assets/meditationthree.mp3'
   export let data;
+  const user = data.user[0];
 
   let audioFile;
   const module = data.module;
@@ -25,8 +26,8 @@
     default:
       console.error("Invalid module number");
  }
-
-   onMount(() => {
+ 
+ onMount(() => {
     // redirects to day page if user goes straight to /mood without daily task entry in table
     if (usertasks.length === 0) {
       window.location.href = "/day";
@@ -34,6 +35,7 @@
   });
 </script>
 
+{#if user}
 <div class="pop-up dark">
 
   <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
@@ -42,3 +44,4 @@
     <AudioPlayer {audioFile}/>
   </div>
 </div>
+{/if}

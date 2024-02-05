@@ -1,16 +1,16 @@
 <!-- Journal.svelte -->
 <script lang="ts">
-  import { authStore } from "../../store/store";
   export let form;
   export let data; // data returned by the load function
+  const user = data.user[0];
   let path = "journal" // directory of this route
 
   const journalPrompt = data.journalPrompt;
   const userTasks = data.userTasks;
 </script>
 
-{#if !$authStore.loading}
 
+{#if user}
 <div class="pop-up light">
   <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
   <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
@@ -28,6 +28,7 @@
         <textarea name="journal" placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}" />
         <div class="left">
           <input class="form-button" type="submit" value="Submit" />
+
         </div>
       </form>
       {:else}
@@ -39,8 +40,6 @@
   </div>
 
 </div>
-
-
 {/if}
 
 <style>

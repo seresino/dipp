@@ -1,9 +1,11 @@
 <!-- Day.svelte -->
 <script>
+  import { authStore } from "$lib/utils/helperFunctions";
+
   export let data; // data returned by the load function
   let path = "day" // directory of this route
 
-  const user = data.user;
+  const user = data.user[0];
   const module = data.module;
   const userTasks = data.userTasks;
   const day = data.day;
@@ -63,7 +65,7 @@
   }
 </script>
 
-
+{#if user}
 <div class="dashboard-container module-colour">
   <img class="dashboard-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
   <div class="dashboard-contents">
@@ -78,10 +80,9 @@
           <p class="module-info-text">Tasks</p>
         </a>
       </div>
+
     </div>
-    <div class="bottom-text">Module {module.id} - {module.name}</div>
   </div>
-</div>
 
 <div class="progress-container">
   <div class="progress-section" style="width: 100%">
@@ -93,7 +94,6 @@
     </div>
     <p class="progress-text">{taskCompletion.filter(value => value === true).length}/{taskCompletion.length}</p>
   </div>
-</div>
 
 {#if user.meditation}
  <div class="triplet-container padding">
@@ -142,8 +142,7 @@
     </div>
  </div>
 {/if}
-
-
+{/if}
 
 <style>
   .activity {

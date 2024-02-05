@@ -1,7 +1,11 @@
+import { writable } from "svelte/store";
+import { get } from "svelte/store";
+import { authHandlers } from "$lib/utils/authHandlers";
+
 // Start date for testing purposes --------------------------------
 const startDate = new Date("2024-01-15");
 // Todays date for testing purposes --------------------------------
-const today = new Date("2024-01-31");
+const today = new Date("2024-01-24");
 
 function subtractDatesInDays(date1, date2) {
 	date1.setUTCHours(0, 0, 0, 0);
@@ -27,11 +31,6 @@ function daysSinceStart() {
 	return subtractDatesInDays(today, startDate);
 }
 
-export function getUserID() {
-	// Live site will retrieve id from session --------------------------------
-	return 1;
-}
-
 export function getDay() {
 	return daysSinceStart() + 1;
 }
@@ -55,19 +54,24 @@ export function getTodaysDate() {
 // const formattedDate = `${year}-${month}-${day}`;
 // const formattedDate2 = currentDate.toLocaleDateString()
 
-
 export function truncateWords(str, numWords) {
 	return str.split(" ").splice(0, numWords).join(" ");
 }
 
 export function retrieveAnswers(questionnaire) {
 	let answers = [];
-  questionnaire.forEach((question, index) => {
-		if (question.type === 'graph') {
-				answers.push(`${question.answer.x},${question.answer.y} `);
-		} else if (question.type === 'scale') {
-				answers.push(`${question.answer} `);
+	questionnaire.forEach((question, index) => {
+		if (question.type === "graph") {
+			answers.push(`${question.answer.x},${question.answer.y} `);
+		} else if (question.type === "scale") {
+			answers.push(`${question.answer} `);
 		}
-  });
+	});
 	return answers;
+}
+
+export { authHandlers };
+
+export function getDefaultRedirect() {
+	return "/login";
 }

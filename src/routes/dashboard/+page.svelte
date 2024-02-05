@@ -1,38 +1,14 @@
 <script>
-  import { authStore } from "../../store/store";
   import DateTime from "../../components/DateTime.svelte";
-  import {onMount} from "svelte";
-  import { auth } from "../../lib/firebase/firebase";
 
   export let data; // data returned by the load function
-  let path = "dashboard" // directory of this route
-
   const module = data.module;
-  const userTasks = data.userTasks;
   const day = data.day;
-
-  const nonAuthRoutes = ["/", "/login", "/about"];
-
-  onMount (() => {
-    console.log("Mounting");
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = window.location.pathname;
-
-      if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/login";
-        return;
-      }
-
-      if (user && currentPath == "/login") {
-        window.location.href = "/dashboard";
-        return;
-      }
-    });
-  });
+  const user = data.user[0];
 </script>
 
-{#if !$authStore.loading}
 
+{#if user}
 <div class="dashboard-container dashboard-colour">
   <img class="dashboard-image" src="/images/dashboard-box-shape.svg" alt="dashboard-shape">
   <div class="dashboard-contents white-text">
@@ -98,8 +74,8 @@
         </div>
       {/each}
     </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
   </div>
+  
   <div class="module-container">
     <div class="module">
       <div class="module-pill dark">
@@ -113,11 +89,7 @@
           </div>
         {/each}
     </div>
-    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
   </div>
-</div>
-
-
 {/if}
 
 <style>
