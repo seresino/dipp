@@ -62,6 +62,7 @@
     </div>
   </div>
   <div class="module-container">
+    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
     <div class="module">
       <div class="module-pill medium">
         <p class="module-pill-text">Module 2</p>
@@ -75,8 +76,8 @@
       {/each}
     </div>
   </div>
-  
   <div class="module-container">
+    <img class="module-shape" src="/images/module-container-shape.svg" alt="module-shape">
     <div class="module">
       <div class="module-pill dark">
         <p class="module-pill-text">Module 3</p>

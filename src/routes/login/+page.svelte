@@ -5,14 +5,14 @@
 
 
 <form action="?/login" method="POST" use:enhance>
-	<div>
-		<label for="username">Username</label>
-		<input id="username" name="username" type="text" required />
+	<div class="input-div">
+		<label class="labels" for="username">Username</label>
+		<input class="input-box" id="username" name="username" type="text" required />
 	</div>
 
-	<div>
-		<label for="password">Password</label>
-		<input id="password" name="password" type="password" required />
+	<div class="input-div">
+		<label class="labels" for="password">Password</label>
+		<input class="input-box" id="password" name="password" type="password" required />
 	</div>
 
 	{#if form?.invalid}
@@ -22,8 +22,10 @@
 	{#if form?.credentials}
 		<p class="error">You have entered the wrong credentials.</p>
 	{/if}
+  <div class="options-div">
+    <button class="options" type="submit" data-sveltekit-reload>Log in</button>
+  </div>
 
-	<button type="submit" data-sveltekit-reload>Log in</button>
 </form>
 
 <style>

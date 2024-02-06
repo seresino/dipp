@@ -62,84 +62,84 @@
 </script>
 
 {#if user}
-<div class="dashboard-container module-colour">
-  <img class="dashboard-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
-  <div class="dashboard-contents">
-    <div class="module-top-button">
-      <div class="module-info-pill">
-        <a class="module-info-button" href="/module?view=instructions">
-          <img class="module-icon" src="/images/meditation-icon.svg" alt="meditation-icon">
-          <p class="module-info-text">Instructions</p>
-        </a>
-        <a class="module-info-button" href="/module?view=tasks">
-          <img class="module-icon" src="/images/tasks-icon.svg" alt="tasks-icon">
-          <p class="module-info-text">Tasks</p>
+  <div class="dashboard-container module-colour">
+    <img class="dashboard-image" src="/images/module-dashboard-shape.svg" alt="dashboard-shape">
+    <div class="dashboard-contents">
+      <div class="module-top-button">
+        <div class="module-info-pill">
+          <a class="module-info-button" href="/module?view=instructions">
+            <img class="module-icon" src="/images/meditation-icon.svg" alt="meditation-icon">
+            <p class="module-info-text">Instructions</p>
+          </a>
+          <a class="module-info-button" href="/module?view=tasks">
+            <img class="module-icon" src="/images/tasks-icon.svg" alt="tasks-icon">
+            <p class="module-info-text">Tasks</p>
+          </a>
+        </div>
+      </div>
+      <div class="bottom-text">Module {module.id} - {module.name}</div>
+    </div>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-section" style="width: 100%">
+      <p class="progress-text">Day {day}</p>
+      <div class="activity-bar">
+        {#each Object.entries(progressBar) as [task, completion]}
+          <div class={completion}></div>
+        {/each}
+      </div>
+      <p class="progress-text">{taskCompletion.filter(value => value === true).length}/{taskCompletion.length}</p>
+    </div>
+  </div>
+
+  {#if user.meditation}
+  <div class="triplet-container padding">
+      <div class={activityButtons.meditate}>
+        <h1>Meditate</h1>
+        <a href="/meditate">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+          </div>
         </a>
       </div>
-
-    </div>
+      <div class={activityButtons.mood}>
+        <h1>Mood</h1>
+        <a href="/mood">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
+      <div class={activityButtons.journal}>
+        <h1>Journal</h1>
+        <a href="/journal">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
   </div>
-
-<div class="progress-container">
-  <div class="progress-section" style="width: 100%">
-    <p class="progress-text">Day {day}</p>
-    <div class="activity-bar">
-      {#each Object.entries(progressBar) as [task, completion]}
-        <div class={completion}></div>
-      {/each}
-    </div>
-    <p class="progress-text">{taskCompletion.filter(value => value === true).length}/{taskCompletion.length}</p>
+  {:else}
+  <div class="activity-container">
+      <div class={activityButtons.mood}>
+        <h1>Mood</h1>
+        <a href="/mood">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
+      <div class={activityButtons.journal}>
+        <h1>Journal</h1>
+        <a href="/journal">
+          <div class="activity-contents">
+            <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
+          </div>
+        </a>
+      </div>
   </div>
-
-{#if user.meditation}
- <div class="triplet-container padding">
-    <div class={activityButtons.meditate}>
-      <h1>Meditate</h1>
-      <a href="/meditate">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
-    <div class={activityButtons.mood}>
-      <h1>Mood</h1>
-      <a href="/mood">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
-    <div class={activityButtons.journal}>
-      <h1>Journal</h1>
-      <a href="/journal">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-3.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
- </div>
-{:else}
- <div class="activity-container">
-    <div class={activityButtons.mood}>
-      <h1>Mood</h1>
-      <a href="/mood">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-1.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
-    <div class={activityButtons.journal}>
-      <h1>Journal</h1>
-      <a href="/journal">
-        <div class="activity-contents">
-          <img class="enter-button" src="/images/enter-button-2.svg" alt="enter-button">
-        </div>
-      </a>
-    </div>
- </div>
-{/if}
-</div>
-</div>
+  {/if}
 {/if}
 
 <style>

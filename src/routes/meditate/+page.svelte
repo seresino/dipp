@@ -26,7 +26,7 @@
     default:
       console.error("Invalid module number");
  }
- 
+
  onMount(() => {
     // redirects to day page if user goes straight to /mood without daily task entry in table
     if (usertasks.length === 0) {
@@ -36,12 +36,12 @@
 </script>
 
 {#if user}
-<div class="pop-up dark">
+  <div class="pop-up dark">
 
-  <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
-  <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
-  <div class="pop-up-content center">
-    <AudioPlayer {audioFile}/>
+    <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
+    <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
+    <div class="pop-up-content center">
+      <AudioPlayer {audioFile}/>
+    </div>
   </div>
-</div>
 {/if}

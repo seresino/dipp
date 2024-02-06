@@ -9,70 +9,70 @@ import { desc, eq } from "drizzle-orm";
 import seed from "./seed";
 
 export const actions = {
-	add: async ({ request }) => {
-		// Get the form data from the request
-		const formData = await request.formData();
+  add: async ({ request }) => {
+    // Get the form data from the request
+    const formData = await request.formData();
 
-		// Get the username from the form data
-		const username = formData.get("username");
+    // Get the username from the form data
+    const username = formData.get("username");
 
-		// Update message if username empty
-		if (!username) {
-			return fail(400, { message: "Title is required" });
-		}
+    // Update message if username empty
+    if (!username) {
+      return fail(400, { message: "Title is required" });
+    }
 
-		// Finally, add entry to the database
-		await db.insert(users).values({
-			username: username,
-			password: "pass",
-			high_dosage: true,
-		});
+    // Finally, add entry to the database
+    await db.insert(users).values({
+      username: username,
+      password: "pass",
+      high_dosage: true,
+    });
 
-		return { message: "User added successfully" };
-	},
+    return { message: "User added successfully" };
+  },
 
-	update: async ({ request }) => {
-		const formData = await request.formData();
-		const username = formData.get("username")?.toString();
-		const password = formData.get("password")?.toString();
-		const meditation = formData.get("meditation")?.toString();
-		const high_dosage = formData.get("high_dosage")?.toString();
-		const id = formData.get("id")?.toString();
+  update: async ({ request }) => {
+    const formData = await request.formData();
+    const username = formData.get("username")?.toString();
+    const password = formData.get("password")?.toString();
+    const meditation = formData.get("meditation")?.toString();
+    const high_dosage = formData.get("high_dosage")?.toString();
+    const id = formData.get("id")?.toString();
 
-		if (!username || !password || !id) {
-			return fail(400, { message: "Error updating user" });
-		}
+    if (!username || !password || !id) {
+      return fail(400, { message: "Error updating user" });
+    }
 
-		await db
-			.update(users)
-			.set({
-				username,
-				password,
-				meditation: !!meditation,
-				high_dosage: !!high_dosage,
-			})
-			.where(eq(users.id, +id));
+    await db
+      .update(users)
+      .set({
+        username,
+        password,
+        meditation: !!meditation,
+        high_dosage: !!high_dosage,
+      })
+      .where(eq(users.id, +id));
 
-		return { message: "User updated successfully" };
-	},
+    return { message: "User updated successfully" };
+  },
 
-	delete: async ({ request }) => {
-		const formData = await request.formData();
-		const id = formData.get("id")?.toString();
+  delete: async ({ request }) => {
+    const formData = await request.formData();
+    const id = formData.get("id")?.toString();
 
-		if (!id) {
-			return fail(400, { message: "Error deleting user" });
-		}
+    if (!id) {
+      return fail(400, { message: "Error deleting user" });
+    }
 
-		await db.delete(users).where(eq(users.id, +id));
-		return { message: "User deleted successfully" };
-	},
+    await db.delete(users).where(eq(users.id, +id));
+    return { message: "User deleted successfully" };
+  },
 
-	seed: seed,
+  seed: seed,
 };
 
 export const load = async () => {
-	return {
-		users: await db.select().from(users).orderBy(desc(users.id)),
-	};
+  return {
+    users: await db.select().from(users).orderBy(desc(users.id)),
+  };
 };
