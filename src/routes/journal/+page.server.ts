@@ -35,6 +35,9 @@ export const actions = {
 // find journal prompt with id === day of prep
 export const load = async ({ locals }) => {
 	const user = locals.user;
+	const userID = user[0].id;
+	console.log("user:", user[0]);
+	console.log("id:", user.id);
 
 	// redirect user if not logged in
 	if (!user) {
@@ -46,10 +49,12 @@ export const load = async ({ locals }) => {
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, user.id),
+				eq(dailyTasks.user_id, userID),
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
+
+	console.log("Query:", userTasksQuery[0]);
 
 	const journalPromptQuery = await db
 		.select()

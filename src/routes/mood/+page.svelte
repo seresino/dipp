@@ -2,13 +2,14 @@
   import { onMount } from 'svelte';
   import Graph from '../../components/Graph.svelte';
   import { retrieveAnswers } from '$lib/utils/helperFunctions';
+
   export let data;
   const user = data.user[0];
-  export let form;
-
-  const path = "mood"; // directory of this route
   const usertasks = data.userTasks;
   const mood = data.mood;
+
+  const path = "mood"; // directory of this route
+  export let form;
   let completed = false;
 
   // checks if the user has completed the questionnaire
@@ -56,7 +57,7 @@
     }, 2000); // Redirects after 2 seconds
     }
   });
- </script>
+</script>
 
 {#if user}
 <div class="pop-up medium">

@@ -1,8 +1,4 @@
 <script>
-  import {onMount} from "svelte";
-  import { auth } from "../lib/firebase/firebase";
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
   import { enhance } from '$app/forms'
 
   export let data; // data returned by the load function
@@ -30,7 +26,11 @@
         </li>
         {#if user}
           <li>
-              <a class="logout-pill" href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+            <div class="logout-pill">
+              <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
+                <button type="submit">Log out</button>
+              </form>
+            </div>
           </li>
         {/if}
       </ul>
@@ -47,16 +47,6 @@
   </nav>
   <div class="slot-container">
     <slot/>
-
-    <!-- {#if user}
-      <div class="logout-pill">
-        <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a> //comment out
-        <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
-          <button type="submit">Log out</button>
-        </form>
-      </div>
-    {/if} -->
-
   </div>
 </div>
 

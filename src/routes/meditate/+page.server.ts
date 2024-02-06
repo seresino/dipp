@@ -4,17 +4,13 @@ import { eq, and } from "drizzle-orm";
 import { fail } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 import { getDefaultRedirect } from "$lib/utils/helperFunctions";
-import {
-	getModuleID,
-	getUserID,
-	getTodaysDate,
-} from "$lib/utils/helperFunctions";
+import { getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
 
-const loggedInUserID = getUserID();
+const loggedInUserID = 6;
 const moduleID = getModuleID();
 
 export const actions = {
-	update: async ({ request }) => {
+	update: async ({ request, locals }) => {
 		// Get the form data from the request
 		const formData = await request.formData();
 
@@ -30,7 +26,7 @@ export const actions = {
 			.from(dailyTasks)
 			.where(
 				and(
-					eq(dailyTasks.user_id, loggedInUserID),
+					eq(dailyTasks.user_id, locals.user.id),
 					eq(dailyTasks.date, getTodaysDate().toISOString())
 				)
 			);

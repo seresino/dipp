@@ -4,10 +4,10 @@ import { eq, and } from "drizzle-orm";
 import { redirect, fail } from "@sveltejs/kit";
 import { users } from "$lib/server/schema";
 
-import { getDay, getUserID, getTodaysDate } from "$lib/utils/helperFunctions";
+import { getDay, getTodaysDate } from "$lib/utils/helperFunctions";
 import { getDefaultRedirect } from "$lib/utils/helperFunctions";
 
-const loggedInUserID = getUserID();
+const loggedInUserID = 6; // Hardcoded - fix this later
 const day = getDay();
 
 export const actions = {
@@ -49,21 +49,21 @@ export const actions = {
 };
 
 export const load = async ({ locals }) => {
+	const user = locals.user;
+	const userID = user[0].id;
+
 	// redirect user if not logged in
 	if (!locals.user) {
 		throw redirect(302, getDefaultRedirect());
 	}
-	const userQuery = await db
-		.select()
-		.from(users)
-		.where(eq(users.id, loggedInUserID));
+	const userQuery = await db.select().from(users).where(eq(users.id, userID));
 
 	let userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.user_id, userID),
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
@@ -81,7 +81,7 @@ export const load = async ({ locals }) => {
 	}
 
 	return {
-		user: locals.user,
+		user: user,
 		userTasks: userTasksQuery,
 		mood: moodQuery[0],
 	};
