@@ -1,7 +1,6 @@
 <script>
   import {onMount} from "svelte";
   import { auth } from "../lib/firebase/firebase";
-  import { authStore, authHandlers} from "$lib/utils/helperFunctions";
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms'
@@ -38,7 +37,7 @@
     </div>
 
     <!-- Responsive -->
-    <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -47,16 +46,16 @@
   </div>
   </nav>
   <div class="slot-container">
-    <slot/> -->
+    <slot/>
 
-    {#if user}
+    <!-- {#if user}
       <div class="logout-pill">
-        <!-- <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a> -->
+        <a href="/login" on:click={authHandlers.logout} data-sveltekit-reload><p class="logout">Log Out</p></a> //comment out
         <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
           <button type="submit">Log out</button>
         </form>
       </div>
-    {/if}
+    {/if} -->
 
   </div>
 </div>

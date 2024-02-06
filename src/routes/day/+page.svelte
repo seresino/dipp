@@ -1,10 +1,6 @@
 <!-- Day.svelte -->
 <script>
-  import { authStore } from "$lib/utils/helperFunctions";
-
   export let data; // data returned by the load function
-  let path = "day" // directory of this route
-
   const user = data.user[0];
   const module = data.module;
   const userTasks = data.userTasks;
@@ -142,6 +138,8 @@
     </div>
  </div>
 {/if}
+</div>
+</div>
 {/if}
 
 <style>
