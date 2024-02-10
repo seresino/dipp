@@ -15,6 +15,7 @@ const moduleID = getModuleID();
 
 export const load = async ({ locals }) => {
 	const user = locals.user;
+	const userID = user[0].id;
 
 	// redirect user if not logged in
 	if (!user) {
@@ -27,6 +28,16 @@ export const load = async ({ locals }) => {
 		.from(modules)
 		.where(eq(modules.id, moduleID));
 
+	const userTasksQuery = await db
+		.select()
+		.from(dailyTasks)
+		.where(eq(dailyTasks.user_id, userID));
+
+	let daysCompleted = [];
+	userTasksQuery.forEach((day) => {
+		daysCompleted.push(day.day_number);
+	});
+
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 
@@ -34,7 +45,8 @@ export const load = async ({ locals }) => {
 	return {
 		// user: userQuery[0],
 		user: user,
-		module: moduleQuery[0],
 		day: day,
+		module: moduleQuery[0],
+		daysCompleted: daysCompleted,
 	};
 };
