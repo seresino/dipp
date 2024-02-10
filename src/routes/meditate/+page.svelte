@@ -5,6 +5,7 @@
   import moduleOneAudio from '../../assets/meditationone.mp3'
   import moduleTwoAudio from '../../assets/meditationtwo.mp3'
   import moduleThreeAudio from '../../assets/meditationthree.mp3'
+  
   export let data;
   const user = data.user[0];
 

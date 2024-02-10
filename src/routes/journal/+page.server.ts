@@ -11,6 +11,8 @@ import {
 	getDefaultRedirect,
 } from "$lib/utils/helperFunctions";
 
+const today = getTodaysDate().toISOString();
+
 export const actions = {
 	update: async ({ request }) => {
 		const formData = await request.formData();
@@ -36,8 +38,6 @@ export const actions = {
 export const load = async ({ locals }) => {
 	const user = locals.user;
 	const userID = user[0].id;
-	console.log("user:", user[0]);
-	console.log("id:", user.id);
 
 	// redirect user if not logged in
 	if (!user) {
@@ -47,12 +47,7 @@ export const load = async ({ locals }) => {
 	const userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
-		.where(
-			and(
-				eq(dailyTasks.user_id, userID),
-				eq(dailyTasks.date, getTodaysDate().toISOString())
-			)
-		);
+		.where(and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today)));
 
 	console.log("Query:", userTasksQuery[0]);
 

@@ -17,6 +17,7 @@ const moduleID = getModuleID();
 
 export const load = async ({ locals }) => {
 	const user = locals.user;
+	const userID = user[0].id;
 
 	// redirect user if not logged in
 	if (!user) {
@@ -33,7 +34,7 @@ export const load = async ({ locals }) => {
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, user.id),
+				eq(dailyTasks.user_id, userID),
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
@@ -42,7 +43,7 @@ export const load = async ({ locals }) => {
 		const entry = {
 			day_number: day,
 			date: getTodaysDate().toISOString(),
-			user_id: user.id,
+			user_id: userID,
 		};
 		userTasksQuery = await db.insert(dailyTasks).values(entry).returning();
 	}

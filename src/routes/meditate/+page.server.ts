@@ -6,11 +6,12 @@ import { redirect } from "@sveltejs/kit";
 import { getDefaultRedirect } from "$lib/utils/helperFunctions";
 import { getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
 
-const loggedInUserID = 6;
+const today = getTodaysDate().toISOString();
 const moduleID = getModuleID();
 
 export const actions = {
 	update: async ({ request, locals }) => {
+		const userID = locals.user[0].id;
 		// Get the form data from the request
 		const formData = await request.formData();
 
@@ -25,10 +26,7 @@ export const actions = {
 			.select()
 			.from(dailyTasks)
 			.where(
-				and(
-					eq(dailyTasks.user_id, locals.user.id),
-					eq(dailyTasks.date, getTodaysDate().toISOString())
-				)
+				and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today))
 			);
 
 		await db
@@ -41,8 +39,11 @@ export const actions = {
 };
 
 export const load = async ({ locals }) => {
+	const user = locals.user;
+	const userID = user[0].id;
+
 	// redirect user if not logged in
-	if (!locals.user) {
+	if (!user) {
 		throw redirect(302, getDefaultRedirect());
 	}
 	const moduleQuery = await db
@@ -53,15 +54,10 @@ export const load = async ({ locals }) => {
 	let userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
-		.where(
-			and(
-				eq(dailyTasks.user_id, loggedInUserID),
-				eq(dailyTasks.date, getTodaysDate().toISOString())
-			)
-		);
+		.where(and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today)));
 
 	return {
-		user: locals.user,
+		user: user,
 		userTasks: userTasksQuery,
 		module: moduleQuery[0],
 	};

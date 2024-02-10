@@ -4,14 +4,14 @@ import { eq, and } from "drizzle-orm";
 import { redirect, fail } from "@sveltejs/kit";
 import { users } from "$lib/server/schema";
 
-import { getDay, getTodaysDate } from "$lib/utils/helperFunctions";
+import { getTodaysDate } from "$lib/utils/helperFunctions";
 import { getDefaultRedirect } from "$lib/utils/helperFunctions";
 
-const loggedInUserID = 6; // Hardcoded - fix this later
-const day = getDay();
+const today = getTodaysDate().toISOString();
 
 export const actions = {
-	update: async ({ request }) => {
+	update: async ({ request, locals }) => {
+		const userID = locals.user[0].id;
 		// Get the form data from the request
 		const formData = await request.formData();
 
@@ -28,10 +28,7 @@ export const actions = {
 			.select()
 			.from(dailyTasks)
 			.where(
-				and(
-					eq(dailyTasks.user_id, loggedInUserID),
-					eq(dailyTasks.date, getTodaysDate().toISOString())
-				)
+				and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today))
 			);
 
 		let updateFields = {};
@@ -53,20 +50,14 @@ export const load = async ({ locals }) => {
 	const userID = user[0].id;
 
 	// redirect user if not logged in
-	if (!locals.user) {
+	if (!user) {
 		throw redirect(302, getDefaultRedirect());
 	}
-	const userQuery = await db.select().from(users).where(eq(users.id, userID));
 
 	let userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
-		.where(
-			and(
-				eq(dailyTasks.user_id, userID),
-				eq(dailyTasks.date, getTodaysDate().toISOString())
-			)
-		);
+		.where(and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today)));
 
 	// Check if userTasksQuery[0].mood_id is null or not
 	let moodQuery = [];
