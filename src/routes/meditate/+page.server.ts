@@ -46,6 +46,7 @@ export const load = async ({ locals }) => {
 	if (!user) {
 		throw redirect(302, getDefaultRedirect());
 	}
+
 	const moduleQuery = await db
 		.select()
 		.from(modules)
@@ -55,6 +56,11 @@ export const load = async ({ locals }) => {
 		.select()
 		.from(dailyTasks)
 		.where(and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today)));
+
+	// redirects to day page if user goes straight to /meditate without daily task entry in table
+	if (userTasksQuery.length === 0) {
+		throw redirect(302, "/day");
+	}
 
 	return {
 		user: user,

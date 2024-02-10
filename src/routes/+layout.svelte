@@ -1,4 +1,5 @@
 <script>
+  import {page } from '$app/stores'
   import { enhance } from '$app/forms'
 
   export let data; // data returned by the load function
@@ -45,10 +46,17 @@
     </button>
   </div>
   </nav>
+
+
   <div class="slot-container">
     <slot/>
   </div>
 </div>
+
+<!-- Displays page data at bottom of page - ONLY FOR DEBUGGING-->
+<pre>
+  {JSON.stringify($page, null,2)}
+</pre>
 
 <style>
   /* boostrap adjustments for hamburger menu */
