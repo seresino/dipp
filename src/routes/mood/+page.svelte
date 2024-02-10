@@ -5,7 +5,6 @@
 
   export let data;
   const user = data.user[0];
-  const usertasks = data.userTasks;
   const mood = data.mood;
 
   const path = "mood"; // directory of this route
@@ -46,10 +45,6 @@
 
   // function to redirect on mount
   onMount(() => {
-    // redirects to day page if user tries to access /meditate without current daily task entry in table
-    if (usertasks.length === 0) {
-      window.location.href = "/day";
-    }
     // redirects to day page if questionnaire completed
     if (completed) {
       setTimeout(() => {

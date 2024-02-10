@@ -49,7 +49,16 @@ export const load = async ({ locals }) => {
 		.from(dailyTasks)
 		.where(and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today)));
 
-	console.log("Query:", userTasksQuery[0]);
+	// redirects to day page if user goes straight to /journal without daily task entry in table
+	// or if meditation task hasn't been completed (won't trigger for non-mediation group as they'll have NULL)
+	// or mood questionaire task hasn't been completed
+	if (
+		userTasksQuery.length === 0 ||
+		userTasksQuery[0].meditation === false ||
+		!userTasksQuery[0].mood_id
+	) {
+		throw redirect(302, "/day");
+	}
 
 	const journalPromptQuery = await db
 		.select()

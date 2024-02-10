@@ -64,7 +64,6 @@ export const load = async ({ locals }) => {
 
 	return {
 		user: user,
-		userTasks: userTasksQuery,
 		module: moduleQuery[0],
 	};
 };
