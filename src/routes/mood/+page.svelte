@@ -194,7 +194,7 @@
     height: 20px;
     max-width: 5vw;
     max-height: 5vw;
-    border: solid #888888;
+    border: solid 1px #888888;
     border-radius: 50%;
     background-color: white;
     margin: 10px;

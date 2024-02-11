@@ -166,7 +166,7 @@
 			</div>
 		</div>
 	{:else}
-		<div class="activity-container">
+		<div class="triplet-container padding">
 			<div class={activityButtons.mood}>
 				<h1>Mood</h1>
 				<a href="/mood">
@@ -201,7 +201,8 @@
 		position: relative;
 		height: 394px;
 		max-height: 100%;
-		border: solid #168ace;
+		border-style: solid;
+		border-color: #168ace;
 		border-radius: 20px;
 	}
 	.activity-contents {

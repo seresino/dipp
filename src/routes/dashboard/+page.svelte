@@ -4,6 +4,8 @@
 	export let data; // data returned by the load function
 	const user = data.user[0];
 	const module = data.module;
+	const dateDay = data.dateDay;
+	const dateMonth = data.dateMonth;
 	const day = data.day;
 	const daysCompleted = data.daysCompleted;
 </script>
@@ -18,7 +20,7 @@
 		<div class="dashboard-contents white-text">
 			<div class="top-text">
 				<div class="day">Day {day}</div>
-				<DateTime />
+				<DateTime {dateDay} {dateMonth}/>
 			</div>
 			<div class="bottom-text">Dashboard</div>
 		</div>
@@ -131,7 +133,8 @@
 		max-height: 60px;
 		flex-shrink: 0;
 		border-radius: 38px;
-		border: solid #168ace;
+		border-style: solid;
+		border-color: #168ace;
 	}
 	.module-pill-text {
 		font-size: 14px;
@@ -152,7 +155,8 @@
 		height: 80%;
 		max-height: 80px;
 		border-radius: 38px;
-		border: solid #5db3e5;
+		border-style: solid;
+		border-color: #5db3e5;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

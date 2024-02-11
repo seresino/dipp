@@ -141,7 +141,6 @@
   .logo-text {
     color: black;
     font-size: 20px;
-    font-family: Helvetica Neue;
     font-weight: 500;
   }
   @media (max-width: 1000px) {
@@ -153,7 +152,8 @@
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: solid black;
+    border-style: solid;
+    border-color: black;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -162,7 +162,8 @@
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: solid black;
+    border-style: solid;
+    border-color: black;
     background-color: black;
     flex-direction: row;
     justify-content: center;
@@ -171,13 +172,11 @@
   .about {
     color: black;
     font-size : 16px;
-    font-family : Helvetica Neue;
     font-weight : 500;
   }
   .logout {
     color: white;
     font-size : 16px;
-    font-family : Helvetica Neue;
     font-weight : 500;
   }
 </style>

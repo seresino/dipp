@@ -87,7 +87,6 @@
   }
   h1 {
     text-align: center;
-    font-family: Helvetica Neue;
     font-size: 32px;
     font-style: normal;
     font-weight: 300;
@@ -99,7 +98,8 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: solid #FFF;
+    border-style: solid;
+    border-color: #FFF;
     padding: 50px 0 50px 0;
   }
   .timer-content {
@@ -114,14 +114,14 @@
     justify-content: center;
     align-items: center;
     border-radius: 50px;
-    border: solid #FFF;
+    border-style: solid;
+    border-color: #FFF;
     padding: 5px 20px 5px 20px;
     background-color: transparent;
   }
   .restart {
     color: #000;
     text-align: center;
-    font-family: Helvetica Neue;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -130,7 +130,6 @@
   .white-text {
     color: white;
     text-align: center;
-    font-family: Helvetica Neue;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;

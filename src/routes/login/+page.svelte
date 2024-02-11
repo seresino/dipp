@@ -35,7 +35,8 @@
     align-items: center;
     background : white;
     border-radius : 40px;
-    border: solid #168ACE;
+    border-style: solid;
+    border-color: #168ACE;
     padding: 40px 0 20px 0;
   }
   .input-div {
@@ -62,11 +63,13 @@
     justify-content : right;
     align-items : center;
     padding: 12px 20px 0px 20px;
-
   }
   .options {
     color : #B5B5B5;
     font-size : 16px;
     margin: 0px 0px 0px 10px;
+    border:#B5B5B5 1px solid;
+    border-radius: 20px;
+    padding: 2px 8px;
   }
 </style>
