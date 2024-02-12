@@ -41,6 +41,7 @@
 			activityButtons.journal += " inactive";
 		} else if (!userTasks.mood_id) {
 			activityButtons.journal += " inactive";
+			activityButtons.meditate += " complete";
 		} else if (!userTasks.journal) {
 			activityButtons.meditate += " complete";
 			activityButtons.mood += " complete";
@@ -142,7 +143,18 @@
 			</div>
 			<div class={activityButtons.mood}>
 				<h1>Mood</h1>
-				<a href="/mood">
+				{#if user.meditation && userTasks.meditate}
+					<a href="/mood">
+						<div class="activity-contents">
+							<img
+								class="enter-button"
+								src="/images/enter-button-2.svg"
+								alt="enter-button"
+							/>
+						</div>
+					</a>
+				{:else}
+					<a href="/mood"></a>
 					<div class="activity-contents">
 						<img
 							class="enter-button"
@@ -150,11 +162,21 @@
 							alt="enter-button"
 						/>
 					</div>
-				</a>
+				{/if}
 			</div>
 			<div class={activityButtons.journal}>
 				<h1>Journal</h1>
-				<a href="/journal">
+				{#if userTasks.mood_id}
+					<a href="/journal">
+						<div class="activity-contents">
+							<img
+								class="enter-button"
+								src="/images/enter-button-3.svg"
+								alt="enter-button"
+							/>
+						</div>
+					</a>
+				{:else}
 					<div class="activity-contents">
 						<img
 							class="enter-button"
@@ -162,7 +184,7 @@
 							alt="enter-button"
 						/>
 					</div>
-				</a>
+				{/if}
 			</div>
 		</div>
 	{:else}
@@ -181,7 +203,17 @@
 			</div>
 			<div class={activityButtons.journal}>
 				<h1>Journal</h1>
-				<a href="/journal">
+				{#if userTasks.mood_id}
+					<a href="/journal">
+						<div class="activity-contents">
+							<img
+								class="enter-button"
+								src="/images/enter-button-2.svg"
+								alt="enter-button"
+							/>
+						</div>
+					</a>
+				{:else}
 					<div class="activity-contents">
 						<img
 							class="enter-button"
@@ -189,7 +221,7 @@
 							alt="enter-button"
 						/>
 					</div>
-				</a>
+				{/if}
 			</div>
 		</div>
 	{/if}
