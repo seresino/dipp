@@ -1,32 +1,28 @@
+import { eq, and } from "drizzle-orm";
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
-import { journalPrompts } from "$lib/server/schema";
 import { modules } from "$lib/server/schema";
-import { mood } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
-import { fail } from "@sveltejs/kit";
-import { desc, eq, and } from "drizzle-orm";
+import { redirect } from "@sveltejs/kit";
 
 import {
 	getDay,
 	getModuleID,
-	getUserID,
 	getTodaysDate,
+	getDefaultRedirect,
 } from "$lib/utils/helperFunctions";
-
-// Would acc import these in from somewhere else --------------------------------
-const loggedInUserID = getUserID();
 
 const day = getDay();
 const moduleID = getModuleID();
 
-export const load = async () => {
-	// Load in module name
-	// Load in daily-task entry for that user for today
-	const userQuery = await db
-		.select()
-		.from(users)
-		.where(eq(users.id, loggedInUserID));
+export const load = async ({ locals }) => {
+	const user = locals.user;
+	const userID = user[0].id;
+
+	// redirect user if not logged in
+	if (!user) {
+		throw redirect(302, getDefaultRedirect());
+	}
 
 	const moduleQuery = await db
 		.select()
@@ -38,7 +34,7 @@ export const load = async () => {
 		.from(dailyTasks)
 		.where(
 			and(
-				eq(dailyTasks.user_id, loggedInUserID),
+				eq(dailyTasks.user_id, userID),
 				eq(dailyTasks.date, getTodaysDate().toISOString())
 			)
 		);
@@ -47,13 +43,13 @@ export const load = async () => {
 		const entry = {
 			day_number: day,
 			date: getTodaysDate().toISOString(),
-			user_id: loggedInUserID,
+			user_id: userID,
 		};
 		userTasksQuery = await db.insert(dailyTasks).values(entry).returning();
 	}
 
 	return {
-		user: userQuery[0],
+		user: user,
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],
 		day: day,

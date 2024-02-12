@@ -3,11 +3,15 @@ import { dailyTasks } from "$lib/server/schema";
 import { journalPrompts } from "$lib/server/schema";
 import { fail } from "@sveltejs/kit";
 import { eq, and } from "drizzle-orm";
+import { redirect } from "@sveltejs/kit";
 
-import { getDay, getUserID, getTodaysDate } from "$lib/utils/helperFunctions";
+import {
+	getDay,
+	getTodaysDate,
+	getDefaultRedirect,
+} from "$lib/utils/helperFunctions";
 
-// Would acc import these in from somewhere else --------------------------------
-const loggedInUserID = getUserID();
+const today = getTodaysDate().toISOString();
 
 export const actions = {
 	update: async ({ request }) => {
@@ -31,22 +35,37 @@ export const actions = {
 };
 
 // find journal prompt with id === day of prep
-export const load = async () => {
+export const load = async ({ locals }) => {
+	const user = locals.user;
+	const userID = user[0].id;
+
+	// redirect user if not logged in
+	if (!user) {
+		throw redirect(302, getDefaultRedirect());
+	}
+
 	const userTasksQuery = await db
 		.select()
 		.from(dailyTasks)
-		.where(
-			and(
-				eq(dailyTasks.user_id, loggedInUserID),
-				eq(dailyTasks.date, getTodaysDate().toISOString())
-			)
-		);
+		.where(and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today)));
+
+	// redirects to day page if user goes straight to /journal without daily task entry in table
+	// or if meditation task hasn't been completed (won't trigger for non-mediation group as they'll have NULL)
+	// or mood questionaire task hasn't been completed
+	if (
+		userTasksQuery.length === 0 ||
+		userTasksQuery[0].meditation === false ||
+		!userTasksQuery[0].mood_id
+	) {
+		throw redirect(302, "/day");
+	}
 
 	const journalPromptQuery = await db
 		.select()
 		.from(journalPrompts)
 		.where(eq(journalPrompts.id, getDay()));
 	return {
+		user: user,
 		journalPrompt: journalPromptQuery[0],
 		userTasks: userTasksQuery[0],
 	};

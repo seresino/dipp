@@ -55,13 +55,13 @@ const seed = async ({}) => {
 			high_dosage: false,
 		},
 		{
-			username: "user1",
+			username: "USER1",
 			password: "pass",
 			meditation: false,
 			high_dosage: false,
 		},
 		{
-			username: "user2",
+			username: "USER2",
 			password: "pass",
 			meditation: true,
 			high_dosage: true,

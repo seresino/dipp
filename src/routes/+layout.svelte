@@ -1,49 +1,12 @@
 <script>
-  import {onMount, tick} from "svelte";
-  import { auth } from "../lib/firebase/firebase";
-  import { authHandlers, authStore } from "../store/store";
-  import { goto } from '$app/navigation';
+  import {page } from '$app/stores'
+  import { enhance } from '$app/forms'
 
-  const nonAuthRoutes = ["/", "/login", "/about"];
+  export let data; // data returned by the load function
   let user;
-
-  $: {
-    authStore.subscribe(async value => {
-      user = value.user;
-      await tick();
-    });
- }
-
-  onMount (() => {
-    console.log("Mounting");
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      const currentPath = window.location.pathname;
-
-      if (!user && !nonAuthRoutes.includes(currentPath)) {
-        window.location.href = "/login";
-        // goto('/login');
-        return;
-      }
-
-      if (user && currentPath == "/login") {
-        window.location.href = "/dashboard";
-        // goto('/dashboard');
-        return;
-      }
-
-      if (!user) {
-        return;
-      }
-
-      authStore.update((curr) => {
-        return {
-          ...curr,
-          user,
-          loading: false,
-        };
-      });
-    });
-  });
+  try {
+    user = data.user[0];
+  } catch(error){}
 </script>
 
 
@@ -64,11 +27,17 @@
         </li>
         {#if user}
           <li>
-              <a class="logout-pill" href="/login" on:click={authHandlers.logout}><p class="logout">Log Out</p></a>
+            <div class="logout-pill">
+              <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
+                <button type="submit">Log out</button>
+              </form>
+            </div>
           </li>
         {/if}
       </ul>
     </div>
+
+    <!-- Responsive -->
     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
@@ -77,10 +46,17 @@
     </button>
   </div>
   </nav>
+
+
   <div class="slot-container">
     <slot/>
   </div>
 </div>
+
+<!-- Displays page data at bottom of page - ONLY FOR DEBUGGING-->
+<pre>
+  {JSON.stringify($page, null,2)}
+</pre>
 
 <style>
   /* boostrap adjustments for hamburger menu */
@@ -165,7 +141,6 @@
   .logo-text {
     color: black;
     font-size: 20px;
-    font-family: Helvetica Neue;
     font-weight: 500;
   }
   @media (max-width: 1000px) {
@@ -177,7 +152,8 @@
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: solid black;
+    border-style: solid;
+    border-color: black;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -186,7 +162,8 @@
     width: 101.80px;
     height: 43px;
     border-radius: 38px;
-    border: solid black;
+    border-style: solid;
+    border-color: black;
     background-color: black;
     flex-direction: row;
     justify-content: center;
@@ -195,13 +172,11 @@
   .about {
     color: black;
     font-size : 16px;
-    font-family : Helvetica Neue;
     font-weight : 500;
   }
   .logout {
     color: white;
     font-size : 16px;
-    font-family : Helvetica Neue;
     font-weight : 500;
   }
 </style>

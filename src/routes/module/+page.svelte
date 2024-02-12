@@ -5,7 +5,7 @@
   import { truncateWords } from '$lib/utils/helperFunctions.js';
 
   export let data; // data returned by the load function
-
+  const user = data.user[0];
   const module = data.module;
   const tasks = data.tasks;
   const weeklytasks = data.weeklyTasks;
@@ -76,6 +76,8 @@
   });
 </script>
 
+
+{#if user}
 <div class="pop-up white">
   <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
   <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
@@ -126,8 +128,8 @@
             <p>Instructions:</p>
             <ul>
               {#each Object.keys(selectedTask.instructions) as instructionKey}
-               <li>{instructionKey}<br>{selectedTask.instructions[instructionKey]}</li>
-               <br>
+                <li>{instructionKey}<br>{selectedTask.instructions[instructionKey]}</li>
+                <br>
               {/each}
             </ul>
           </div>
@@ -148,6 +150,7 @@
     </div>
   </div>
 </div>
+{/if}
 
 
 <style>
@@ -163,7 +166,8 @@
      min-height: 50svh;
   }
   .task-item {
-    border: solid #D5D5D5;
+    border-style: solid;
+    border-color: #D5D5D5;
     border-radius: 20px;
     padding: 10px;
     display: flex;
@@ -181,7 +185,8 @@
     background-color: #5DB3E5;
     min-width: 60px;
     height: 80%;
-    border: solid #168ACE;
+    border-style: solid;
+    border-color: #168ACE;
     border-radius: 20px;
     box-shadow: 0px 4px 13.1px -4px rgba(0, 0, 0, 0.25) inset;
     font-size: 30px;

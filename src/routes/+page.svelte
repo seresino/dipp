@@ -14,7 +14,6 @@
 </div>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap');
   .landing-content {
     flex-direction: column;
     align-items: center;

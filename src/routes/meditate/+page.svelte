@@ -1,15 +1,15 @@
 <script>
-  import { onMount } from 'svelte';
   import AudioPlayer from '../../components/AudioPlayer.svelte';
   // need set up dynamic imports to avoid hard coding these. will use URLs once files received so leaving for now
   import moduleOneAudio from '../../assets/meditationone.mp3'
   import moduleTwoAudio from '../../assets/meditationtwo.mp3'
   import moduleThreeAudio from '../../assets/meditationthree.mp3'
+  
   export let data;
+  const user = data.user[0];
 
   let audioFile;
   const module = data.module;
-  const usertasks = data.userTasks;
 
   // sets audioFile based on current module
   switch(module.id) {
@@ -25,20 +25,15 @@
     default:
       console.error("Invalid module number");
  }
-
-   onMount(() => {
-    // redirects to day page if user goes straight to /mood without daily task entry in table
-    if (usertasks.length === 0) {
-      window.location.href = "/day";
-    }
-  });
 </script>
 
-<div class="pop-up dark">
+{#if user}
+  <div class="pop-up dark">
 
-  <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
-  <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
-  <div class="pop-up-content center">
-    <AudioPlayer {audioFile}/>
+    <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
+    <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
+    <div class="pop-up-content center">
+      <AudioPlayer {audioFile}/>
+    </div>
   </div>
-</div>
+{/if}

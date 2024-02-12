@@ -2,12 +2,13 @@
   import { onMount } from 'svelte';
   import Graph from '../../components/Graph.svelte';
   import { retrieveAnswers } from '$lib/utils/helperFunctions';
+
   export let data;
-  export let form;
+  const user = data.user[0];
+  const mood = data.mood;
 
   const path = "mood"; // directory of this route
-  const usertasks = data.userTasks;
-  const mood = data.mood;
+  export let form;
   let completed = false;
 
   // checks if the user has completed the questionnaire
@@ -44,10 +45,6 @@
 
   // function to redirect on mount
   onMount(() => {
-    // redirects to day page if user tries to access /meditate without current daily task entry in table
-    if (usertasks.length === 0) {
-      window.location.href = "/day";
-    }
     // redirects to day page if questionnaire completed
     if (completed) {
       setTimeout(() => {
@@ -55,8 +52,9 @@
     }, 2000); // Redirects after 2 seconds
     }
   });
- </script>
+</script>
 
+{#if user}
 <div class="pop-up medium">
   <a class="circular-button home" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button"></a>
   <a class="circular-button back" href="/day"><img src="/images/return-circle-button.svg" alt="back button" /></a>
@@ -164,6 +162,7 @@
     </div>
   </div>
 </div>
+{/if}
 
 <style>
   .container {
@@ -195,7 +194,7 @@
     height: 20px;
     max-width: 5vw;
     max-height: 5vw;
-    border: solid #888888;
+    border: solid 1px #888888;
     border-radius: 50%;
     background-color: white;
     margin: 10px;
