@@ -143,7 +143,7 @@
 			</div>
 			<div class={activityButtons.mood}>
 				<h1>Mood</h1>
-				{#if user.meditation && userTasks.meditate}
+				{#if userTasks.meditation}
 					<a href="/mood">
 						<div class="activity-contents">
 							<img
@@ -154,7 +154,6 @@
 						</div>
 					</a>
 				{:else}
-					<a href="/mood"></a>
 					<div class="activity-contents">
 						<img
 							class="enter-button"
