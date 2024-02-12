@@ -28,8 +28,8 @@
         {#if user}
           <li>
             <div class="logout-pill">
-              <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
-                <button type="submit">Log out</button>
+              <form class="logout" action="/logout" method="POST">
+                <button type="submit" use:enhance data-sveltekit-reload>Log out</button>
               </form>
             </div>
           </li>

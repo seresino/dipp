@@ -103,8 +103,8 @@
 
         {#if !selectedTask}
           {#each tasks.slice().sort((a, b) => a.id - b.id) as task, index}
-            <div class="task-item {isTaskComplete(task) ? 'grey' : ''}" on:click={() => selectTask(task)}>
-              <div class="task-number-box">{index + 1}</div>
+            <div class="task-item" on:click={() => selectTask(task)}>
+              <div class="task-number-box {isTaskComplete(task) ? 'completed' : ''}">{index + 1}</div>
               <div class="task-item-content">
                 <h2>{task.task}</h2>
                 <p class="goal">{truncateWords(task.goal, 22)}...</p>
@@ -182,15 +182,12 @@
   }
 
   .task-number-box {
-    background-color: #5DB3E5;
     min-width: 60px;
     height: 80%;
     border-style: solid;
     border-color: #168ACE;
     border-radius: 20px;
-    box-shadow: 0px 4px 13.1px -4px rgba(0, 0, 0, 0.25) inset;
     font-size: 30px;
-    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -243,8 +240,9 @@
     color: white;
     background-color: black;
   }
-  .grey {
-    color: #888888;
+  .completed {
+    background-color: #5DB3E5;
+    box-shadow: 0px 4px 13.1px -4px rgba(0, 0, 0, 0.25) inset;
   }
   .complete {
     color: green;

@@ -85,6 +85,7 @@
 			alt="dashboard-shape"
 		/>
 		<div class="dashboard-contents">
+			<a class="home-button" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
 			<div class="module-top-button">
 				<div class="module-info-pill">
 					<a
@@ -270,7 +271,42 @@
 		line-height: normal;
 		padding: 20px;
 	}
+	.module-top-button {
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: auto;
+		padding: 10px;
+	}
+	.module-info-pill {
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		border: solid black;
+		border-radius: 50px;
+		padding: 20px 20px 20px 40px;
+		font-size: 14px;
+	}
+	.module-info-button {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		text-decoration: none;
+	}
+	.module-info-text {
+		padding: 0 20px 0 10px;
+	}
 	.module-icon {
 		width: 20px;
+	}
+	.home-button {
+		position: absolute;
+		top: 16px;
+		right: 20px;
+		z-index: 1000;
+	}
+	.home-button img {
+		object-fit: cover;
+		width: 80px;
 	}
 </style>

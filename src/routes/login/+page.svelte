@@ -23,7 +23,7 @@
 		<p class="error">You have entered the wrong credentials.</p>
 	{/if}
   <div class="options-div">
-    <button class="options" type="submit" data-sveltekit-reload>Log in</button>
+    <button class="options" type="submit" use:enhance data-sveltekit-reload>Log in</button>
   </div>
 
 </form>
@@ -70,6 +70,6 @@
     margin: 0px 0px 0px 10px;
     border:#B5B5B5 1px solid;
     border-radius: 20px;
-    padding: 2px 8px;
+    padding: 4px 16px;
   }
 </style>
