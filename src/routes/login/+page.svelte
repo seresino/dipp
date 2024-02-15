@@ -4,7 +4,7 @@
 </script>
 
 
-<form action="?/login" method="POST" use:enhance>
+<form action="?/login" method="POST" use:enhance data-sveltekit-reload>
 	<div class="input-div">
 		<label class="labels" for="username">Username</label>
 		<input class="input-box" id="username" name="username" type="text" required />
@@ -23,7 +23,7 @@
 		<p class="error">You have entered the wrong credentials.</p>
 	{/if}
   <div class="options-div">
-    <button class="options" type="submit" use:enhance data-sveltekit-reload>Log in</button>
+    <button class="options" type="submit">Log in</button>
   </div>
 
 </form>
