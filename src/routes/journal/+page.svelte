@@ -19,8 +19,8 @@
 		>
 		<div class="pop-up-content center">
 			<div class="container">
-				<h1>Your Daily Journal Entry</h1>
-
+				<h1>Daily Journal</h1>
+				<h4>{journalPrompt.title}</h4>
 				{#if form?.message}
 					<p class="message">{form.message}</p>
 				{/if}
@@ -30,7 +30,7 @@
 						<input type="hidden" name="id" value={userTasks.id} />
 						<textarea
 							name="journal"
-							placeholder="{journalPrompt.title}&#10;{journalPrompt.prompt}"
+							placeholder="{journalPrompt.prompt}"
 						/>
 						<div class="left">
 							<input
@@ -61,9 +61,8 @@
 		width: 100%;
 		gap: 20px;
 	}
-	.container h1 {
+	.container h1, h4{
 		color: #fff;
-		font-size: 32px;
 		font-weight: 300;
 		text-align: left;
 	}
@@ -84,7 +83,7 @@
 		resize: none;
 	}
 	textarea::placeholder {
-		color: #d5d5d5; /* Change this to the color you prefer */
+		color: #888888; /* Change this to the color you prefer */
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 14px; /* Change this to the size you prefer */
 		/* Add other styles as needed */

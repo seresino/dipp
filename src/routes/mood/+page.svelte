@@ -182,7 +182,6 @@
   .questionnaire-text p {
     color: #FFF;
     text-align: center;
-    font-family: Helvetica Neue;
     font-size: 22px;
     font-style: normal;
     font-weight: 300;
@@ -227,7 +226,6 @@
     align-items: center;
     color: #FFF;
     text-align: center;
-    font-family: Helvetica Neue;
     font-size: 18px;
     font-style: normal;
     font-weight: 100;

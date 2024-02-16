@@ -28,7 +28,7 @@
 
 	<div class="progress-container">
 		<div class="progress-section">
-			<p class="progress-text">Days:</p>
+			<p class="progress-text">Day:</p>
 			<div class="progress-bar">
 				{#each Array(day) as _, i}
 					<div class="progress-pill light"></div>
@@ -40,7 +40,7 @@
 			<p class="progress-text">{day}/21</p>
 		</div>
 		<div class="progress-section">
-			<p class="progress-text">Modules:</p>
+			<p class="progress-text">Module:</p>
 			<div class="modules-bar">
 				{#each Array(module.id) as _, i}
 					<div class="modules-pill light"></div>
