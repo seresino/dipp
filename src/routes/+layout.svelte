@@ -1,6 +1,5 @@
 <script>
   import {page } from '$app/stores'
-  import { enhance } from '$app/forms'
 
   export let data; // data returned by the load function
   let user;
@@ -28,7 +27,7 @@
         {#if user}
           <li>
             <div class="logout-pill">
-              <form class="logout" action="/logout" method="POST" use:enhance data-sveltekit-reload>
+              <form class="logout" action="/logout" method="POST">
                 <button type="submit">Log out</button>
               </form>
             </div>
