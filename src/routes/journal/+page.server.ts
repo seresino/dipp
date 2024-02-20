@@ -38,6 +38,7 @@ export const actions = {
 export const load = async ({ locals }) => {
 	const user = locals.user;
 	const userID = user[0].id;
+	const startDate = user[0].start_date;
 
 	// redirect user if not logged in
 	if (!user) {
@@ -63,7 +64,7 @@ export const load = async ({ locals }) => {
 	const journalPromptQuery = await db
 		.select()
 		.from(journalPrompts)
-		.where(eq(journalPrompts.id, getDay()));
+		.where(eq(journalPrompts.id, getDay(startDate)));
 	return {
 		user: user,
 		journalPrompt: journalPromptQuery[0],
