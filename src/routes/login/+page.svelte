@@ -1,10 +1,9 @@
 <script>
-  import { enhance } from '$app/forms'
   export let form
 </script>
 
 
-<form action="?/login" method="POST" use:enhance data-sveltekit-reload>
+<form action="?/login" method="POST">
 	<div class="input-div">
 		<label class="labels" for="username">Username</label>
 		<input class="input-box" id="username" name="username" type="text" required />

@@ -1,6 +1,7 @@
 // get `locals.user` and pass it to the page
 export const load = async ({ locals }) => {
-	return {
-		user: locals.user,
-	};
+  console.log("load fn run");
+  return {
+    user: locals.user,
+  };
 };
