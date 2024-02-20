@@ -28,7 +28,7 @@
     { type: 'scale', statement: 'In the last 15 minutes I was aware of what was going on in my mind.', answer: null },
     { type: 'scale', statement: 'In the last 15 minutes I could separate myself from my thoughts and feelings.', answer: null },
     { type: 'scale', statement: 'In the last 15 minutes I could actually see that I am not my thoughts.', answer: null },
-    { type: 'graph', statement: 'Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?', answer: {x: null, y: null} },
+    { type: 'graph', statement: 'Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?', answer: {x: 0, y: 0} },
     { type: 'scale', statement: 'On a scale of 1 to 5, where 1 means \'not accurate at all\' and 5 means \'extremely accurate,\' how accurately were you able to identify your current mood?', answer: null },
     { type: 'final', text: 'Thank you for completing the mood questionnaire. Please submit below.' },
   ];
@@ -123,22 +123,19 @@
                 <Graph points={[question.answer]}/>
               </div>
 
-              <!-- radio buttons for graph co-ordinates -->
-              <p class="graph-text">Pleasantness</p>
-              <div class="radio-buttons">
-                <span class="number">-5</span>
-                {#each Array(11).fill(undefined) as _, i (i)}
-                  <input type="radio" bind:group={question.answer.x} value={i - 5}>
-                {/each}
-                <span class="number">5</span>
-              </div>
-              <p class="graph-text">Energy</p>
-              <div class="radio-buttons">
-                <span class="number">-5</span>
-                {#each Array(11).fill(undefined) as _, i (i)}
-                  <input type="radio" bind:group={question.answer.y} value={i - 5}>
-                {/each}
-                <span class="number">5</span>
+              <div class="answer-input">
+                <p class="graph-text">Pleasantness</p>
+                <div class="slider-container">
+                  <span class="number">Negative</span>
+                  <input type="range" min="-5" max="5" step="1" bind:value={question.answer.x} class="slider" id="pleasantnessSlider">
+                  <span class="number">Positive</span>
+                </div>
+                <p class="graph-text">Energy</p>
+                <div class="slider-container">
+                  <span class="number">Low</span>
+                  <input type="range" min="-5" max="5" step="1" bind:value={question.answer.y} class="slider" id="energySlider">
+                  <span class="number">High</span>
+                </div>
               </div>
 
               <!-- next button after entering co-ordinates -->
@@ -193,7 +190,7 @@
     height: 20px;
     max-width: 5vw;
     max-height: 5vw;
-    border: solid 1px #888888;
+    border: solid 1px white;
     border-radius: 50%;
     background-color: white;
     margin: 10px;
@@ -211,7 +208,7 @@
     justify-content: space-around;
   }
   .number {
-    font-size: 20px;
+    font-size: 12px;
     color: white;
     margin: 0 10px;
   }
@@ -220,15 +217,53 @@
     max-width: 400px;
 	}
   .graph-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     color: #FFF;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 100;
-    margin-bottom: 10px;
+    margin: 20px 0 10px 0;
+  }
+
+  .answer-input {
+    width:  100%;
+    margin-bottom: 20px;
+    flex-direction: column;
+  }
+  .slider-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 10px;
+  }
+
+  .slider {
+    -webkit-appearance: none; /* Override default appearance */
+    width:  50%; /* Full-width */
+    height:  10px; /* Specified height */
+    background:white; /* Grey background */
+    border-radius: 20px;
+    outline: none;
+    -webkit-transition: .2s; /*  0.2 seconds transition on hover */
+    transition: opacity .2s;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default appearance */
+    appearance: none;
+    width:  20px; /* Set a specific slider handle width */
+    height:  20px; /* Slider handle height */
+    background:#5DB3E5; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius:  50%; /* Round slider handle */
+    border: white solid;
+  }
+
+  .slider::-moz-range-thumb {
+    width:  25px; /* Set a specific slider handle width */
+    height:  25px; /* Slider handle height */
+    background: #5DB3E5; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius:  50%; /* Round slider handle */
   }
 </style>
