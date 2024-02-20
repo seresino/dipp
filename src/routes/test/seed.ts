@@ -157,22 +157,30 @@ const seed = async ({}) => {
 
 	const modulesData = [
 		{
-			name: "Knowledge and expectation",
-			instructions: "Instructions 1",
-			tasks: "Tasks 1",
-			audio: "test-audio.m4a",
+			name: "Knowledge and Expectation",
+			description: `Welcome to Module 1 of the DIPP course. This module, titled "Knowledge and Expectation," is designed to help build a foundational understanding of psilocybin, its effects, and how to navigate the experience so you get the most out of it. You will be equipped with essential information to set realistic expectations and prepare mentally for your journey.
+			
+			This module consists of one reading task for you to complete in your own time this week.`,
+			audio: "meditation-1.mp3",
 		},
 		{
-			name: "Psycho-physical readiness",
-			instructions: "Instructions 2",
-			tasks: "Tasks 2",
-			audio: "meditation-2.m4a",
+			name: "Psycho-Physical Readiness",
+			description: `In this module called ‘Psychophysical-Readiness’, we introduce two grounding techniques that you might find useful before, during and after your psychedelic experience: the 4-6 Breathing Technique and the use of Simple Mantras. These practices are designed to help you maintain a sense of calm and presence, especially during moments that might feel challenging or overwhelming. You can try these out in your own time to see if they resonate with you.
+
+			This module consists of two tasks for you to complete in your own time this week:
+			1.	4-6 Breathing Technique (15 minutes)
+			2.	Simple Mantra Affirmation Technique (15 minutes)`,
+			audio: "meditation-2.mp3",
 		},
 		{
-			name: "Safety planning",
-			instructions: "Instructions 3",
-			tasks: "Tasks 3",
-			audio: "meditation-3.m4a",
+			name: "Safety Planning",
+			description: `In Module 3, titled "Safety-Planning," our focus shifts to creating a secure and supportive environment for your psychedelic session. This module is designed to emphasise the importance of safety, trust, and preparedness, both during and after your psychedelic experience.
+
+			This module consists of two tasks for you to complete in your own time this week:
+			1.	Developing Coping Strategies (30 min)
+			2.	Planning Integration (30 min)
+			`,
+			audio: "meditation-3.mp3",
 		},
 	];
 

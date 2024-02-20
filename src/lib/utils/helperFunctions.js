@@ -6,7 +6,6 @@ const startDate = new Date("2024-01-15");
 const today = new Date("2024-02-01");
 
 function subtractDatesInDays(date1, date2) {
-	console.log(date1 + " " + date2);
 	date1.setUTCHours(0, 0, 0, 0);
 	date2.setUTCHours(0, 0, 0, 0);
 	// Calculate the time difference in milliseconds
@@ -35,8 +34,8 @@ export function getDay(startDate) {
 	// return daysSinceStart() + 1;
 }
 
-export function getModuleID() {
-	return Math.floor(daysSinceStart() / 7) + 1;
+export function getModuleID(startDate) {
+	return Math.floor(daysSince(new Date(startDate)) / 7) + 1;
 }
 
 export function getTodaysDate() {

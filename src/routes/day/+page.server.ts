@@ -12,14 +12,13 @@ import {
 	getDefaultRedirect,
 } from "$lib/utils/helperFunctions";
 
-const moduleID = getModuleID();
-
 export const load = async ({ locals }) => {
 	const user = locals.user;
 	const userID = user[0].id;
 	const startDate = user[0].start_date;
 	const today = getTodaysDate().toISOString();
 	const day = getDay(startDate);
+	const moduleID = getModuleID(startDate);
 
 	// redirect user if not logged in
 	if (!user) {

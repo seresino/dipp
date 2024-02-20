@@ -24,8 +24,7 @@ export const users = pgTable("users", {
 export const modules = pgTable("modules", {
 	id: serial("id").primaryKey(),
 	name: varchar("name").notNull(),
-	instructions: varchar("instructions").notNull(),
-	tasks: varchar("tasks").notNull(),
+	description: text("description").notNull(),
 	audio: varchar("audio").notNull(),
 });
 
@@ -56,9 +55,9 @@ export const dailyTasks = pgTable("daily-tasks", {
 	day_number: integer("day_number"),
 	date: date("date"),
 	user_id: integer("user_id").references(() => users.id),
-	journal: varchar("journal"),
 	meditation: boolean("meditation"),
 	mood_id: integer("mood_id").references(() => mood.id),
+	journal: varchar("journal"),
 });
 
 export const tasks = pgTable("tasks", {
