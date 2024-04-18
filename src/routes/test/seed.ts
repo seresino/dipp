@@ -1,6 +1,6 @@
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
-import { journalPrompts } from "$lib/server/schema";
+import { dayData } from "$lib/server/schema";
 import { modules } from "$lib/server/schema";
 import { mood } from "$lib/server/schema";
 import { tasks } from "$lib/server/schema";
@@ -71,90 +71,111 @@ const seed = async ({}) => {
 		},
 	];
 
-	const journalPromptsData = [
+	const dayDataData = [
 		{
 			title: "Day 1 Initial Impressions",
 			prompt: "Reflect on how you feel about your upcoming psychedelic journey.",
+			audio: "meditation-1.mp3",
 		},
 		{
 			title: "Day 2 Emotional Preparedness",
 			prompt: "What are your expectations about the emotional depth of your upcoming psychedelic experience?",
+			audio: "meditation-2.mp3",
 		},
 		{
 			title: "Day 3 Exploring Your Reasons",
 			prompt: "Why are you drawn to having this psychedelic experience at this time? Explore your motivations.",
+			audio: "meditation-3.mp3",
 		},
 		{
 			title: "Day 4 Insights from Research",
 			prompt: "Reflect on the information you've gathered about the effects of psychedelics. What were the most important learning points for you?",
+			audio: "meditation-4.mp3",
 		},
 		{
 			title: "Day 5 Past Experiences and Influence",
 			prompt: "Consider how your previous life experiences might shape this psychedelic journey.",
+			audio: "meditation-5.mp3",
 		},
 		{
 			title: "Day 6 Embracing the Unknown",
 			prompt: "How do you feel about the unpredictable aspects of psychedelic experiences?",
+			audio: "meditation-6.mp3",
 		},
 		{
 			title: "Day 7 Therapeutic Insights",
 			prompt: "Have you had emotionally significant and supportive conversations about the upcoming experience? What insights did you gain from these conversations?",
+			audio: "meditation-7.mp3",
 		},
 		{
 			title: "Day 8 Openness to the Journey",
 			prompt: "How have you opened yourself to accepting whatever happens during the psychedelic experience?",
+			audio: "meditation-8.mp3",
 		},
 		{
 			title: "Day 9 Navigating Challenges",
 			prompt: "Think about how you might deal with difficult moments during your upcoming psychedelic experience.",
+			audio: "meditation-9.mp3",
 		},
 		{
 			title: "Day 10 Ready to Let Go",
 			prompt: "Reflect on your readiness to surrender to the psychedelic experience.",
+			audio: "meditation-10.mp3",
 		},
 		{
 			title: "Day 11 Psychological Readiness",
 			prompt: "Describe the steps you're taking to mentally prepare for your psychedelic experience.",
+			audio: "meditation-11.mp3",
 		},
 		{
 			title: "Day 12 Physical Preparedness",
 			prompt: "Describe your thoughts and feelings about how psilocybin might physically affect you during the experience, focusing on sensations, comfort, and any expected bodily changes.",
+			audio: "meditation-12.mp3",
 		},
 		{
 			title: "Day 13 Trust and Connection",
 			prompt: "How are you building trust and connection with those who will be with you during the experience?",
+			audio: "meditation-13.mp3",
 		},
 		{
 			title: "Day 14 Safety and Trust",
 			prompt: "Reflect on your knowledge and confidence in the safety of the substance and the environment.",
+			audio: "meditation-14.mp3",
 		},
 		{
 			title: "Day 15 Trusting Yourself",
 			prompt: "Describe the things about you that give you confidence in your ability to navigate this experience?",
+			audio: "meditation-15.mp3",
 		},
 		{
 			title: "Day 16 Anticipating Change",
 			prompt: "What changes do you anticipate this experience might bring in you?",
+			audio: "meditation-16.mp3",
 		},
 		{
 			title: "Day 17 Preparatory Practices",
 			prompt: "Describe your experiences with preparatory practices like meditation, yoga, or journaling.",
+			audio: "meditation-17.mp3",
 		},
 		{
 			title: "Day 18 Planning Post-Experience",
 			prompt: "Reflect on your plans and support system for after the psychedelic experience.",
+			audio: "meditation-18.mp3",
 		},
 		{
 			title: "Day 19 Developing Coping Strategies",
 			prompt: "Reflect on the strategies you might use to manage challenging moments during the experience.",
+			audio: "meditation-19.mp3",
 		},
 		{
 			title: "Day 20 Involving Loved Ones",
 			prompt: "How have you engaged or informed your family and friends about this journey?",
+			audio: "meditation-20.mp3",
 		},
 		{
 			title: "Day 21 Final Intentions",
 			prompt: "Reflect on your past 20 days of journaling to define your clear, final intention for the psychedelic experience.",
+			audio: "meditation-21.mp3",
 		},
 	];
 
@@ -164,7 +185,6 @@ const seed = async ({}) => {
 			description: `Welcome to Module 1 of the DIPP course. This module, titled "Knowledge and Expectation," is designed to help build a foundational understanding of psilocybin, its effects, and how to navigate the experience so you get the most out of it. You will be equipped with essential information to set realistic expectations and prepare mentally for your journey.
 			
 			This module consists of one reading task for you to complete in your own time this week.`,
-			audio: "meditation-1.mp3",
 		},
 		{
 			name: "Psycho-Physical Readiness",
@@ -172,7 +192,6 @@ const seed = async ({}) => {
 			This module consists of two tasks for you to complete in your own time this week:
 			1.	4-6 Breathing Technique (15 minutes)
 			2.	Simple Mantra Affirmation Technique (15 minutes)`,
-			audio: "meditation-2.mp3",
 		},
 		{
 			name: "Safety Planning",
@@ -181,7 +200,6 @@ const seed = async ({}) => {
 			1.	Developing Coping Strategies (30 min)
 			2.	Planning Integration (30 min)
 			`,
-			audio: "meditation-3.mp3",
 		},
 	];
 
@@ -484,7 +502,7 @@ const seed = async ({}) => {
 	// ];
 
 	await db.insert(users).values(usersData);
-	await db.insert(journalPrompts).values(journalPromptsData);
+	await db.insert(dayData).values(dayDataData);
 	await db.insert(modules).values(modulesData);
 	await db.insert(mood).values(moodData);
 	await db.insert(dailyTasks).values(dailyData);

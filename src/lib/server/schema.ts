@@ -2,15 +2,12 @@ import {
 	boolean,
 	timestamp,
 	integer,
-	pgEnum,
 	pgTable,
 	serial,
 	date,
-	uniqueIndex,
 	text,
 	varchar,
 	json,
-	PgArray,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -25,20 +22,14 @@ export const modules = pgTable("modules", {
 	id: serial("id").primaryKey(),
 	name: varchar("name").notNull(),
 	description: text("description").notNull(),
-	audio: varchar("audio").notNull(),
 });
 
-export const journalPrompts = pgTable("journal-prompts", {
+export const dayData = pgTable("day-data", {
 	id: serial("id").primaryKey(),
 	title: varchar("title"),
 	prompt: varchar("prompt"),
+	audio: varchar("audio").notNull(),
 });
-
-export const questionnaire = pgEnum("questionnaire", [
-	"Good",
-	"Bad",
-	"Neutral",
-]);
 
 // Mood Table  - generating fields first...
 let fields = { id: serial("id").primaryKey() };

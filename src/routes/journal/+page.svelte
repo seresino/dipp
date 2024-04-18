@@ -5,7 +5,7 @@
 	const user = data.user[0];
 	let path = "journal"; // directory of this route
 
-	const journalPrompt = data.journalPrompt;
+	const dayData = data.dayData;
 	const userTasks = data.userTasks;
 </script>
 
@@ -20,7 +20,7 @@
 		<div class="pop-up-content center">
 			<div class="container">
 				<h1>Daily Journal</h1>
-				<h4>{journalPrompt.title}</h4>
+				<h4>{dayData.title}</h4>
 				{#if form?.message}
 					<p class="message">{form.message}</p>
 				{/if}
@@ -28,10 +28,7 @@
 				{#if !userTasks.journal}
 					<form action="{path}/?/update" method="post">
 						<input type="hidden" name="id" value={userTasks.id} />
-						<textarea
-							name="journal"
-							placeholder="{journalPrompt.prompt}"
-						/>
+						<textarea name="journal" placeholder={dayData.prompt} />
 						<div class="left">
 							<input
 								class="form-button"
@@ -61,7 +58,8 @@
 		width: 100%;
 		gap: 20px;
 	}
-	.container h1, h4{
+	.container h1,
+	h4 {
 		color: #fff;
 		font-weight: 300;
 		text-align: left;

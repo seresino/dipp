@@ -1,10 +1,10 @@
 import db from "$lib/server/db";
-import { dailyTasks, modules } from "$lib/server/schema";
+import { dailyTasks, modules, dayData } from "$lib/server/schema";
 import { eq, and } from "drizzle-orm";
 import { fail } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 import { getDefaultRedirect } from "$lib/utils/helperFunctions";
-import { getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
+import { getDay, getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
 
 const today = getTodaysDate().toISOString();
 
@@ -48,6 +48,11 @@ export const load = async ({ locals }) => {
 		throw redirect(302, getDefaultRedirect());
 	}
 
+	const dayDataQuery = await db
+		.select()
+		.from(dayData)
+		.where(eq(dayData.id, getDay(startDate)));
+
 	const moduleQuery = await db
 		.select()
 		.from(modules)
@@ -63,8 +68,10 @@ export const load = async ({ locals }) => {
 		throw redirect(302, "/day");
 	}
 
+	console.log(dayDataQuery[0].audio);
+
 	return {
 		user: user,
-		module: moduleQuery[0],
+		file: dayDataQuery[0].audio,
 	};
 };
