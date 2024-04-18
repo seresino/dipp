@@ -1,7 +1,3 @@
-// import db from "$lib/server/db";
-// import { users } from "$lib/server/schema";
-// import { fail } from "@sveltejs/kit";
-
 // export const actions = {
 //   add: async ({ request }) => {
 //     const formData = await request.formData();
@@ -27,10 +23,9 @@
 //   },
 // };
 
-import { redirect } from "@sveltejs/kit";
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
-import { eq } from "drizzle-orm";
+import { redirect } from "@sveltejs/kit";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "$lib/firebase/firebase";
@@ -43,29 +38,31 @@ export const load = async ({ locals }) => {
 };
 
 export const actions = {
-	add: async ({ cookies, request }) => {
+	add: async ({ request }) => {
 		const data = await request.formData();
 		const username = data.get("username");
 		const pass = data.get("password");
 		const startDate = data.get("startDate");
-		const meditation = data.get("meditation");
+		const meditation = data.get("meditation")?.toString();
 
-		// const email = username + "@dipp.com";
-		// const userCredential = await createUserWithEmailAndPassword(
-		// 	auth,
-		// 	email,
-		// 	pass
-		// );
+		console.log("Create FB user");
+		const email = username + "@dipp.com";
+		const userCredential = await createUserWithEmailAndPassword(
+			auth,
+			email,
+			pass
+		);
+		console.log("Created FB user");
+		console.log("Meditation = ", meditation);
 
 		// Add new entry to the users table
 		await db.insert(users).values({
 			username: username,
 			password: pass,
-			meditation: meditation,
+			meditation: !!meditation,
 			high_dosage: true,
 		});
 
-		// // redirect the user
-		// throw redirect(302, "/dashboard");
+		console.log("Created PG user");
 	},
 };
