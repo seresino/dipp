@@ -6,41 +6,42 @@ const startDate = new Date("2024-01-15");
 const today = new Date("2024-02-01");
 
 function subtractDatesInDays(date1, date2) {
-  date1.setUTCHours(0, 0, 0, 0);
-  date2.setUTCHours(0, 0, 0, 0);
-  // Calculate the time difference in milliseconds
-  const differenceInMilliseconds = date1.getTime() - date2.getTime();
+	date1.setUTCHours(0, 0, 0, 0);
+	date2.setUTCHours(0, 0, 0, 0);
+	// Calculate the time difference in milliseconds
+	const differenceInMilliseconds = date1.getTime() - date2.getTime();
 
-  // Convert milliseconds to days
-  const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
+	// Convert milliseconds to days
+	const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 
-  return differenceInDays;
+	return differenceInDays;
 }
 
 function daysSince(date) {
-  const today = new Date();
-  return subtractDatesInDays(today, date);
+	const today = new Date();
+	return subtractDatesInDays(today, date);
 }
 
 function daysSinceStart() {
-  // Live site will use todays date like below - uncomment this lines --------------------------------
-  // return daysSince(startDate)
+	// Live site will use todays date like below - uncomment this lines --------------------------------
+	// return daysSince(startDate)
 
-  return subtractDatesInDays(today, startDate);
+	return subtractDatesInDays(today, startDate);
 }
 
-export function getDay() {
-  return daysSinceStart() + 1;
+export function getDay(startDate) {
+	return daysSince(new Date(startDate)) + 1;
+	// return daysSinceStart() + 1;
 }
 
 export function getModuleID() {
-  return Math.floor(daysSinceStart() / 7) + 1;
+	return Math.floor(daysSinceStart() / 7) + 1;
 }
 
 export function getTodaysDate() {
-  // const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  return today;
+	// const today = new Date();
+	today.setUTCHours(0, 0, 0, 0);
+	return today;
 }
 
 // // Date Segments
@@ -53,23 +54,23 @@ export function getTodaysDate() {
 // const formattedDate2 = currentDate.toLocaleDateString()
 
 export function truncateWords(str, numWords) {
-  return str.split(" ").splice(0, numWords).join(" ");
+	return str.split(" ").splice(0, numWords).join(" ");
 }
 
 export function retrieveAnswers(questionnaire) {
-  let answers = [];
-  questionnaire.forEach((question, index) => {
-    if (question.type === "graph") {
-      answers.push(`${question.answer.x},${question.answer.y} `);
-    } else if (question.type === "scale") {
-      answers.push(`${question.answer} `);
-    }
-  });
-  return answers;
+	let answers = [];
+	questionnaire.forEach((question, index) => {
+		if (question.type === "graph") {
+			answers.push(`${question.answer.x},${question.answer.y} `);
+		} else if (question.type === "scale") {
+			answers.push(`${question.answer} `);
+		}
+	});
+	return answers;
 }
 
 export { authHandlers };
 
 export function getDefaultRedirect() {
-  return "/login";
+	return "/login";
 }

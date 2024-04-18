@@ -21,48 +21,51 @@ function getRandomNumberInRange(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// Dev start date
+const startDate = new Date("2024-04-01");
+
 const seed = async ({}) => {
 	const usersData = [
 		{
 			id: 0,
 			username: "ADMIN",
-			password: "admin",
+			start_date: startDate,
 			meditation: false,
 			high_dosage: false,
 		},
 		{
 			username: "PI5AKN",
-			password: generatePassword(),
+			start_date: startDate,
 			meditation: true,
 			high_dosage: true,
 		},
 		{
 			username: "P1BGSM",
-			password: generatePassword(),
+			start_date: startDate,
 			meditation: false,
 			high_dosage: true,
 		},
 		{
 			username: "PBZ6BA",
-			password: generatePassword(),
+			start_date: startDate,
 			meditation: true,
 			high_dosage: false,
 		},
 		{
 			username: "P8B45Q",
-			password: generatePassword(),
+			start_date: startDate,
 			meditation: false,
 			high_dosage: false,
 		},
 		{
 			username: "USER1",
-			password: "pass",
+			start_date: startDate,
 			meditation: false,
 			high_dosage: false,
 		},
 		{
 			username: "USER2",
-			password: "pass",
+			start_date: startDate,
 			meditation: true,
 			high_dosage: true,
 		},

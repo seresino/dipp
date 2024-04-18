@@ -16,9 +16,9 @@ import {
 export const users = pgTable("users", {
 	id: serial("id").primaryKey(),
 	username: varchar("username", { length: 20 }).unique().notNull(),
-	password: varchar("password", { length: 20 }).notNull(),
+	start_date: date("start_date").notNull(),
 	meditation: boolean("meditation").notNull().default(false),
-	high_dosage: boolean("high_dosage").notNull(),
+	high_dosage: boolean("high_dosage").notNull().default(true),
 });
 
 export const modules = pgTable("modules", {
