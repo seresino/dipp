@@ -5,8 +5,6 @@ import { redirect } from "@sveltejs/kit";
 import { getModuleID } from "$lib/utils/helperFunctions";
 import { getDefaultRedirect } from "$lib/utils/helperFunctions";
 
-const moduleID = getModuleID();
-
 async function fetchWeeklyTasksQuery(
 	taskID: string,
 	userID: number
@@ -90,6 +88,8 @@ export const actions = {
 export const load = async ({ locals }) => {
 	const user = locals.user;
 	const userID = user[0].id;
+	const startDate = user[0].start_date;
+	const moduleID = getModuleID(startDate);
 
 	// redirect user if not logged in
 	if (!user) {

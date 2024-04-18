@@ -34,8 +34,8 @@ export function getDay(startDate) {
 	// return daysSinceStart() + 1;
 }
 
-export function getModuleID() {
-	return Math.floor(daysSinceStart() / 7) + 1;
+export function getModuleID(startDate) {
+	return Math.floor(daysSince(new Date(startDate)) / 7) + 1;
 }
 
 export function getTodaysDate() {
