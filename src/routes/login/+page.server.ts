@@ -9,6 +9,10 @@ import { auth } from "$lib/firebase/firebase";
 export const load = async ({ locals }) => {
 	// redirect user if logged in
 	if (locals.user) {
+		console.log("Admin ID Check:", locals.user[0].id);
+		if (locals.user[0].id === 0) {
+			throw redirect(302, "/admin");
+		}
 		throw redirect(302, "/dashboard");
 	}
 };
@@ -48,6 +52,9 @@ export const actions = {
 		});
 
 		// redirect the user
+		if (user.id === 0) {
+			throw redirect(302, "/admin");
+		}
 		throw redirect(302, "/dashboard");
 	},
 };

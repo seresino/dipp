@@ -25,7 +25,7 @@ const seed = async ({}) => {
 	const usersData = [
 		{
 			id: 0,
-			username: "admin",
+			username: "ADMIN",
 			password: "admin",
 			meditation: false,
 			high_dosage: false,
