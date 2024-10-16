@@ -24,7 +24,6 @@ export const actions = {
 		// Finally, add entry to the database
 		await db.insert(users).values({
 			username: username,
-			password: "pass",
 			high_dosage: true,
 		});
 
@@ -34,12 +33,11 @@ export const actions = {
 	update: async ({ request }) => {
 		const formData = await request.formData();
 		const username = formData.get("username")?.toString();
-		const password = formData.get("password")?.toString();
 		const meditation = formData.get("meditation")?.toString();
 		const high_dosage = formData.get("high_dosage")?.toString();
 		const id = formData.get("id")?.toString();
 
-		if (!username || !password || !id) {
+		if (!username || !id) {
 			return fail(400, { message: "Error updating user" });
 		}
 
@@ -47,7 +45,6 @@ export const actions = {
 			.update(users)
 			.set({
 				username,
-				password,
 				meditation: !!meditation,
 				high_dosage: !!high_dosage,
 			})
