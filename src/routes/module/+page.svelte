@@ -127,7 +127,7 @@
 			<div class="content">
 				{#if selectedButton === "instructions"}
 					<h1>Module {module.id}: {module.name}</h1>
-					<p>{module.description}</p>
+					{@html module.description}
 				{:else if selectedButton === "tasks"}
 					{#if !selectedTask}
 						{#each tasks
