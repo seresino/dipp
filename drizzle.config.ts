@@ -1,12 +1,26 @@
-import type { Config } from "drizzle-kit";
+// import type { Config } from "drizzle-kit";
+// import * as dotenv from "dotenv";
+// dotenv.config();
+
+// export default {
+// 	schema: "./src/lib/server/schema.ts",
+// 	out: "./migrations",
+// 	driver: "pg",
+// 	dbCredentials: {
+// 		connectionString: `postgres://${process.env.VITE_DATABASE_USERNAME}:${process.env.VITE_DATABASE_PASSWORD}@${process.env.VITE_DATABASE_HOST}/${process.env.VITE_DATABASE_NAME}`,
+// 	},
+// } satisfies Config;
+
 import * as dotenv from "dotenv";
 dotenv.config();
+import { defineConfig } from "drizzle-kit";
 
-export default {
+export default defineConfig({
+	out: "./drizzle",
 	schema: "./src/lib/server/schema.ts",
-	out: "./migrations",
-	driver: "pg",
+	dialect: "postgresql",
 	dbCredentials: {
-		connectionString: `postgres://${process.env.VITE_DATABASE_USERNAME}:${process.env.VITE_DATABASE_PASSWORD}@${process.env.VITE_DATABASE_HOST}/${process.env.VITE_DATABASE_NAME}`,
+		url: "postgres://farhath:@localhost:5432/dipp",
+		// url: "postgres://${process.env.VITE_DATABASE_USERNAME}:${process.env.VITE_DATABASE_PASSWORD}@${process.env.VITE_DATABASE_HOST}:${process.env.VITE_DATABASE_PORT}/${process.env.VITE_DATABASE_NAME}",
 	},
-} satisfies Config;
+});

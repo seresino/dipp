@@ -35,14 +35,23 @@ export const load = async ({ locals }) => {
 		.from(dailyTasks)
 		.where(and(eq(dailyTasks.user_id, userID), eq(dailyTasks.date, today)));
 
+	console.log("Adding daily entry");
 	if (userTasksQuery.length === 0) {
-		const entry = {
+		let entry = {
 			day_number: day,
 			date: today,
 			user_id: userID,
 		};
+
+		// Set meditation to false instead of null if in meditation group
+		console.log("Med Value:", user[0].meditation);
+		if (user[0].meditation) {
+			entry["meditation"] = false;
+		}
+
 		userTasksQuery = await db.insert(dailyTasks).values(entry).returning();
 	}
+	console.log("Daily entry added");
 
 	return {
 		user: user,

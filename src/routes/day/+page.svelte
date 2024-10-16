@@ -51,13 +51,12 @@
 			activityButtons.journal += " complete";
 		}
 	} else {
-		taskCompletion = [!!userTasks.mood_id, !!userTasks.journal];
-		tasks = { mood: 0, journal: 1 };
+		taskCompletion = [!!userTasks.mood_id];
+		tasks = { mood: 0 };
 
-		progressBar = { mood_id: "activity-pill", journal: "activity-pill" };
+		progressBar = { mood_id: "activity-pill" };
 		activityButtons = {
 			mood: "activity medium",
-			journal: "activity light",
 		};
 
 		Object.keys(progressBar).forEach((key) => {
@@ -66,13 +65,8 @@
 			}
 		});
 
-		if (!userTasks.mood_id) {
-			activityButtons.journal += " inactive";
-		} else if (!userTasks.journal) {
+		if (userTasks.mood_id) {
 			activityButtons.mood += " complete";
-		} else {
-			activityButtons.mood += " complete";
-			activityButtons.journal += " complete";
 		}
 	}
 </script>
@@ -85,7 +79,12 @@
 			alt="dashboard-shape"
 		/>
 		<div class="dashboard-contents">
-			<a class="home-button" href="/dashboard"><img src="/images/home-circle-button.svg" alt="home button" /></a>
+			<a class="home-button" href="/dashboard"
+				><img
+					src="/images/home-circle-button.svg"
+					alt="home button"
+				/></a
+			>
 			<div class="module-top-button">
 				<div class="module-info-pill">
 					<a
@@ -200,28 +199,6 @@
 						/>
 					</div>
 				</a>
-			</div>
-			<div class={activityButtons.journal}>
-				<h1>Journal</h1>
-				{#if userTasks.mood_id}
-					<a href="/journal">
-						<div class="activity-contents">
-							<img
-								class="enter-button"
-								src="/images/enter-button-2.svg"
-								alt="enter-button"
-							/>
-						</div>
-					</a>
-				{:else}
-					<div class="activity-contents">
-						<img
-							class="enter-button"
-							src="/images/enter-button-2.svg"
-							alt="enter-button"
-						/>
-					</div>
-				{/if}
 			</div>
 		</div>
 	{/if}

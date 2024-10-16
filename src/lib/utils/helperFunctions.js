@@ -18,7 +18,7 @@ function subtractDatesInDays(date1, date2) {
 }
 
 function daysSince(date) {
-	const today = new Date();
+	const today = new Date("2024-04-12");
 	return subtractDatesInDays(today, date);
 }
 

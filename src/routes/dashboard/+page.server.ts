@@ -33,8 +33,20 @@ export const load = async ({ locals }) => {
 		.where(eq(dailyTasks.user_id, userID));
 
 	let daysCompleted = [];
+	let tasksComplete;
 	userTasksQuery.forEach((day) => {
-		daysCompleted.push(day.day_number);
+		if (!user[0].mediation) {
+			tasksComplete = Boolean(day.mood_id);
+		} else {
+			tasksComplete =
+				Boolean(day.meditation) &&
+				Boolean(day.mood_id) &&
+				Boolean(day.journal);
+		}
+
+		if (tasksComplete) {
+			daysCompleted.push(day.day_number);
+		}
 	});
 
 	const today = new Date();

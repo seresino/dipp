@@ -6,25 +6,28 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"db:push": "drizzle-kit push:pg",
+		"db:up": "drizzle-kit up",
+		"db:push": "drizzle-kit push",
 		"db:studio": "drizzle-kit studio"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.20.4",
-		"drizzle-kit": "^0.20.13",
-		"svelte": "^4.0.5",
-		"vite": "^4.4.2"
 	},
 	"type": "module",
 	"dependencies": {
-		"d3": "^7.8.5",
+		"d3": "^7.9.0",
 		"d3-scale": "^4.0.2",
-		"dotenv": "^16.3.2",
-		"drizzle-orm": "^0.29.3",
-		"firebase": "^10.5.2",
-		"pg": "^8.11.3",
-		"svelte-sound": "^0.6.0",
-		"firebase-admin": "^12.0.0"
+		"dotenv": "^16.4.5",
+		"drizzle-orm": "^0.34.1",
+		"firebase": "^10.14.1",
+		"firebase-admin": "^12.6.0",
+		"pg": "^8.13.0",
+		"svelte-sound": "^0.6.0"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.2.5",
+		"@sveltejs/kit": "^2.7.0",
+		"@types/pg": "^8.11.10",
+		"drizzle-kit": "^0.25.0",
+		"svelte": "^4.2.19",
+		"tsx": "^4.19.1",
+		"vite": "^5.4.8"
 	}
 }
