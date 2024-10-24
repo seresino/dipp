@@ -22,7 +22,7 @@ function getRandomNumberInRange(min, max) {
 }
 
 // Dev start date
-const startDate = new Date("2024-04-01");
+const startDate = new Date("2024-04-01").toDateString();
 
 const seed = async ({}) => {
 	const usersData = [

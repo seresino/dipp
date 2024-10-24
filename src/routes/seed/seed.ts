@@ -27,7 +27,7 @@ export async function seed() {
 	];
 	await db.insert(users).values(usersData);
 
-	await db.insert(dayData).values([
+	const dayDataData = [
 		{
 			id: 1,
 			title: "Initial Feelings",
@@ -154,32 +154,28 @@ export async function seed() {
 			prompt: "Based on your journey of preparation, reflect on your final intention for the psychedelic experience.",
 			audio: "meditation-21.mp3",
 		},
-	]);
+	];
+
+	await db.insert(dayData).values(dayDataData);
 
 	const modulesData = [
 		{
 			id: 1,
 			name: "Knowledge and Expectation",
-			description: `Welcome to Module 1 of the DIPP course. This module, titled "Knowledge and Expectation," is designed to help build a foundational understanding of psilocybin, its effects, and how to navigate the experience so you get the most out of it. You will be equipped with essential information to set realistic expectations and prepare mentally for your journey.
-			
-			This module consists of one reading task for you to complete in your own time this week.`,
+			description:
+				"Welcome to the first module of the DIPP course! This week, the aim is to lay a solid foundation of knowledge about psilocybin and what to expect during your psilocybin session.",
 		},
 		{
 			id: 2,
-			name: "Psycho-Physical Readiness",
-			description: `In this module called ‘Psychophysical-Readiness’, we introduce two grounding techniques that you might find useful before, during and after your psychedelic experience: the 4-6 Breathing Technique and the use of Simple Mantras. These practices are designed to help you maintain a sense of calm and presence, especially during moments that might feel challenging or overwhelming. You can try these out in your own time to see if they resonate with you.
-			This module consists of two tasks for you to complete in your own time this week:
-			1.	4-6 Breathing Technique (15 minutes)
-			2.	Simple Mantra Affirmation Technique (15 minutes)`,
+			name: "Psychophysical Readiness",
+			description:
+				"In this module, we introduce two grounding techniques that you might find useful before, during and after your psychedelic experience: the 4–6 Breathing Technique and the use of simple mantras. These practices are designed to help you maintain a sense of calm and presence, especially during moments that might feel challenging or overwhelming. You can try these out in your own time to see if they resonate with you.",
 		},
 		{
 			id: 3,
 			name: "Safety Planning",
-			description: `In Module 3, titled "Safety-Planning," our focus shifts to creating a secure and supportive environment for your psychedelic session. This module is designed to emphasise the importance of safety, trust, and preparedness, both during and after your psychedelic experience.
-			This module consists of two tasks for you to complete in your own time this week:
-			1.	Developing Coping Strategies (30 min)
-			2.	Planning Integration (30 min)
-			`,
+			description:
+				"This module is designed to emphasise the importance of safety and trust, both during and after your psychedelic experience. Please make sure that you are completing these sections in a calm, quiet and comfortable environment without any distractions.",
 		},
 	];
 
