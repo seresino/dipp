@@ -2,44 +2,34 @@ import {
 	boolean,
 	timestamp,
 	integer,
-	pgEnum,
 	pgTable,
 	serial,
 	date,
-	uniqueIndex,
 	text,
 	varchar,
 	json,
-	PgArray,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
 	id: serial("id").primaryKey(),
 	username: varchar("username", { length: 20 }).unique().notNull(),
-	password: varchar("password", { length: 20 }).notNull(),
+	start_date: date("start_date").notNull(),
 	meditation: boolean("meditation").notNull().default(false),
-	high_dosage: boolean("high_dosage").notNull(),
+	high_dosage: boolean("high_dosage").notNull().default(true),
 });
 
 export const modules = pgTable("modules", {
 	id: serial("id").primaryKey(),
 	name: varchar("name").notNull(),
-	instructions: varchar("instructions").notNull(),
-	tasks: varchar("tasks").notNull(),
-	audio: varchar("audio").notNull(),
+	description: text("description").notNull(),
 });
 
-export const journalPrompts = pgTable("journal-prompts", {
+export const dayData = pgTable("day-data", {
 	id: serial("id").primaryKey(),
 	title: varchar("title"),
 	prompt: varchar("prompt"),
+	audio: varchar("audio").notNull(),
 });
-
-export const questionnaire = pgEnum("questionnaire", [
-	"Good",
-	"Bad",
-	"Neutral",
-]);
 
 // Mood Table  - generating fields first...
 let fields = { id: serial("id").primaryKey() };
@@ -56,9 +46,9 @@ export const dailyTasks = pgTable("daily-tasks", {
 	day_number: integer("day_number"),
 	date: date("date"),
 	user_id: integer("user_id").references(() => users.id),
-	journal: varchar("journal"),
 	meditation: boolean("meditation"),
 	mood_id: integer("mood_id").references(() => mood.id),
+	journal: varchar("journal"),
 });
 
 export const tasks = pgTable("tasks", {

@@ -29,9 +29,9 @@ import { redirect } from "@sveltejs/kit";
 	routes you can invalidate the data on the page
 */
 
-export const handleError: HandleServerError = ({ error, event }) => {
-	throw redirect(303, "/");
-};
+// export const handleError: HandleServerError = ({ error, event }) => {
+// 	throw redirect(303, "/");
+// };
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// get cookies from browser

@@ -1,18 +1,28 @@
 <script>
-  import { enhance } from '$app/forms'
-  export let form
+	export let form;
 </script>
-
 
 <form action="?/login" method="POST" use:enhance data-sveltekit-reload>
 	<div class="input-div">
 		<label class="labels" for="username">Username</label>
-		<input class="input-box" id="username" name="username" type="text" required />
+		<input
+			class="input-box"
+			id="username"
+			name="username"
+			type="text"
+			required
+		/>
 	</div>
 
 	<div class="input-div">
 		<label class="labels" for="password">Password</label>
-		<input class="input-box" id="password" name="password" type="password" required />
+		<input
+			class="input-box"
+			id="password"
+			name="password"
+			type="password"
+			required
+		/>
 	</div>
 
 	{#if form?.invalid}
@@ -22,54 +32,53 @@
 	{#if form?.credentials}
 		<p class="error">You have entered the wrong credentials.</p>
 	{/if}
-  <div class="options-div">
-    <button class="options" type="submit">Log in</button>
-  </div>
-
+	<div class="options-div">
+		<button class="options" type="submit">Log in</button>
+	</div>
 </form>
 
 <style>
-  form {
-    max-width: 90%;
-    justify-content: space-between;
-    align-items: center;
-    background : white;
-    border-radius : 40px;
-    border-style: solid;
-    border-color: #168ACE;
-    padding: 40px 0 20px 0;
-  }
-  .input-div {
-    width: 80%;
-    justify-content: space-evenly;
-    align-items : center;
-    gap: 10px;
-    padding: 5px 20px 5px 20px;
-   }
-  .input-box {
-    width : 280px;
-    max-width: 40vw;
-    height : 49px;
-    background : white;
-    border-radius : 38px;
-    border : 1px #168ACE solid;
-    padding: 0 20px 0 20px;
-  }
-  .labels {
-    font-size: px;
-  }
-  .options-div {
-    width: 75%;
-    justify-content : right;
-    align-items : center;
-    padding: 12px 20px 0px 20px;
-  }
-  .options {
-    color : #B5B5B5;
-    font-size : 16px;
-    margin: 0px 0px 0px 10px;
-    border:#B5B5B5 1px solid;
-    border-radius: 20px;
-    padding: 4px 16px;
-  }
+	form {
+		max-width: 90%;
+		justify-content: space-between;
+		align-items: center;
+		background: white;
+		border-radius: 40px;
+		border-style: solid;
+		border-color: #168ace;
+		padding: 40px 0 20px 0;
+	}
+	.input-div {
+		width: 80%;
+		justify-content: space-evenly;
+		align-items: center;
+		gap: 10px;
+		padding: 5px 20px 5px 20px;
+	}
+	.input-box {
+		width: 280px;
+		max-width: 40vw;
+		height: 49px;
+		background: white;
+		border-radius: 38px;
+		border: 1px #168ace solid;
+		padding: 0 20px 0 20px;
+	}
+	.labels {
+		font-size: px;
+	}
+	.options-div {
+		width: 75%;
+		justify-content: right;
+		align-items: center;
+		padding: 12px 20px 0px 20px;
+	}
+	.options {
+		color: #b5b5b5;
+		font-size: 16px;
+		margin: 0px 0px 0px 10px;
+		border: #b5b5b5 1px solid;
+		border-radius: 20px;
+		padding: 4px 16px;
+	}
 </style>

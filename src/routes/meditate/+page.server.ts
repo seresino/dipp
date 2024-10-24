@@ -1,13 +1,12 @@
 import db from "$lib/server/db";
-import { dailyTasks, modules } from "$lib/server/schema";
+import { dailyTasks, modules, dayData } from "$lib/server/schema";
 import { eq, and } from "drizzle-orm";
 import { fail } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 import { getDefaultRedirect } from "$lib/utils/helperFunctions";
-import { getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
+import { getDay, getModuleID, getTodaysDate } from "$lib/utils/helperFunctions";
 
 const today = getTodaysDate().toISOString();
-const moduleID = getModuleID();
 
 export const actions = {
 	update: async ({ request, locals }) => {
@@ -41,11 +40,18 @@ export const actions = {
 export const load = async ({ locals }) => {
 	const user = locals.user;
 	const userID = user[0].id;
+	const startDate = user[0].start_date;
+	const moduleID = getModuleID(startDate);
 
 	// redirect user if not logged in
 	if (!user) {
 		throw redirect(302, getDefaultRedirect());
 	}
+
+	const dayDataQuery = await db
+		.select()
+		.from(dayData)
+		.where(eq(dayData.id, getDay(startDate)));
 
 	const moduleQuery = await db
 		.select()
@@ -62,8 +68,10 @@ export const load = async ({ locals }) => {
 		throw redirect(302, "/day");
 	}
 
+	console.log(dayDataQuery[0].audio);
+
 	return {
 		user: user,
-		module: moduleQuery[0],
+		file: dayDataQuery[0].audio,
 	};
 };

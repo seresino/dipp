@@ -1,6 +1,6 @@
 import db from "$lib/server/db";
 import { dailyTasks } from "$lib/server/schema";
-import { journalPrompts } from "$lib/server/schema";
+import { dayData } from "$lib/server/schema";
 import { fail } from "@sveltejs/kit";
 import { eq, and } from "drizzle-orm";
 import { redirect } from "@sveltejs/kit";
@@ -38,6 +38,7 @@ export const actions = {
 export const load = async ({ locals }) => {
 	const user = locals.user;
 	const userID = user[0].id;
+	const startDate = user[0].start_date;
 
 	// redirect user if not logged in
 	if (!user) {
@@ -60,13 +61,13 @@ export const load = async ({ locals }) => {
 		throw redirect(302, "/day");
 	}
 
-	const journalPromptQuery = await db
+	const dayDataQuery = await db
 		.select()
-		.from(journalPrompts)
-		.where(eq(journalPrompts.id, getDay()));
+		.from(dayData)
+		.where(eq(dayData.id, getDay(startDate)));
 	return {
 		user: user,
-		journalPrompt: journalPromptQuery[0],
+		dayData: dayDataQuery[0],
 		userTasks: userTasksQuery[0],
 	};
 };

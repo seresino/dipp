@@ -15,3 +15,7 @@ node_modules/
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+create-tables.sh
+delete-tables.sh
+.vercel
+/drizzle
