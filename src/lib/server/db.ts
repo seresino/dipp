@@ -10,6 +10,4 @@ const client = new Client({
 });
 
 await client.connect();
-const db = drizzle(client);
-
-export default db;
+export const db = drizzle(client);
