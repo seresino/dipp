@@ -1,9 +1,9 @@
 import { authHandlers } from "$lib/utils/authHandlers";
 
-// Start date for testing purposes --------------------------------
-const startDate = new Date("2024-04-12");
-// Todays date for testing purposes --------------------------------
-const today = new Date("2024-02-01");
+// // Start date for testing purposes --------------------------------
+// const startDate = new Date("2024-04-12");
+// // Todays date for testing purposes --------------------------------
+// const today = new Date("2024-02-01");
 
 function subtractDatesInDays(date1, date2) {
 	date1.setUTCHours(0, 0, 0, 0);
@@ -18,7 +18,11 @@ function subtractDatesInDays(date1, date2) {
 }
 
 function daysSince(date) {
-	const today = new Date("2024-04-12");
+	const today = new Date();
+
+	// Todays date for testing purposes --------------------------------
+	// const today = new Date("2024-11-11");
+
 	return subtractDatesInDays(today, date);
 }
 

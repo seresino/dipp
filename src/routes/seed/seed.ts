@@ -15,7 +15,7 @@ export async function seed() {
 	await db.delete(modules);
 
 	// Dev start date
-	const startDate = new Date("2024-04-01").toDateString();
+	const startDate = new Date().toDateString();
 
 	const usersData = [
 		{

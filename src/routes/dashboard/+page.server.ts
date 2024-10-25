@@ -35,7 +35,7 @@ export const load = async ({ locals }) => {
 	let daysCompleted = [];
 	let tasksComplete;
 	userTasksQuery.forEach((day) => {
-		if (!user[0].mediation) {
+		if (!user[0].meditation) {
 			tasksComplete = Boolean(day.mood_id);
 		} else {
 			tasksComplete =
@@ -58,6 +58,8 @@ export const load = async ({ locals }) => {
 	});
 	const dateDay = dayFormatter.format(today);
 	const dateMonth = monthFormatter.format(today);
+
+	console.log("Day", getDay(startDate));
 
 	console.log(user);
 	return {
