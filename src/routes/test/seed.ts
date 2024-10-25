@@ -587,101 +587,206 @@ const seed = async ({}) => {
 	// ];
 	// await db.insert(tasks).values(taskData);
 
-	const task1 = {
-		task: "Reading: (30 minutes)",
-		time: 30,
-		goal: "To gain comprehensive knowledge about psilocybin – its nature, effects, and the experience it induces.",
-		background: "",
-		materials: [
-			"The reading materials provided below",
-			"Pen and paper or a digital device for note-taking",
-		],
-		instructions: JSON.stringify({
-			Reading:
-				"Please set aside about 30 minutes to read the provided material. Pay special attention to aspects like setting intentions, navigating challenging moments, and the importance of integration post-experience.",
-			"Note Taking":
-				"As you read, you might find it helpful to take notes on key points, especially those that resonate with your personal interests or concerns.",
-		}),
-		module_id: 1,
-	};
+	// const task1 = {
+	// 	task: "Reading: (30 minutes)",
+	// 	time: 30,
+	// 	goal: "To gain comprehensive knowledge about psilocybin – its nature, effects, and the experience it induces.",
+	// 	background: "",
+	// 	materials: [
+	// 		"The reading materials provided below",
+	// 		"Pen and paper or a digital device for note-taking",
+	// 	],
+	// 	instructions: JSON.stringify({
+	// 		Reading:
+	// 			"Please set aside about 30 minutes to read the provided material. Pay special attention to aspects like setting intentions, navigating challenging moments, and the importance of integration post-experience.",
+	// 		"Note Taking":
+	// 			"As you read, you might find it helpful to take notes on key points, especially those that resonate with your personal interests or concerns.",
+	// 	}),
+	// 	module_id: 1,
+	// };
 
-	const task2 = {
-		task: "4-6 Breathing Technique (15 minutes)",
-		time: 15,
-		goal: "To practise the 4-6 Breathing Technique for inducing a state of calm.",
-		background:
-			"This simple method, involving a four-second inhale followed by a six-second exhale, helps regulate the autonomic nervous system, which is responsible for the body's stress responses. By consciously slowing down the breath, the technique shifts the body from a state of alertness and anxiety to one of relaxation and calm, making it an excellent practice before the session begins. What's even more valuable is knowing that you can return to this breathing technique during the psychedelic experience if things become challenging.",
-		materials: [
-			"A quiet and comfortable space.",
-			"Optional: Calming meditation music.",
-		],
-		instructions: JSON.stringify({
-			Preparation:
-				"Find a quiet, comfortable place to sit or lie down where you won't be disturbed.",
-			"Breathing Practice":
-				"Inhale slowly through your nose for a count of 4, allowing your chest and lower abdomen to expand. Exhale slowly through your mouth for a count of 6, releasing the air gradually. Continue this pattern for about 5-10 minutes, focusing on maintaining the rhythm of 4-second inhalation and 6-second exhalation. Try to notice the sense of calmness that accompanies this practice.",
-			note: "Some individuals may experience dizziness. If you’re sitting or lying down, don’t get up too quickly after the practice. Adjust the breathing duration if necessary. Regular practice enhances relaxation skills.",
-		}),
-		module_id: 2,
-	};
+	// const task2 = {
+	// 	task: "4-6 Breathing Technique (15 minutes)",
+	// 	time: 15,
+	// 	goal: "To practise the 4-6 Breathing Technique for inducing a state of calm.",
+	// 	background:
+	// 		"This simple method, involving a four-second inhale followed by a six-second exhale, helps regulate the autonomic nervous system, which is responsible for the body's stress responses. By consciously slowing down the breath, the technique shifts the body from a state of alertness and anxiety to one of relaxation and calm, making it an excellent practice before the session begins. What's even more valuable is knowing that you can return to this breathing technique during the psychedelic experience if things become challenging.",
+	// 	materials: [
+	// 		"A quiet and comfortable space.",
+	// 		"Optional: Calming meditation music.",
+	// 	],
+	// 	instructions: JSON.stringify({
+	// 		Preparation:
+	// 			"Find a quiet, comfortable place to sit or lie down where you won't be disturbed.",
+	// 		"Breathing Practice":
+	// 			"Inhale slowly through your nose for a count of 4, allowing your chest and lower abdomen to expand. Exhale slowly through your mouth for a count of 6, releasing the air gradually. Continue this pattern for about 5-10 minutes, focusing on maintaining the rhythm of 4-second inhalation and 6-second exhalation. Try to notice the sense of calmness that accompanies this practice.",
+	// 		note: "Some individuals may experience dizziness. If you’re sitting or lying down, don’t get up too quickly after the practice. Adjust the breathing duration if necessary. Regular practice enhances relaxation skills.",
+	// 	}),
+	// 	module_id: 2,
+	// };
 
-	const task3 = {
-		task: "Simple Mantra Affirmation Technique (15 minutes)",
-		time: 15,
-		goal: "To develop and practise a personal mantra for use during intense moments in a psychedelic experience. A mantra is just a word or short phrase that is repeated.",
-		background:
-			'The Simple Mantra Affirmation Technique is a valuable practice for maintaining calm and grounding during intense moments in a psychedelic experience. It involves developing a personal mantra, such as "I am at peace" or "I trust in this journey," which can provide comfort and reassurance. By repeating your chosen mantra and integrating it into your daily routine, you can establish a deep connection with the words, rhythm, and meaning of the mantra. This familiarity allows you to turn to your mantra for support during the psychedelic experience, helping you navigate challenging moments and maintain composure, ultimately contributing to a more peaceful and manageable journey.',
-		materials: ["Pen and paper or a digital device for note-taking."],
-		instructions: JSON.stringify({
-			"Choose Your Mantra":
-				'Reflect and select a personal mantra that is comforting and reassuring. Examples include "I am at peace," or "I trust in this journey."',
-			"Mantra Practice":
-				"Repeat your chosen mantra aloud or in your mind, focusing on the words, their rhythm, and meaning. Practise this for about 10-15 minutes. If you find your thoughts straying, gently guide your focus back to your mantra.",
-		}),
-		module_id: 2,
-	};
+	// const task3 = {
+	// 	task: "Simple Mantra Affirmation Technique (15 minutes)",
+	// 	time: 15,
+	// 	goal: "To develop and practise a personal mantra for use during intense moments in a psychedelic experience. A mantra is just a word or short phrase that is repeated.",
+	// 	background:
+	// 		'The Simple Mantra Affirmation Technique is a valuable practice for maintaining calm and grounding during intense moments in a psychedelic experience. It involves developing a personal mantra, such as "I am at peace" or "I trust in this journey," which can provide comfort and reassurance. By repeating your chosen mantra and integrating it into your daily routine, you can establish a deep connection with the words, rhythm, and meaning of the mantra. This familiarity allows you to turn to your mantra for support during the psychedelic experience, helping you navigate challenging moments and maintain composure, ultimately contributing to a more peaceful and manageable journey.',
+	// 	materials: ["Pen and paper or a digital device for note-taking."],
+	// 	instructions: JSON.stringify({
+	// 		"Choose Your Mantra":
+	// 			'Reflect and select a personal mantra that is comforting and reassuring. Examples include "I am at peace," or "I trust in this journey."',
+	// 		"Mantra Practice":
+	// 			"Repeat your chosen mantra aloud or in your mind, focusing on the words, their rhythm, and meaning. Practise this for about 10-15 minutes. If you find your thoughts straying, gently guide your focus back to your mantra.",
+	// 	}),
+	// 	module_id: 2,
+	// };
 
-	const task4 = {
-		task: "Developing Coping Strategies (30 minutes)",
-		time: 30,
-		goal: "To create a personalized set of coping strategies that can be utilized during challenging moments in a psychedelic experience.",
-		background:
-			"This task serves as a proactive preparation step, allowing you to create a personalized plan to manage potential challenges you might encounter during the experience. By reflecting on past stressors and developing strategies to address specific triggers, you can approach your psychedelic session with increased confidence and a sense of control. These strategies can act as a safety net, providing support and guidance for you in navigating challenging moments, ultimately enhancing the overall quality and safety of your psychedelic journey.",
-		materials: [
-			"Pen and paper",
-			"Digital device for note-taking",
-			"Quiet, comfortable space for reflection",
-		],
-		instructions: JSON.stringify({
-			"Self Reflection":
-				"Find a quiet space where you won't be disturbed. Reflect on past experiences where you faced stress or anxiety. Write down how you felt and what helped you overcome those feelings (e.g., deep breathing, mantras, talking to someone, focusing on a particular thought or object). Identify Potential Psychedelic Triggers.",
-			"Develop Coping Strategies":
-				"For each identified trigger, develop a specific coping strategy. Strategies can be based on your past effective methods or new ones you think might be helpful. Example strategies: If feeling overwhelmed by visuals: Close your eyes and focus on your breath. If confronting challenging emotions: Remind yourself that the experience is temporary and you are in a safe place. You are free to express your emotions without fear of being judged. Remind yourself that your sitter is there to help. If feeling lost or disconnected: Recall a grounding mantra or affirmation. Summarize Your Plan",
-		}),
-		module_id: 3,
-	};
+	// const task4 = {
+	// 	task: "Developing Coping Strategies (30 minutes)",
+	// 	time: 30,
+	// 	goal: "To create a personalized set of coping strategies that can be utilized during challenging moments in a psychedelic experience.",
+	// 	background:
+	// 		"This task serves as a proactive preparation step, allowing you to create a personalized plan to manage potential challenges you might encounter during the experience. By reflecting on past stressors and developing strategies to address specific triggers, you can approach your psychedelic session with increased confidence and a sense of control. These strategies can act as a safety net, providing support and guidance for you in navigating challenging moments, ultimately enhancing the overall quality and safety of your psychedelic journey.",
+	// 	materials: [
+	// 		"Pen and paper",
+	// 		"Digital device for note-taking",
+	// 		"Quiet, comfortable space for reflection",
+	// 	],
+	// 	instructions: JSON.stringify({
+	// 		"Self Reflection":
+	// 			"Find a quiet space where you won't be disturbed. Reflect on past experiences where you faced stress or anxiety. Write down how you felt and what helped you overcome those feelings (e.g., deep breathing, mantras, talking to someone, focusing on a particular thought or object). Identify Potential Psychedelic Triggers.",
+	// 		"Develop Coping Strategies":
+	// 			"For each identified trigger, develop a specific coping strategy. Strategies can be based on your past effective methods or new ones you think might be helpful. Example strategies: If feeling overwhelmed by visuals: Close your eyes and focus on your breath. If confronting challenging emotions: Remind yourself that the experience is temporary and you are in a safe place. You are free to express your emotions without fear of being judged. Remind yourself that your sitter is there to help. If feeling lost or disconnected: Recall a grounding mantra or affirmation. Summarize Your Plan",
+	// 	}),
+	// 	module_id: 3,
+	// };
 
-	const task5 = {
-		task: "Planning Integration (30 minutes)",
-		time: 30,
-		goal: "To develop a personalized integration plan outlining activities and practices you will undertake after your psychedelic session to process and incorporate the experience into your daily life.",
-		background:
-			"Your integration plan could include various activities like journaling, meditation, therapy sessions, or creative pursuits like art or music, chosen based on what resonates with you and supports your growth. You'll schedule these activities realistically and establish a support network, involving friends, family, therapists, or support groups. Remember to review, stay flexible, and commit to your plan.",
-		materials: [
-			"Pen and paper",
-			"Digital device for note-taking",
-			"Calendar or planner to schedule post-session activities",
-		],
-		instructions: JSON.stringify({
-			"Reflect on Goals and Insights":
-				"Take some time to contemplate what you hope to achieve or learn from your psychedelic experience. Write down key areas of personal growth or understanding you wish to focus on post-session (e.g., emotional processing, spiritual development, behavioural changes). Identify Integration Activities.",
-			"Create an Integration Schedule":
-				"Using your calendar or planner, schedule regular times for these activities in the days and weeks following your session. Ensure the schedule is realistic and manageable, allowing enough time for rest and reflection. Establish Support Networks.",
-		}),
-		module_id: 3,
-	};
+	// const task5 = {
+	// 	task: "Planning Integration (30 minutes)",
+	// 	time: 30,
+	// 	goal: "To develop a personalized integration plan outlining activities and practices you will undertake after your psychedelic session to process and incorporate the experience into your daily life.",
+	// 	background:
+	// 		"Your integration plan could include various activities like journaling, meditation, therapy sessions, or creative pursuits like art or music, chosen based on what resonates with you and supports your growth. You'll schedule these activities realistically and establish a support network, involving friends, family, therapists, or support groups. Remember to review, stay flexible, and commit to your plan.",
+	// 	materials: [
+	// 		"Pen and paper",
+	// 		"Digital device for note-taking",
+	// 		"Calendar or planner to schedule post-session activities",
+	// 	],
+	// 	instructions: JSON.stringify({
+	// 		"Reflect on Goals and Insights":
+	// 			"Take some time to contemplate what you hope to achieve or learn from your psychedelic experience. Write down key areas of personal growth or understanding you wish to focus on post-session (e.g., emotional processing, spiritual development, behavioural changes). Identify Integration Activities.",
+	// 		"Create an Integration Schedule":
+	// 			"Using your calendar or planner, schedule regular times for these activities in the days and weeks following your session. Ensure the schedule is realistic and manageable, allowing enough time for rest and reflection. Establish Support Networks.",
+	// 	}),
+	// 	module_id: 3,
+	// };
 
-	await db.insert(tasks).values([task1, task2, task3, task4, task5]);
+	// await db.insert(tasks).values([task1, task2, task3, task4, task5]);
+
+	await db.insert(tasks).values([
+		{
+			task: "Reading Task 1 - Psilocybin Basics",
+			time: 15,
+			goal: "The purpose of this task is to enhance your understanding of psilocybin, its origins, effects, and potential benefits and risks. By the end of this task, you should have a clear grasp of psilocybin’s role in mental health research, its neurobiological mechanisms, and considerations for its safe use.",
+			materials: [
+				"Text: 'Psilocybin Basics'",
+				"Notebook or digital note-taking tool",
+			],
+			instructions: [
+				"Read the provided text on psilocybin.",
+				"Take notes on key points that cover the basics of psilocybin, including its origins, brain effects, safety, and potential benefits.",
+				"Consider any follow-up questions or areas you wish to explore further after reading.",
+			],
+			specifics:
+				"Psilocybin is a naturally occurring psychoactive compound found in certain species of mushrooms, commonly known as 'magic mushrooms'. When consumed, psilocybin is converted into psilocin, which interacts with serotonin receptors in the brain, particularly the 5-HT2A receptor. This causes changes in perception, mood, and thought patterns. Psilocybin has therapeutic potential in mental health research, especially for depression, anxiety disorders, and addiction.",
+			module_id: 1,
+		},
+		{
+			task: "Reading Task 2 - Practical Concerns Regarding the Session",
+			time: 15,
+			goal: "This task aims to familiarise you with the practical aspects of participating in a psilocybin study, including how psilocybin will be administered, what to expect during the session, and how to navigate challenging moments. By the end of this task, you should have a clear understanding of the psilocybin session’s phases, safety measures, and the importance of integration post-experience.",
+			materials: [
+				"Text: 'Practical Concerns Regarding the Session'",
+				"Notebook or digital tool for note-taking",
+			],
+			instructions: [
+				"Read the provided text on the practical concerns of a psilocybin session.",
+				"Take notes on key topics such as psilocybin administration, phases of the experience, and guidance on handling challenging moments.",
+				"Reflect on any questions or concerns you have about the session.",
+			],
+			specifics:
+				"Psilocybin will be administered orally in capsule form during the study. This ensures precise dosing and consistency, providing a safer and more predictable experience. Capsules are prepared under strict pharmaceutical conditions, ensuring purity. This method allows participants to receive the same dosage in a non-invasive and discreet manner, enhancing comfort and maintaining the study's scientific integrity.",
+			module_id: 1,
+		},
+		{
+			task: "4–6 Breathing Technique",
+			time: 15,
+			goal: "The aim of this task is to teach you the 4–6 Breathing Technique, a method designed to help you relax and reduce stress. By the end of this session, you will have practised a tool that can calm your mind and body, particularly useful for preparing yourself for intense experiences like a psychedelic session.",
+			materials: [
+				"A quiet, comfortable space",
+				"Optional: calming music or ambient sounds",
+				"Timer (optional)",
+			],
+			instructions: [
+				"Find a quiet, comfortable space to sit or lie down undisturbed. Optionally, you can play calming music or ambient sounds.",
+				"Begin by inhaling through your nose for a count of 4, allowing your chest and abdomen to expand.",
+				"Slowly exhale through your mouth for a count of 6, gently releasing the air.",
+				"Continue this breathing pattern for 5–10 minutes, focusing on the rhythm of your breath and noticing the calming effect.",
+				"If you feel dizzy or lightheaded, pause and adjust the duration as necessary. Once the session is over, get up slowly if you're seated or lying down.",
+			],
+			specifics:
+				"The 4–6 Breathing Technique is a simple and powerful way to calm your body and mind. This slow, controlled breathing helps shift your body from a state of stress to one of relaxation by regulating the autonomic nervous system. Practice for about 5–10 minutes, focusing on the rhythm of your breath and observing the sense of calm that grows with each cycle. This technique can be particularly helpful before a psychedelic session.",
+			module_id: 2,
+		},
+		{
+			task: "Simple Mantra Affirmation Technique",
+			time: 15,
+			goal: "The goal of this task is to familiarise you with the Simple Mantra Affirmation Technique, which can help ground you during intense experiences. By the end, you will have practised repeating a personal mantra to develop a sense of calm and reassurance, especially useful during challenging moments in a psychedelic session.",
+			materials: ["A quiet, comfortable space", "A personal mantra"],
+			instructions: [
+				"Reflect on and choose a personal mantra that resonates with you, such as 'I am at peace' or 'I trust in this journey.'",
+				"Find a quiet space where you can sit comfortably and won’t be disturbed.",
+				"Repeat your chosen mantra, either aloud or silently in your mind, for about 10–15 minutes. Focus on the rhythm and meaning of the words.",
+				"If your mind starts to wander, gently bring your attention back to the mantra.",
+			],
+			specifics:
+				"The Simple Mantra Affirmation Technique is a powerful method for grounding yourself, especially during moments of intensity. Regular practice will help this mantra become a familiar and calming anchor that you can turn to during challenging moments in a psychedelic experience.",
+			module_id: 2,
+		},
+		{
+			task: "Developing Coping Strategies",
+			time: 30,
+			goal: "The goal of this task is to help you create a personalised set of coping strategies for managing challenging moments during your psychedelic experience. By reflecting on past experiences and potential triggers, you will feel more prepared and confident during the session.",
+			materials: [
+				"Notebook or digital tool for journaling",
+				"The Resource Bank provided",
+				"A quiet, comfortable space for reflection",
+			],
+			instructions: [
+				"This task is broken down into steps designed to guide you in developing effective strategies. Please follow each step carefully, reflecting on your personal experiences as you go.",
+			],
+			specifics:
+				"This task is designed to help you create a personalised set of coping strategies that can be used during challenging moments in your psychedelic experience. By proactively preparing for potential challenges, you can approach your session with increased confidence and a sense of control.",
+			module_id: 3,
+		},
+		{
+			task: "Planning Integration",
+			time: 30,
+			goal: "The goal of this task is to help you develop a practical and personalised plan for integrating your psychedelic experience into your daily life. Integration ensures that the insights and growth you experience during your session are transformed into meaningful, long-term changes. By creating a structured integration plan, you’ll feel more prepared to apply the lessons from your journey and continue your personal development in the weeks and months ahead.",
+			materials: [
+				"Notebook or digital tool for journaling",
+				"The Integration Resource Bank provided",
+				"Calendar or planner for scheduling activities",
+				"A quiet, comfortable space for reflection",
+			],
+			instructions: [
+				"This task is broken down into steps designed to guide you in developing an integration plan. Please follow each step carefully, reflecting on your personal experiences as you go.",
+			],
+			specifics:
+				"Integration is a crucial step in your psychedelic journey. Think of integration as a bridge: On one side is your psychedelic experience, full of insights, emotions and new perspectives. On the other side is your daily life. Integration is how you cross that bridge, carrying the valuable parts of your experience with you. Remember, integration involves not only processing the experience afterwards, but also preparing for, and handling the psychedelic journey itself.",
+			module_id: 3,
+		},
+	]);
 };
 
 export default seed;

@@ -56,9 +56,9 @@ export const tasks = pgTable("tasks", {
 	task: varchar("task"),
 	time: integer("time"),
 	goal: text("goal"),
-	background: text("background"),
 	materials: text("materials").array(),
-	instructions: json("instructions"),
+	instructions: text("instructions").array(),
+	specifics: text("specifics"),
 	module_id: integer("module_id").references(() => modules.id),
 });
 
