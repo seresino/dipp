@@ -18,6 +18,8 @@
 	let completed = false;
 	let updateForm;
 
+	let moduleTasks = tasks.filter((task) => task.module_id === module.id);
+
 	// checks whether there is a task in the weeklyTasks table that corresponds to this task and has been completed
 	function isTaskComplete(task) {
 		return weeklytasks.some(
@@ -128,6 +130,19 @@
 				{#if selectedButton === "instructions"}
 					<h1>Module {module.id}: {module.name}</h1>
 					<p>{module.description}</p>
+
+					<p>Your tasks for this week include:</p>
+					<ol>
+						{#each moduleTasks as task}
+							<li>{task.task}</li>
+						{/each}
+					</ol>
+
+					<p>
+						If you have any concerns or questions as you progress
+						through the material, don't hesitate to reach out to the
+						study coordinators or researchers.
+					</p>
 				{:else if selectedButton === "tasks"}
 					{#if !selectedTask}
 						{#each tasks
