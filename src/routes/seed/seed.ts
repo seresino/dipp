@@ -11,6 +11,7 @@ export async function seed() {
 	// Clear existing data
 	await db.delete(users);
 	await db.delete(dayData);
+	await db.delete(tasks);
 	await db.delete(modules);
 
 	// Dev start date
