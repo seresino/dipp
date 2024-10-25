@@ -18,6 +18,8 @@
 	let completed = false;
 	let updateForm;
 
+	let moduleTasks = tasks.filter((task) => task.module_id === module.id);
+
 	// checks whether there is a task in the weeklyTasks table that corresponds to this task and has been completed
 	function isTaskComplete(task) {
 		return weeklytasks.some(
@@ -128,6 +130,19 @@
 				{#if selectedButton === "instructions"}
 					<h1>Module {module.id}: {module.name}</h1>
 					<p>{module.description}</p>
+
+					<p>Your tasks for this week include:</p>
+					<ol>
+						{#each moduleTasks as task}
+							<li>{task.task}</li>
+						{/each}
+					</ol>
+
+					<p>
+						If you have any concerns or questions as you progress
+						through the material, don't hesitate to reach out to the
+						study coordinators or researchers.
+					</p>
 				{:else if selectedButton === "tasks"}
 					{#if !selectedTask}
 						{#each tasks
@@ -154,29 +169,31 @@
 						{/each}
 					{:else}
 						<div class="task-details">
-							<h2>
+							<h1>
 								{selectedTask.task} ({selectedTask.time} minutes)
-							</h2>
-							<p>Goal:</p>
+							</h1>
+							<h2>Goal:</h2>
 							<p>{selectedTask.goal}</p>
-							{#if selectedTask.background}
-								<p>Background:</p>
-								<p>{selectedTask.background}</p>
-							{/if}
-							<p>Materials Needed:</p>
+
+							<h2>Materials Needed:</h2>
 							{#each Object.values(selectedTask.materials) as material}
 								<li>{material}</li>
 							{/each}
-							<p>Instructions:</p>
-							<ul>
+							<h2>Instructions:</h2>
+							<ol>
 								{#each Object.keys(selectedTask.instructions) as instructionKey}
 									<li>
-										{instructionKey}<br />{selectedTask
-											.instructions[instructionKey]}
+										{selectedTask.instructions[
+											instructionKey
+										]}
 									</li>
 									<br />
 								{/each}
-							</ul>
+							</ol>
+							{#if selectedTask.specifics}
+								<h2>Task/Background:</h2>
+								<p>{selectedTask.specifics}</p>
+							{/if}
 						</div>
 						{#if isTaskComplete(selectedTask)}
 							<p class="complete">Task completed</p>
