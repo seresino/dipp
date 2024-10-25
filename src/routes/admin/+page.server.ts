@@ -45,7 +45,7 @@ export const actions = {
 		const startDate = data.get("startDate");
 		const meditation = data.get("meditation")?.toString();
 
-		console.log("Create FB user");
+		console.log("Create FireBase user");
 		const email = username + "@dipp.com";
 		const userCredential = await createUserWithEmailAndPassword(
 			auth,
@@ -57,8 +57,9 @@ export const actions = {
 
 		// Add new entry to the users table
 		await db.insert(users).values({
-			username: username,
+			username: username.toUpperCase(),
 			password: pass,
+			start_date: startDate,
 			meditation: !!meditation,
 			high_dosage: true,
 		});
