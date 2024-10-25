@@ -1,3 +1,6 @@
+import { sql } from "drizzle-orm";
+import { exec } from "child_process";
+
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
 import { dayData } from "$lib/server/schema";
@@ -13,6 +16,17 @@ export async function seed() {
 	await db.delete(dayData);
 	await db.delete(tasks);
 	await db.delete(modules);
+
+	exec("npm run db:push", (error, stdout, stderr) => {
+		if (error) {
+			console.error(`Error executing db:push: ${error}`);
+			return;
+		}
+		console.log(`Output: ${stdout}`);
+		if (stderr) {
+			console.error(`Error output: ${stderr}`);
+		}
+	});
 
 	// Dev start date
 	const startDate = new Date().toDateString();
