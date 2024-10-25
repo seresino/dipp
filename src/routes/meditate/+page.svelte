@@ -9,7 +9,8 @@
 	// This path only works for imports
 	// const audioPath = "../../assets/" + file;
 
-	const audioPath = "src/assets/" + file;
+	const audioPath =
+		"https://wano05qdh63x7lys.public.blob.vercel-storage.com/" + file;
 	const audioFile = audioPath;
 </script>
 
