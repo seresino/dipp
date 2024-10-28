@@ -10,7 +10,8 @@
 	// const audioPath = "../../assets/" + file;
 
 	const audioPath =
-		"https://wano05qdh63x7lys.public.blob.vercel-storage.com/" + file;
+		"https://gidvzbginnkwrxhc.public.blob.vercel-storage.com/" + file;
+	// const audioPath =	"src/assets/" + file; // For locally stored audio
 	const audioFile = audioPath;
 </script>
 

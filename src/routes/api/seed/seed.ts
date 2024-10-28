@@ -9,9 +9,9 @@ import { weeklyTasks } from "$lib/server/schema";
 
 export async function seed() {
 	// Clear existing data
-	await db.delete(mood);
 	await db.delete(dailyTasks);
 	await db.delete(weeklyTasks);
+	await db.delete(mood);
 	await db.delete(users);
 	await db.delete(dayData);
 	await db.delete(tasks);
