@@ -2,14 +2,14 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { json } from "@sveltejs/kit";
 import * as XLSX from "xlsx";
-import * as fs from "fs";
-import * as path from "path";
 import { env } from "$env/dynamic/private";
 
 // Set up connection with PostgreSQL
-console.log("Connecting to PostgreSQL-", env.VITE_DB_URL);
-const sql = postgres(env.VITE_DB_URL);
-const db = drizzle(sql);
+// console.log("Connecting to PostgreSQL-", env.VITE_DB_URL);
+// const sql = postgres(env.VITE_DB_URL);
+// const db = drizzle(sql);
+
+import db from "$lib/server/db";
 
 export const GET = async () => {
 	try {
@@ -21,25 +21,31 @@ export const GET = async () => {
 		// Prepare a new workbook
 		const workbook = XLSX.utils.book_new();
 
-		for (const table of tables) {
+		// console.log("Tables:", tables); // Only works for local version
+		// for (const table of tables) { // for local version
+
+		console.log("Tables Names:", tables.rows); // Only works for vercel version
+		for (const table of tables.rows) {
+			// Only works for vercel version
+			console.log("Name: ", table.table_name);
 			const tableName = table.table_name;
 			const tableData = await db.execute(`SELECT * FROM "${tableName}"`);
 
 			// Convert the table data to a worksheet
-			const worksheet = XLSX.utils.json_to_sheet(tableData);
+			const worksheet = XLSX.utils.json_to_sheet(tableData.rows);
 
 			// Append the worksheet to the workbook
 			XLSX.utils.book_append_sheet(workbook, worksheet, tableName);
 		}
 
-		// Define the file path
-		const filePath = path.resolve("tables.xlsx");
+		// Write the workbook to a buffer
+		const buffer = XLSX.write(workbook, {
+			type: "buffer",
+			bookType: "xlsx",
+		});
 
-		// Write the workbook to a file
-		XLSX.writeFile(workbook, filePath);
-
-		// Return the Excel file
-		return new Response(fs.readFileSync(filePath), {
+		// Return the Excel file as a response
+		return new Response(buffer, {
 			headers: {
 				"Content-Type":
 					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
