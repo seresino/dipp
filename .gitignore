@@ -18,4 +18,7 @@ vite.config.ts.timestamp-*
 
 .vercel
 *.sh
+src/assets
+
 /drizzle
+tables.xlsx
