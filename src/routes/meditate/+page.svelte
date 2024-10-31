@@ -41,5 +41,3 @@
 	<!-- Log if user data is undefined -->
 	{console.log("User data is undefined, not rendering audio player.")}
 {/if}
-
-"https://gidvzbginnkwrxhc.public.blob.vercel-storage.com/meditation-1.ogg"
