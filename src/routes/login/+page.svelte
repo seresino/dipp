@@ -25,13 +25,16 @@
 		/>
 	</div>
 
-	{#if form?.invalid}
-		<p class="error">Username and password is required.</p>
+	{#if form?.credentials}
+		<p class="error">Invalid username or password.</p>
 	{/if}
 
-	{#if form?.credentials}
-		<p class="error">You have entered the wrong credentials.</p>
+	{#if form?.serverError}
+		<p class="error">
+			An unexpected error occurred. Please try again later.
+		</p>
 	{/if}
+
 	<div class="options-div">
 		<button class="options" type="submit">Log in</button>
 	</div>
@@ -47,6 +50,12 @@
 		border-style: solid;
 		border-color: #168ace;
 		padding: 40px 0 20px 0;
+	}
+	.error {
+		color: #ef4444;
+		font-size: 0.875rem;
+		margin-top: 0.5rem;
+		text-align: left;
 	}
 	.input-div {
 		width: 80%;
