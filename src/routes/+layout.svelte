@@ -4,9 +4,9 @@
 
 	export let data; // data returned by the load function
 	let user;
-	try {
-		user = data.user[0];
-	} catch (error) {}
+
+	// Reactive statement to update `user` based on `data.user`
+	$: user = data?.user ? data.user[0] : null;
 </script>
 
 <div class="main-container">

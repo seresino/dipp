@@ -9,8 +9,9 @@ export const load = async () => {
 };
 
 export const actions = {
-	default: async ({ cookies }) => {
+	default: async ({ cookies, locals }) => {
 		cookies.delete("userID", { path: "/" });
+		locals.user = null;
 		await signOut(auth);
 
 		// redirect the user
