@@ -286,4 +286,9 @@
 		object-fit: cover;
 		width: 80px;
 	}
+	@media (max-width: 768px) {
+		.home-button {
+			display: none;
+		}
+	}
 </style>
