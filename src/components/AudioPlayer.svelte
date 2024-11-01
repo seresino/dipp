@@ -59,10 +59,14 @@
       message = "Thank you for completing today's meditation!";
       setTimeout(() => {
         window.location.href = '/day';
-      }, 3000);
+      }, 2000);
     }).catch(error => {
       console.error('Error submitting task:', error);
     });
+  }
+
+  function scrubAudio(event) {
+    audioPlayer.currentTime = event.target.value;
   }
 
   $: {
@@ -86,33 +90,37 @@
   </div>
 </div>
 
+<!-- Scrubber for audio -->
+<input type="range" min="0" max={duration} value={currentTime} on:input={scrubAudio} class="scrubber" />
+
 <style>
   .title {
     padding: 0 0 50px 0;
+    text-align: center; /* Center the title */
   }
   h1 {
-    text-align: center;
     font-size: 32px;
     font-style: normal;
     font-weight: 300;
   }
   .play-button {
-    flex-direction: column;
-    justify-content: center;
+    display: flex;
+    justify-content: center; /* Center the button */
     align-items: center;
     width: 120px;
     height: 120px;
     border-radius: 50%;
     border-style: solid;
     border-color: #FFF;
-    padding: 50px 0 50px 0;
+    padding: 50px 0;
+    margin: 0 auto; /* Center the button */
   }
   .timer-content {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    padding: 50px 0 50px 0;
+    padding: 50px 0;
   }
   .restart-button {
     flex-direction: column;
@@ -121,7 +129,7 @@
     border-radius: 50px;
     border-style: solid;
     border-color: #FFF;
-    padding: 5px 20px 5px 20px;
+    padding: 5px 20px;
     background-color: transparent;
   }
   .restart {
@@ -139,5 +147,9 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+  }
+  .scrubber {
+    width: 100%; /* Make the scrubber full width */
+    margin-top: 20px; /* Add some space above the scrubber */
   }
 </style>
