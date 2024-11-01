@@ -132,12 +132,11 @@
 					<p>{module.description}</p>
 
 					<p>Your tasks for this week include:</p>
-					<ol>
+					<ol class="instructions-tasks">
 						{#each moduleTasks as task}
-							<li>{task.task}</li>
+							<li><strong>{task.task}</strong></li>
 						{/each}
 					</ol>
-
 					<p>
 						If you have any concerns or questions as you progress
 						through the material, don't hesitate to reach out to the
@@ -336,5 +335,8 @@
 		.goal {
 			display: none;
 		}
+	}
+	.instructions-tasks {
+		padding-left: 20px;
 	}
 </style>
