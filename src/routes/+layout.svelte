@@ -12,7 +12,7 @@
 <div class="main-container">
 	<nav class="navbar">
 		<div class="header-logo">
-			<a href="/dashboard">
+			<a href="/dashboard" sveltekit:prefetch>
 				<img
 					class="dipp-svg"
 					src="/images/header-logo.svg"
@@ -30,8 +30,10 @@
 			>
 				<ul class="nav navbar-nav">
 					<li>
-						<a class="about-pill" href="/about"
-							><p class="about">About</p></a
+						<a
+							class="about-pill"
+							href="/about"
+							data-sveltekit-reload><p class="about">About</p></a
 						>
 					</li>
 					{#if user}
