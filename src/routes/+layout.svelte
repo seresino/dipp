@@ -12,7 +12,7 @@
 <div class="main-container">
 	<nav class="navbar">
 		<div class="header-logo">
-			<a href="/dashboard" sveltekit:prefetch>
+			<a href="/dashboard" data-sveltekit-reload>
 				<img
 					class="dipp-svg"
 					src="/images/header-logo.svg"

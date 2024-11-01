@@ -31,13 +31,13 @@
 		</a>
 		<div class="pop-up-content center">
 			<!-- Log audio file passed to AudioPlayer component -->
-			{#if audioFile}
+			<!-- {#if audioFile}
 				{console.log("Audio file passed to AudioPlayer:", audioFile)}
-			{/if}
+			{/if} -->
 			<AudioPlayer {audioFile} />
 		</div>
 	</div>
-{:else}
-	<!-- Log if user data is undefined -->
-	{console.log("User data is undefined, not rendering audio player.")}
+	<!-- {:else}
+	// Log if user data is undefined 
+	{console.log("User data is undefined, not rendering audio player.")} -->
 {/if}
