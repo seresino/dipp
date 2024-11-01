@@ -75,9 +75,9 @@
 </div>
 
 <!-- Displays page data at bottom of page - ONLY FOR DEBUGGING-->
-<pre>
+<!-- <pre>
   {JSON.stringify($page, null, 2)}
-</pre>
+</pre> -->
 
 <style>
 	/* boostrap adjustments for hamburger menu */
