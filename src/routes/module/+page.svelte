@@ -255,9 +255,23 @@
 		height: 120px;
 		cursor: pointer;
 	}
+	h1 {
+		font-size: 36px;
+	}
+
 	h2 {
 		font-size: 20px;
 		font-weight: normal;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 20px;
+		}
+
+		h2 {
+			font-size: 16px;
+		}
 	}
 
 	.task-number-box {
@@ -284,29 +298,17 @@
 		margin: 5px 0 5px 0;
 	}
 	.task-details {
-		overflow: auto;
 		display: flex;
 		flex-direction: column;
 		justify-content: top;
 		align-items: left;
 		gap: 20px;
-		height: 300px;
 		margin-bottom: 20px;
+		width: 100%;
 	}
 	.task-details li {
 		font-size: 16px;
 		margin: 0 20px 0 20px;
-	}
-	.task-details::-webkit-scrollbar {
-		width: 10px;
-	}
-	.task-details::-webkit-scrollbar-thumb {
-		background: #5db3e5; /* Color of the scroll thumb */
-		border-radius: 10px;
-	}
-
-	.task-details::-webkit-scrollbar-thumb:hover {
-		background: #168ace; /* Color of the scroll thumb when hovered */
 	}
 	.button-container {
 		flex-direction: row;
