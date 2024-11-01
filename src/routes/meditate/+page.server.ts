@@ -138,5 +138,6 @@ export const load = async ({ locals }) => {
 	return {
 		user: user,
 		file: dayDataQuery[0].audio,
+		meditated: userTasksQuery[0].meditation
 	};
 };

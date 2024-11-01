@@ -1,11 +1,13 @@
 <script>
   export let audioFile;
+  export let meditated;
 
   let audioPlayer;
   let path = "meditate";
   let isPlaying = false;
   let currentTime = 0;
   let duration = 0;
+  let message = meditated ? "Thank you for completing today's meditation!" : "Click Play to Begin Meditation";
 
   function togglePlayback() {
     if (isPlaying) {
@@ -23,10 +25,10 @@
   }
 
   function updatePlaybackStatus() {
-    if (!audioPlayer) return; // Exit the function if audioPlayer is undefined
-      isPlaying = !audioPlayer.paused;
-      currentTime = audioPlayer.currentTime;
-      duration = audioPlayer.duration;
+    if (!audioPlayer) return;
+    isPlaying = !audioPlayer.paused;
+    currentTime = audioPlayer.currentTime;
+    duration = audioPlayer.duration;
   }
 
   function formatTime(time) {
@@ -35,31 +37,35 @@
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 
-  // since no input tag needs to be rendered on page, using js to submit form
   async function submitForm() {
     const formData = new FormData();
     formData.append('meditated', 'true');
 
     const response = await fetch(`${path}/?/update`, {
-        method: 'POST',
-        body: formData
+      method: 'POST',
+      body: formData
     });
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     } else {
-        console.log('Task submitted successfully');
+      console.log('Task submitted successfully');
     }
   }
 
- // function to submit the form data to the server once track has ended
- function handleEnded() {
+  function handleEnded() {
     restartTrack();
-    submitForm();
- }
+    submitForm().then(() => {
+      message = "Thank you for completing today's meditation!";
+      setTimeout(() => {
+        window.location.href = '/day';
+      }, 3000);
+    }).catch(error => {
+      console.error('Error submitting task:', error);
+    });
+  }
 
- // reactive statement that will run whenever any variables / values that function depends on change
- $: {
+  $: {
     updatePlaybackStatus();
   }
 </script>
@@ -69,7 +75,7 @@
   Your browser does not support the audio element.
 </audio>
 
-<h1 class="title">Click Play to Begin Meditation</h1>
+<h1 class="title">{message}</h1>
 <button class="play-button" on:click={togglePlayback}>
   <h1>{isPlaying ? 'Pause' : 'Play'}</h1>
 </button>
@@ -79,7 +85,6 @@
     <span class="white-text">{formatTime(currentTime)}</span><span class="restart">/{formatTime(duration)}</span>
   </div>
 </div>
-
 
 <style>
   .title {
