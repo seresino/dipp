@@ -135,7 +135,14 @@ export const load = async ({ locals }) => {
 
 	console.log(dayDataQuery[0].audio);
 
+	let title = 'Meditation';
+
+	if (!user[0].meditation) {
+		title = 'Music';
+	}
+
 	return {
+		title: title,
 		user: user,
 		file: dayDataQuery[0].audio,
 		meditated: userTasksQuery[0].meditation

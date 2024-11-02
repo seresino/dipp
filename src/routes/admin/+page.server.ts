@@ -35,6 +35,9 @@ export const load = async ({ locals }) => {
 	if (locals.user[0].id !== 0) {
 		throw redirect(302, "/login");
 	}
+	return {
+        title: 'Admin'
+    };
 };
 
 export const actions = {

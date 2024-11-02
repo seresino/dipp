@@ -9,6 +9,10 @@
 	$: user = data?.user ? data.user[0] : null;
 </script>
 
+<svelte:head>
+	<title>{$page.data.title ?? 'DIPP Trial'}</title>
+</svelte:head>
+
 <div class="main-container">
 	<nav class="navbar">
 		<div class="header-logo">

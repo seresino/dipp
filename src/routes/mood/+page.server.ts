@@ -77,6 +77,7 @@ export const load = async ({ locals }) => {
 	}
 
 	return {
+		title: 'Mood Questionnaire',
 		user: user,
 		userTasks: userTasksQuery,
 		mood: moodQuery[0],

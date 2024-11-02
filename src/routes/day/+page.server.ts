@@ -54,6 +54,7 @@ export const load = async ({ locals }) => {
 	console.log("Daily entry added");
 
 	return {
+		title: 'Day '+ day,
 		user: user,
 		userTasks: userTasksQuery[0],
 		module: moduleQuery[0],

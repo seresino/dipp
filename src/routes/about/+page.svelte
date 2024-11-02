@@ -1,6 +1,10 @@
 <script>
 </script>
 
+<svelte:head>
+    <title>About</title>
+</svelte:head>
+
 <div class="pop-up white">
 	<a class="circular-button back" href="/dashboard"
 		><img src="/images/cross-circle-button.svg" alt="back button" /></a
