@@ -191,7 +191,7 @@
 							</ol>
 							{#if selectedTask.specifics}
 								<h2>Task/Background:</h2>
-								<p>{selectedTask.specifics}</p>
+								{@html selectedTask.specifics}
 							{/if}
 						</div>
 						{#if isTaskComplete(selectedTask)}
