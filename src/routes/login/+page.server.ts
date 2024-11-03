@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "$lib/firebase/firebase";
+import { encryptId } from "$lib/utils/helperFunctions";
 
 export const load = async ({ locals }) => {
 	// redirect user if logged in
@@ -47,7 +48,7 @@ export const actions = {
 			const user = userQuery[0];
 
 			console.log("USER(login):", user);
-			cookies.set("userID", user.id, {
+			cookies.set("userID", encryptId(user.id.toString()), {
 				path: "/",
 				httpOnly: true,
 				sameSite: "strict",

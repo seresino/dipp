@@ -1,4 +1,5 @@
 import { authHandlers } from "$lib/utils/authHandlers";
+import { ENCRYPTION_KEY } from '$env/static/private';
 
 let PUBLIC_DEV_MODE = 'false';
 let PUBLIC_TEST_DATE = new Date().toISOString();
@@ -14,6 +15,39 @@ try {
 
 // Set default values for when env variables are not present
 const isDevelopmentMode = Boolean(JSON.parse(PUBLIC_DEV_MODE ?? 'false'));
+
+import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
+
+// const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'your-32-character-secret-key-here'; // Must be 32 chars for aes-256-gcm
+const ALGORITHM = 'aes-256-gcm';
+
+export function encryptId(text) {
+    const iv = randomBytes(16);
+    const cipher = createCipheriv(ALGORITHM, ENCRYPTION_KEY, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const authTag = cipher.getAuthTag();
+    return `${iv.toString('hex')}:${encrypted}:${authTag.toString('hex')}`;
+}
+
+export function decryptId(text) {
+    try {
+        const [ivHex, encrypted, authTagHex] = text.split(':');
+        const iv = Buffer.from(ivHex, 'hex');
+        const authTag = Buffer.from(authTagHex, 'hex');
+        const decipher = createDecipheriv(ALGORITHM, ENCRYPTION_KEY, iv);
+        decipher.setAuthTag(authTag);
+        let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    } catch (error) {
+        console.error('Failed to decrypt ID:', error);
+        return '';
+    }
+} 
+
+
+
 
 function subtractDatesInDays(date1, date2) {
 	date1.setUTCHours(0, 0, 0, 0);
@@ -50,22 +84,6 @@ export function getTodaysDate() {
 	const today = isDevelopmentMode ? new Date(PUBLIC_TEST_DATE) : new Date();
 	today.setUTCHours(0, 0, 0, 0);
 	return today;
-}
-
-export function truncateWords(str, numWords) {
-	return str.split(" ").splice(0, numWords).join(" ");
-}
-
-export function retrieveAnswers(questionnaire) {
-	let answers = [];
-	questionnaire.forEach((question, index) => {
-		if (question.type === "graph") {
-			answers.push(`${question.answer.x},${question.answer.y} `);
-		} else if (question.type === "scale") {
-			answers.push(`${question.answer} `);
-		}
-	});
-	return answers;
 }
 
 export { authHandlers };

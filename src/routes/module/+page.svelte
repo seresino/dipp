@@ -2,7 +2,7 @@
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 	import { onMount } from "svelte";
-	import { truncateWords } from "$lib/utils/helperFunctions.js";
+	import { truncateWords } from "$lib/utils/clientHelperFunctions";
 
 	export let data; // data returned by the load function
 	const user = data.user[0];
@@ -191,7 +191,7 @@
 							</ol>
 							{#if selectedTask.specifics}
 								<h2>Task/Background:</h2>
-								{@html selectedTask.specifics}
+								{@hselectedTask.specifics}
 							{/if}
 						</div>
 						{#if isTaskComplete(selectedTask)}

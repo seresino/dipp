@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import Graph from '../../components/Graph.svelte';
-  import { retrieveAnswers } from '$lib/utils/helperFunctions';
+  import { retrieveAnswers } from '$lib/utils/clientHelperFunctions';
 
   export let data;
   const user = data.user[0];
