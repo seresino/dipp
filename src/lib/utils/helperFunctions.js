@@ -5,7 +5,7 @@ let PUBLIC_DEV_MODE = 'false';
 let PUBLIC_TEST_DATE = new Date().toISOString();
 
 try {
-    const env = await import('$env/static/public');
+    const env = import('$env/static/public');
     PUBLIC_DEV_MODE = env.PUBLIC_DEV_MODE;
     PUBLIC_TEST_DATE = env.PUBLIC_TEST_DATE;
 } catch (e) {
