@@ -1,12 +1,47 @@
 <script>
 	import { page } from "$app/stores";
 	import { enhance } from "$app/forms";
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	let PUBLIC_DEV_MODE = 'false';
+
+	try {
+		const env = import('$env/static/public');
+		PUBLIC_DEV_MODE = env.PUBLIC_DEV_MODE;
+		PUBLIC_TEST_MS= env.PUBLIC_TEST_DATE;
+	} catch (e) {
+		// Environment variables not available, using defaults
+		console.log('Using default development settings');
+	}
 
 	export let data; // data returned by the load function
 	let user;
 
 	// Reactive statement to update `user` based on `data.user`
 	$: user = data?.user ? data.user[0] : null;
+
+	// Function to calculate milliseconds until next midnight
+	function getMsUntilMidnight() {
+		if (PUBLIC_DEV_MODE === 'true') {
+			return parseInt(PUBLIC_TEST_MS, 10); // Use test milliseconds if in dev mode
+		}
+
+		const now = new Date();
+		const midnight = new Date(now);
+		midnight.setHours(24, 0, 0, 0);
+		console.log("Ms till Midnight:", midnight - now)
+		return midnight - now;
+	}
+
+	// Set up the midnight refresh
+	onMount(() => {
+		const timeout = setTimeout(async () => {
+			await goto('/dashboard', { invalidateAll: true }); // This will reload data
+		}, getMsUntilMidnight());
+
+		return () => clearTimeout(timeout); // Cleanup on component unmount
+	});
 </script>
 
 <svelte:head>
