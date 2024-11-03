@@ -2,10 +2,6 @@
 <script>
 </script>
 
-<svelte:head>
-    <title>DIPP Trial</title>
-</svelte:head>
-
 <div class="landing-content">
     <div class="landing-logo">
       <img src="/images/landing-logo.svg" alt="logo" />
