@@ -86,6 +86,14 @@ export function getTodaysDate() {
 	return today;
 }
 
+
+export function addDays(date, days) {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + days);
+    return newDate.toDateString();
+}
+
+
 export { authHandlers };
 
 export function getDefaultRedirect() {

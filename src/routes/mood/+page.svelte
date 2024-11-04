@@ -28,8 +28,10 @@
     { type: 'scale', statement: 'In the last 15 minutes I was aware of what was going on in my mind.', answer: null },
     { type: 'scale', statement: 'In the last 15 minutes I could separate myself from my thoughts and feelings.', answer: null },
     { type: 'scale', statement: 'In the last 15 minutes I could actually see that I am not my thoughts.', answer: null },
-    { type: 'graph', statement: 'Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?', answer: {x: 0, y: 0} },
-    { type: 'scale', statement: 'On a scale of 1 to 5, where 1 means \'not accurate at all\' and 5 means \'extremely accurate,\' how accurately were you able to identify your current mood?', answer: null },
+    // { type: 'graph', statement: "Please take a moment to reflect on your current mood. Where on the graph does your mood fit best?Think about how you're feeling right now. Look at the grid and find the spot that best matches your mood. The grid has two parts: From left to right, it shows how good or bad you feel. From bottom to top, it shows how much energy you have. For instance, if you're happy and full of energy, you'd click near the top right. If you're feeling just okay - not good or bad, not energetic or tired - click the middle of the grid. ", answer: {x: 0, y: 0} },
+    { type: 'graph', statement: "Where does your current mood fit on this graph? The horizontal axis shows how pleasant you feel (negative to positive), and the vertical axis shows your energy level (low to high). For example, feeling happy and energetic would be in the top right.", answer: {x: 0, y: 0} },
+    // { type: 'scale', statement: 'On a scale of 1 to 5, where 1 means \'not accurate at all\' and 5 means \'extremely accurate,\' how accurately were you able to identify your current mood?', answer: null },
+    { type: 'scale', statement: 'How accurately do you think you identified your current emotion? 1 (Not at all accurately) to 5 (Extremely accurately)', answer: null },
     { type: 'final', text: 'Thank you for completing the mood questionnaire. Please submit below.' },
   ];
 
@@ -118,9 +120,17 @@
 
             {:else if question.type === 'graph'}
 
+            <div class="questionnaire-text">
+              <p>{question.statement}</p>
+            </div>
+
               <!-- graph -->
               <div class="chart">
                 <Graph points={[question.answer]}/>
+                <div class="axis-labels">
+                  <span class="x-label">Pleasantness</span>
+                  <span class="y-label">Energy</span>
+                </div>
               </div>
 
               <div class="answer-input">
@@ -215,7 +225,36 @@
   .chart {
     width: 100%;
     max-width: 400px;
-	}
+    position: relative;
+  }
+
+  .axis-labels {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .x-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 14px;
+  }
+
+  .y-label {
+    position: absolute;
+    top: 50%;
+    left: -40px;
+    transform: translateY(-50%) rotate(-90deg);
+    color: white;
+    font-size: 14px;
+  }
+
   .graph-text {
     color: #FFF;
     text-align: center;

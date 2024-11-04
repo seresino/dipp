@@ -6,6 +6,8 @@ import { mood } from "$lib/server/schema";
 import { tasks } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
 import { weeklyTasks } from "$lib/server/schema";
+import { addDays } from "$lib/utils/helperFunctions";
+
 
 export async function seed() {
 	// Clear existing data
@@ -18,34 +20,48 @@ export async function seed() {
 	await db.delete(modules);
 
 	// Dev start date
-	const startDate = new Date().toDateString();
+	const startDate = new Date();
 
 	const usersData = [
 		{
 			id: 0,
 			username: "ADMIN",
-			start_date: startDate,
+			start_date: startDate.toDateString(),
 			meditation: false,
 			high_dosage: false,
 		},
 		{
 			id: 1,
 			username: "BATMAN",
-			start_date: startDate,
+			start_date: startDate.toDateString(),
 			meditation: true,
 			high_dosage: true,
 		},
 		{
 			id: 2,
 			username: "SUPERMAN",
-			start_date: startDate,
+			start_date: addDays(startDate, -7),
 			meditation: true,
 			high_dosage: true,
 		},
 		{
 			id: 3,
 			username: "SPIDERMAN",
-			start_date: new Date("2024-10-25").toDateString(),
+			start_date: addDays(startDate, -14),
+			meditation: true,
+			high_dosage: true,
+		},
+		{
+			id: 4,
+			username: "USER1",
+			start_date: addDays(startDate, 30),
+			meditation: true,
+			high_dosage: true,
+		},
+		{
+			id: 5,
+			username: "USER2",
+			start_date: addDays(startDate, -30),
 			meditation: true,
 			high_dosage: true,
 		},

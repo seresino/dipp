@@ -6,7 +6,7 @@ import { redirect } from "@sveltejs/kit";
 import { getDay, decryptId } from "$lib/utils/helperFunctions";
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const nonAuthRoutes = ["/", "/login", "/logout", "/about", "/welcome", "/complete"];
+	const nonAuthRoutes = ["/", "/login", "/logout", "/about", "/welcome", "/complete", "/api/test-seed"];
 	const encryptedUserId = event.cookies.get("userID");
 
 	if (!encryptedUserId) {
