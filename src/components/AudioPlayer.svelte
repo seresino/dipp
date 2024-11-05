@@ -1,6 +1,7 @@
 <script>
   export let audioFile;
   export let meditated;
+  export let medGroup;
 
   let audioPlayer;
   let path = "meditate";
@@ -8,6 +9,9 @@
   let currentTime = 0;
   let duration = 0;
   let message = meditated ? "Thank you for completing today's meditation!" : "Click Play to Begin Meditation";
+  if (!medGroup){
+    message = meditated ? "Thank you for completing today's listening session!" : "Click Play to Begin Music";
+  }
 
   function togglePlayback() {
     if (isPlaying) {

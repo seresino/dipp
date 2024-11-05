@@ -74,127 +74,148 @@ export async function seed() {
 			title: "Initial Feelings",
 			prompt: "Reflect on your initial feelings about your upcoming psychedelic experience.",
 			audio: "test-meditation-1.ogg",
+			control:  "test-control-1.ogg"
 		},
 		{
 			id: 2,
 			title: "Motivations",
 			prompt: "Explore your motivations for choosing to have this psychedelic experience at this time.",
 			audio: "test-meditation-2.ogg",
+			control:  "test-control-2.ogg"
 		},
 		{
 			id: 3,
 			title: "Emotional Expectations",
 			prompt: "What expectations do you have about the emotional depth of your upcoming experience?",
 			audio: "test-meditation-3.ogg",
+			control:  "test-control-3.ogg"
 		},
 		{
 			id: 4,
 			title: "Life Influence",
 			prompt: "Consider how your past life experiences might influence this psychedelic journey.",
 			audio: "test-meditation-4.ogg",
+			control:  "test-control-4.ogg"
 		},
 		{
 			id: 5,
 			title: "Psychedelic Understanding",
 			prompt: "Describe your current understanding of the effects of psychedelics. What aspects intrigue you most?",
 			audio: "test-meditation-5.ogg",
+			control:  "test-control-5.ogg"
 		},
 		{
 			id: 6,
 			title: "Physical Effects",
 			prompt: "Reflect on your thoughts about how psilocybin might physically affect you during the experience.",
 			audio: "test-meditation-6.ogg",
+			control:  "test-control-6.ogg"
 		},
 		{
 			id: 7,
 			title: "Unpredictability",
 			prompt: "How do you feel about the unpredictable nature of psychedelic experiences?",
 			audio: "test-meditation-7.ogg",
+			control:  "test-control-7.ogg"
 		},
 		{
 			id: 8,
 			title: "Safety Knowledge",
 			prompt: "Assess your current knowledge about the safety of the substance and the environment for your experience.",
 			audio: "test-meditation-8.ogg",
+			control:  "test-control-8.ogg"
 		},
 		{
 			id: 9,
 			title: "Personal Strengths",
 			prompt: "What personal strengths do you believe will help you navigate this experience?",
 			audio: "test-meditation-9.ogg",
+			control:  "test-control-9.ogg"
 		},
 		{
 			id: 10,
 			title: "Mindfulness Practices",
 			prompt: "Describe any meditation, yoga, or mindfulness practices you've been exploring in preparation.",
 			audio: "test-meditation-10.ogg",
+			control:  "test-control-10.ogg"
 		},
 		{
 			id: 11,
 			title: "Journaling Reflection",
 			prompt: "Reflect on your journaling experience so far. How has it contributed to your preparation?",
 			audio: "test-meditation-11.ogg",
+			control:  "test-control-11.ogg"
 		},
 		{
 			id: 12,
 			title: "Mental Preparation",
 			prompt: "What specific steps are you taking to mentally prepare for your psychedelic experience?",
 			audio: "test-meditation-12.ogg",
+			control:  "test-control-12.ogg"
 		},
 		{
 			id: 13,
 			title: "Building Trust",
 			prompt: "How are you building trust with those who will be present during your experience?",
 			audio: "test-meditation-13.ogg",
+			control:  "test-control-13.ogg"
 		},
 		{
 			id: 14,
 			title: "Insightful Conversations",
 			prompt: "Describe any significant conversations you've had about your upcoming experience. What insights did you gain?",
 			audio: "test-meditation-14.ogg",
+			control:  "test-control-14.ogg"
 		},
 		{
 			id: 15,
 			title: "Involving Others",
 			prompt: "How have you involved your close friends or family in your preparation process?",
 			audio: "test-meditation-15.ogg",
+			control:  "test-control-15.ogg"
 		},
 		{
 			id: 16,
 			title: "Openness",
 			prompt: "Reflect on your current level of openness to whatever may unfold during the experience.",
 			audio: "test-meditation-16.ogg",
+			control:  "test-control-16.ogg"
 		},
 		{
 			id: 17,
 			title: "Surrender",
 			prompt: "Explore your thoughts on the concept of 'surrender' in the context of your upcoming experience.",
 			audio: "test-meditation-17.ogg",
+			control:  "test-control-17.ogg"
 		},
 		{
 			id: 18,
 			title: "Challenging Moments",
 			prompt: "What strategies are you considering for managing potentially challenging moments?",
 			audio: "test-meditation-18.ogg",
+			control:  "test-control-18.ogg"
 		},
 		{
 			id: 19,
 			title: "Grounding Plan",
 			prompt: "How do you plan to ground yourself if you feel overwhelmed during the experience?",
 			audio: "test-meditation-19.ogg",
+			control:  "test-control-19.ogg"
 		},
 		{
 			id: 20,
 			title: "Desired Insights",
 			prompt: "What potential changes or insights are you hoping this experience might bring?",
 			audio: "test-meditation-20.ogg",
+			control:  "test-control-20.ogg"
 		},
 		{
 			id: 21,
 			title: "Final Intention",
 			prompt: "Based on your journey of preparation, reflect on your final intention for the psychedelic experience.",
 			audio: "test-meditation-21.ogg",
-		},
+			control:  "test-control-21.ogg"
+		},		
 	];
 
 	await db.insert(dayData).values(dayDataData);

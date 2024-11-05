@@ -29,6 +29,7 @@ export const dayData = pgTable("day-data", {
 	title: varchar("title"),
 	prompt: varchar("prompt"),
 	audio: varchar("audio").notNull(),
+	control: varchar("control").notNull(),
 });
 
 // Mood Table  - generating fields first...

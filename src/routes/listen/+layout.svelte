@@ -7,6 +7,7 @@
 	const user = data.user[0];
 	const file = data.file;
 	const meditated = data.meditated;
+	const medGroup = user.meditation;
 
 	console.log("User data:", user);
 	console.log("File data:", file);
@@ -31,7 +32,7 @@
 			<img src="/images/home-circle-button.svg" alt="home button" />
 		</a>
 		<div class="pop-up-content center">
-			<AudioPlayer {audioFile} {meditated} />
+			<AudioPlayer {audioFile} {meditated} {medGroup}/>
 		</div>
 	</div>
 {/if}
