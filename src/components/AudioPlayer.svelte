@@ -60,7 +60,7 @@
   function handleEnded() {
     restartTrack();
     submitForm().then(() => {
-      if (!medGroup){
+      if (medGroup){
         message = "Thank you for completing today's meditation!";
       } else{
         message = "Thank you for completing today's listening session!";
