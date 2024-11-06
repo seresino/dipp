@@ -60,7 +60,11 @@
   function handleEnded() {
     restartTrack();
     submitForm().then(() => {
-      message = "Thank you for completing today's meditation!";
+      if (!medGroup){
+        message = "Thank you for completing today's meditation!";
+      } else{
+        message = "Thank you for completing today's listening session!";
+      }
       setTimeout(() => {
         window.location.href = '/day';
       }, 2000);
