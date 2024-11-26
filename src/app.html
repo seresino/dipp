@@ -348,30 +348,43 @@
       }
     </style>
     <script>
-        // Add this script to detect dark mode
+        // Improved dark mode detection and warning
         window.addEventListener('load', function() {
-            // Check if browser is using dark mode
-            if (window.matchMedia && (
-                window.matchMedia('(prefers-color-scheme: dark)').matches ||
-                window.matchMedia('(-ms-high-contrast: white-on-black)').matches ||
-                window.matchMedia('(forced-colors: active)').matches
-            )) {
+            function checkDarkMode() {
+                return (
+                    window.matchMedia('(prefers-color-scheme: dark)').matches ||
+                    window.matchMedia('(-ms-high-contrast: white-on-black)').matches ||
+                    window.matchMedia('(forced-colors: active)').matches ||
+                    // Additional check for Samsung Internet
+                    (navigator.userAgent.includes('SamsungBrowser') && 
+                     window.matchMedia('(prefers-color-scheme: dark)').matches)
+                );
+            }
+
+            function showWarning() {
+                // Remove existing warning if any
+                const existingWarning = document.getElementById('dark-mode-warning');
+                if (existingWarning) existingWarning.remove();
+
                 // Create warning element
                 const warning = document.createElement('div');
+                warning.id = 'dark-mode-warning';
                 warning.style.cssText = `
                     position: fixed;
                     top: 0;
                     left: 0;
                     right: 0;
                     background: #ffeb3b;
-                    color: black;
+                    color: black !important;
                     text-align: center;
-                    padding: 10px;
-                    z-index: 9999;
+                    padding: 12px 30px 12px 12px;
+                    z-index: 99999;
                     font-family: Helvetica Neue;
                     font-size: 14px;
+                    line-height: 1.4;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                 `;
-                warning.innerHTML = 'This site is optimized for light mode. Please disable dark mode for the best experience.';
+                warning.innerHTML = 'For the best experience, please view this site in light mode or disable dark mode in your browser settings.';
                 
                 // Add close button
                 const closeBtn = document.createElement('button');
@@ -383,9 +396,10 @@
                     transform: translateY(-50%);
                     background: none;
                     border: none;
-                    font-size: 20px;
+                    font-size: 24px;
                     cursor: pointer;
-                    color: black;
+                    color: black !important;
+                    padding: 0 5px;
                 `;
                 closeBtn.onclick = function() {
                     warning.remove();
@@ -395,6 +409,21 @@
                 // Add warning to page
                 document.body.appendChild(warning);
             }
+
+            // Initial check
+            if (checkDarkMode()) {
+                showWarning();
+            }
+
+            // Listen for changes in color scheme
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                if (e.matches) {
+                    showWarning();
+                } else {
+                    const warning = document.getElementById('dark-mode-warning');
+                    if (warning) warning.remove();
+                }
+            });
         });
     </script>
   </head>
