@@ -327,7 +327,7 @@
   .instructions-tasks {
     padding-left: 20px;
   }
-  h1 {
+  .task-details h1 {
     font-size: 32px;
     font-weight: 600;
     color: #333;
@@ -335,7 +335,7 @@
     line-height: 1.2;
   }
 
-  h2 {
+  .task-details h2 {
     font-size: 24px;
     font-weight: 500;
     color: #444;
