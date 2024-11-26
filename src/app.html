@@ -347,6 +347,56 @@
         filter: none !important;
       }
     </style>
+    <script>
+        // Add this script to detect dark mode
+        window.addEventListener('load', function() {
+            // Check if browser is using dark mode
+            if (window.matchMedia && (
+                window.matchMedia('(prefers-color-scheme: dark)').matches ||
+                window.matchMedia('(-ms-high-contrast: white-on-black)').matches ||
+                window.matchMedia('(forced-colors: active)').matches
+            )) {
+                // Create warning element
+                const warning = document.createElement('div');
+                warning.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: #ffeb3b;
+                    color: black;
+                    text-align: center;
+                    padding: 10px;
+                    z-index: 9999;
+                    font-family: Helvetica Neue;
+                    font-size: 14px;
+                `;
+                warning.innerHTML = 'This site is optimized for light mode. Please disable dark mode for the best experience.';
+                
+                // Add close button
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '×';
+                closeBtn.style.cssText = `
+                    position: absolute;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: none;
+                    border: none;
+                    font-size: 20px;
+                    cursor: pointer;
+                    color: black;
+                `;
+                closeBtn.onclick = function() {
+                    warning.remove();
+                };
+                warning.appendChild(closeBtn);
+                
+                // Add warning to page
+                document.body.appendChild(warning);
+            }
+        });
+    </script>
   </head>
   <body data-sveltekit-preload-data="hover">
     <div style="display: contents">%sveltekit.body%</div>
