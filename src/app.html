@@ -5,6 +5,8 @@
     <link rel="icon" href="%sveltekit.assets%/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light only">
+    <meta name="theme-color" content="#FFFFFF">
+    <meta name="forced-colors" content="none">
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -22,11 +24,14 @@
         margin: 0px;
         transition-duration: 200ms;
         color-scheme: light only;
+        forced-color-adjust: none;
+        -webkit-forced-color-adjust: none;
       }
-      body {
-        background-image: url("/images/background-gradient.png");
-        background-size: cover;
-        background-position: center;
+      html, body {
+        background-color: #FFFFFF;
+        color-scheme: light only;
+        forced-color-adjust: none;
+        -webkit-forced-color-adjust: none;
       }
       html {
         font-family: Helvetica Neue;
@@ -323,6 +328,23 @@
         .progress-container {
           max-width: 90%;
         }
+      }
+
+      /* For elements that should stay light/white */
+      .force-light {
+        filter: none !important;
+        -webkit-filter: none !important;
+        background-color: white !important;
+        color: black !important;
+      }
+
+      /* Add to prevent background image inversion */
+      body {
+        background-image: url("/images/background-gradient.png");
+        background-size: cover;
+        background-position: center;
+        -webkit-filter: none !important;
+        filter: none !important;
       }
     </style>
   </head>
