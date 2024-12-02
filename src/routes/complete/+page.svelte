@@ -2,7 +2,7 @@
 </script>
 
 <svelte:head>
-  <title>About</title>
+  <title>Complete</title>
 </svelte:head>
 
 <div class="pop-up white">

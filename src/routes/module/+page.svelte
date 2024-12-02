@@ -296,6 +296,11 @@
     font-size: 16px;
     margin: 0 20px 0 20px;
   }
+  @media (max-width: 768px) {
+    .task-details li {
+      margin: 0;
+    }
+  }
   .button-container {
     flex-direction: row;
     justify-content: center;
