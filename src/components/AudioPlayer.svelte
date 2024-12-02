@@ -1,4 +1,5 @@
 <script>
+  import { getAudioDurationInSeconds } from "@remotion/media-utils";
   export let audioFile;
   export let meditated;
   export let medGroup;
@@ -16,6 +17,19 @@
       ? "Thank you for completing today's listening session!"
       : "Click Play to Begin Music";
   }
+
+  // Add async initialization for duration
+  async function initializeAudio() {
+    try {
+      duration = await getAudioDurationInSeconds(audioFile);
+      console.log("Actual duration:", duration);
+    } catch (error) {
+      console.error("Error getting audio duration:", error);
+    }
+  }
+
+  // Call initialization when component mounts
+  initializeAudio();
 
   function togglePlayback() {
     if (isPlaying) {
@@ -96,7 +110,7 @@
   on:timeupdate={updatePlaybackStatus}
   on:ended={handleEnded}
 >
-  <source src={audioFile} type="audio/mp3" />
+  <source src={audioFile} type="audio/aac" />
   Your browser does not support the audio element.
 </audio>
 

@@ -12,6 +12,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@remotion/media-utils": "^4.0.232",
 		"@vercel/postgres": "^0.10.0",
 		"d3": "^7.9.0",
 		"d3-scale": "^4.0.2",
