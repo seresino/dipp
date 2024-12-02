@@ -305,7 +305,7 @@
       font-size: 12px;
     }
     .task-details ul li {
-      margin: 0;
+      margin: 0 0 0 10px;
     }
   }
   .button-container {

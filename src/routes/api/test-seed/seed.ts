@@ -289,6 +289,7 @@ export async function seed() {
 
   await db.insert(tasks).values([
     {
+      id: 1,
       task: "Reading Task 1 - Psilocybin Basics",
       time: 15,
       goal: "The purpose of this task is to enhance your understanding of psilocybin, its origins, effects, and potential benefits and risks. By the end of this task, you should have a clear grasp of psilocybin’s role in mental health research, its neurobiological mechanisms, and considerations for its safe use.",
@@ -305,6 +306,7 @@ export async function seed() {
       module_id: 1,
     },
     {
+      id: 2,
       task: "Reading Task 2 - Practical Concerns Regarding the Session",
       time: 15,
       goal: "This task aims to familiarise you with the practical aspects of participating in a psilocybin study, including how psilocybin will be administered, what to expect during the session, and how to navigate challenging moments. By the end of this task, you should have a clear understanding of the psilocybin session’s phases, safety measures, and the importance of integration post-experience.",
@@ -321,6 +323,7 @@ export async function seed() {
       module_id: 1,
     },
     {
+      id: 3,
       task: "4–6 Breathing Technique",
       time: 15,
       goal: "The aim of this task is to teach you the 4–6 Breathing Technique, a method designed to help you relax and reduce stress. By the end of this session, you will have practised a tool that can calm your mind and body, particularly useful for preparing yourself for intense experiences like a psychedelic session.",
@@ -340,6 +343,7 @@ export async function seed() {
       module_id: 2,
     },
     {
+      id: 4,
       task: "Simple Mantra Affirmation Technique",
       time: 15,
       goal: "The goal of this task is to familiarise you with the Simple Mantra Affirmation Technique, which can help ground you during intense experiences. By the end, you will have practised repeating a personal mantra to develop a sense of calm and reassurance, especially useful during challenging moments in a psychedelic session.",
@@ -354,6 +358,7 @@ export async function seed() {
       module_id: 2,
     },
     {
+      id: 5,
       task: "Developing Coping Strategies",
       time: 30,
       goal: "The goal of this task is to help you create a personalised set of coping strategies for managing challenging moments during your psychedelic experience. By reflecting on past experiences and potential triggers, you will feel more prepared and confident during the session.",
@@ -371,6 +376,7 @@ export async function seed() {
       module_id: 3,
     },
     {
+      id: 6,
       task: "Planning Integration",
       time: 30,
       goal: "The goal of this task is to help you develop a practical and personalised plan for integrating your psychedelic experience into your daily life. Integration ensures that the insights and growth you experience during your session are transformed into meaningful, long-term changes. By creating a structured integration plan, you’ll feel more prepared to apply the lessons from your journey and continue your personal development in the weeks and months ahead.",
