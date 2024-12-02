@@ -167,9 +167,11 @@
               <p>{selectedTask.goal}</p>
 
               <h2>Materials Needed:</h2>
-              {#each Object.values(selectedTask.materials) as material}
-                <li>{material}</li>
-              {/each}
+              <ul>
+                {#each Object.values(selectedTask.materials) as material}
+                  <li>{material}</li>
+                {/each}
+              </ul>
               <h2>Instructions:</h2>
               <ol>
                 {#each Object.keys(selectedTask.instructions) as instructionKey}
