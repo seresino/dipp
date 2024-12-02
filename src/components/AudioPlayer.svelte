@@ -1,5 +1,4 @@
 <script>
-  import ffmpeg from "fluent-ffmpeg";
   export let audioFile;
   export let meditated;
   export let medGroup;
@@ -17,32 +16,33 @@
       ? "Thank you for completing today's listening session!"
       : "Click Play to Begin Music";
   }
+  let isMetadataLoaded = false;
 
-  // Add promise-based duration getter
-  function getAudioDuration(filePath) {
-    return new Promise((resolve, reject) => {
-      ffmpeg.ffprobe(filePath, (err, metadata) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(metadata.format.duration);
-        }
-      });
+  function initializeAudio() {
+    // Create a temporary audio element to get the duration
+    const tempAudio = new Audio(audioFile);
+    tempAudio.addEventListener("loadedmetadata", () => {
+      duration = tempAudio.duration;
+      isMetadataLoaded = true;
+      console.log("Audio duration:", duration);
     });
-  }
-
-  // Initialize audio duration
-  async function initializeAudio() {
-    try {
-      duration = await getAudioDuration(audioFile);
-      console.log("Actual duration:", duration);
-    } catch (error) {
-      console.error("Error getting audio duration:", error);
-    }
+    tempAudio.addEventListener("error", (e) => {
+      console.error("Error loading audio:", e);
+    });
   }
 
   // Call initialization when component mounts
   initializeAudio();
+
+  function updatePlaybackStatus() {
+    if (!audioPlayer) return;
+    isPlaying = !audioPlayer.paused;
+    currentTime = audioPlayer.currentTime || 0;
+    // Only update duration if we don't already have it
+    if (!duration && audioPlayer.duration && !isNaN(audioPlayer.duration)) {
+      duration = audioPlayer.duration;
+    }
+  }
 
   function togglePlayback() {
     if (isPlaying) {
@@ -59,13 +59,6 @@
     audioPlayer.pause();
     isPlaying = false;
     audioPlayer.currentTime = 0;
-  }
-
-  function updatePlaybackStatus() {
-    if (!audioPlayer) return;
-    isPlaying = !audioPlayer.paused;
-    currentTime = audioPlayer.currentTime;
-    duration = audioPlayer.duration;
   }
 
   function formatTime(time) {
@@ -142,15 +135,17 @@
   </div>
 </div>
 
-<!-- Scrubber for audio -->
-<input
-  type="range"
-  min="0"
-  max={duration}
-  value={currentTime}
-  on:input={scrubAudio}
-  class="scrubber"
-/>
+<!-- Only show scrubber when metadata is loaded -->
+{#if isMetadataLoaded}
+  <input
+    type="range"
+    min="0"
+    max={duration}
+    value={currentTime}
+    on:input={scrubAudio}
+    class="scrubber"
+  />
+{/if}
 
 <style>
   .title {
