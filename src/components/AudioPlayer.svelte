@@ -19,16 +19,43 @@
 
   let audioContext;
   let audioBuffer;
+  let isLoading = true;
 
   async function initializeAudio() {
     try {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const response = await fetch(audioFile);
-      const arrayBuffer = await response.arrayBuffer();
-      audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      const response = await fetch(audioFile, {
+        priority: "high",
+        importance: "high",
+      });
+
+      const reader = response.body.getReader();
+      const chunks = [];
+      let totalLength = 0;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        totalLength += value.length;
+      }
+
+      const arrayBuffer = new Uint8Array(totalLength);
+      let position = 0;
+      for (const chunk of chunks) {
+        arrayBuffer.set(chunk, position);
+        position += chunk.length;
+      }
+
+      audioBuffer = await audioContext.decodeAudioData(arrayBuffer.buffer);
       duration = audioBuffer.duration;
+      isLoading = false;
     } catch (error) {
       console.error("Error initializing audio:", error);
+      isLoading = false;
     }
   }
 
@@ -115,22 +142,21 @@
   on:timeupdate={updatePlaybackStatus}
   on:ended={handleEnded}
 >
-  <source src={audioFile} type="audio/mp3" />
+  <source src={audioFile} type="audio/aac" />
   Your browser does not support the audio element.
 </audio>
 
 <h1 class="title">{message}</h1>
-<button class="play-button" on:click={togglePlayback}>
+<button class="play-button" on:click={togglePlayback} disabled={isLoading}>
   <h1>{isPlaying ? "Pause" : "Play"}</h1>
 </button>
 <div class="timer-content">
-  <button class="restart-button" on:click={restartTrack}
-    ><p class="restart">Restart</p></button
-  >
+  <button class="restart-button" on:click={restartTrack} disabled={isLoading}>
+    <p class="restart">Restart</p>
+  </button>
   <div class="timer-text">
-    <span class="white-text">{formatTime(currentTime)}</span><span
-      class="restart">/{formatTime(duration)}</span
-    >
+    <span class="white-text">{formatTime(currentTime)}</span>
+    <span class="restart">/{isLoading ? "--:--" : formatTime(duration)}</span>
   </div>
 </div>
 
