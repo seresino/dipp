@@ -292,12 +292,17 @@
     margin-bottom: 20px;
     width: 100%;
   }
-  .task-details li {
+  .task-details {
     font-size: 16px;
+  }
+  .task-details li {
     margin: 0 20px 0 20px;
   }
   @media (max-width: 768px) {
-    .task-details li {
+    .task-details {
+      font-size: 12px;
+    }
+    .task-details ul li {
       margin: 0;
     }
   }
