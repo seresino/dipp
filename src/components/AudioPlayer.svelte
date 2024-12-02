@@ -16,31 +16,19 @@
       ? "Thank you for completing today's listening session!"
       : "Click Play to Begin Music";
   }
-  let isMetadataLoaded = false;
 
-  function initializeAudio() {
-    // Create a temporary audio element to get the duration
-    const tempAudio = new Audio(audioFile);
-    tempAudio.addEventListener("loadedmetadata", () => {
-      duration = tempAudio.duration;
-      isMetadataLoaded = true;
-      console.log("Audio duration:", duration);
-    });
-    tempAudio.addEventListener("error", (e) => {
-      console.error("Error loading audio:", e);
-    });
-  }
+  let audioContext;
+  let audioBuffer;
 
-  // Call initialization when component mounts
-  initializeAudio();
-
-  function updatePlaybackStatus() {
-    if (!audioPlayer) return;
-    isPlaying = !audioPlayer.paused;
-    currentTime = audioPlayer.currentTime || 0;
-    // Only update duration if we don't already have it
-    if (!duration && audioPlayer.duration && !isNaN(audioPlayer.duration)) {
-      duration = audioPlayer.duration;
+  async function initializeAudio() {
+    try {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const response = await fetch(audioFile);
+      const arrayBuffer = await response.arrayBuffer();
+      audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      duration = audioBuffer.duration;
+    } catch (error) {
+      console.error("Error initializing audio:", error);
     }
   }
 
@@ -59,6 +47,12 @@
     audioPlayer.pause();
     isPlaying = false;
     audioPlayer.currentTime = 0;
+  }
+
+  function updatePlaybackStatus() {
+    if (!audioPlayer) return;
+    isPlaying = !audioPlayer.paused;
+    currentTime = audioPlayer.currentTime;
   }
 
   function formatTime(time) {
@@ -108,6 +102,11 @@
   $: {
     updatePlaybackStatus();
   }
+
+  import { onMount } from "svelte";
+  onMount(() => {
+    initializeAudio();
+  });
 </script>
 
 <audio
@@ -116,7 +115,7 @@
   on:timeupdate={updatePlaybackStatus}
   on:ended={handleEnded}
 >
-  <source src={audioFile} type="audio/aac" />
+  <source src={audioFile} type="audio/mp3" />
   Your browser does not support the audio element.
 </audio>
 
@@ -135,17 +134,15 @@
   </div>
 </div>
 
-<!-- Only show scrubber when metadata is loaded -->
-{#if isMetadataLoaded}
-  <input
-    type="range"
-    min="0"
-    max={duration}
-    value={currentTime}
-    on:input={scrubAudio}
-    class="scrubber"
-  />
-{/if}
+<!-- Scrubber for audio -->
+<input
+  type="range"
+  min="0"
+  max={duration}
+  value={currentTime}
+  on:input={scrubAudio}
+  class="scrubber"
+/>
 
 <style>
   .title {
