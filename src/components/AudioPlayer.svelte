@@ -1,5 +1,5 @@
 <script>
-  import { getAudioDurationInSeconds } from "@remotion/media-utils";
+  import ffmpeg from "fluent-ffmpeg";
   export let audioFile;
   export let meditated;
   export let medGroup;
@@ -18,10 +18,23 @@
       : "Click Play to Begin Music";
   }
 
-  // Add async initialization for duration
+  // Add promise-based duration getter
+  function getAudioDuration(filePath) {
+    return new Promise((resolve, reject) => {
+      ffmpeg.ffprobe(filePath, (err, metadata) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(metadata.format.duration);
+        }
+      });
+    });
+  }
+
+  // Initialize audio duration
   async function initializeAudio() {
     try {
-      duration = await getAudioDurationInSeconds(audioFile);
+      duration = await getAudioDuration(audioFile);
       console.log("Actual duration:", duration);
     } catch (error) {
       console.error("Error getting audio duration:", error);
