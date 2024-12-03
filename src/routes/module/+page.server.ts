@@ -112,6 +112,7 @@ export const load = async ({ locals }) => {
 		.where(and(eq(weeklyTasks.user_id, userID)));
 
 	return {
+		title: 'Module ' + moduleQuery[0].id,
 		user: user,
 		module: moduleQuery[0],
 		tasks: tasksQuery,

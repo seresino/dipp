@@ -2,82 +2,55 @@ import type { Handle } from "@sveltejs/kit";
 import { eq } from "drizzle-orm";
 import db from "$lib/server/db";
 import { users } from "$lib/server/schema";
-import type { HandleServerError } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
-
-/*
-	You can use a custom redirect if you want...
-
-	function redirect(location: string) {
-		return new Response(undefined, {
-			status: 303,
-			headers: { location },
-		})
-	}
-
-	...and redirect pages inside hooks.server.ts
-
-	if (!userID) {
-		if (event.url.pathname === '/admin') {
-			return redirect('/')
-		}
-
-		return await resolve(event)
-	}
-
-	...but doing it inside `load` for the protected
-	routes you can invalidate the data on the page
-*/
-
-// export const handleError: HandleServerError = ({ error, event }) => {
-// 	throw redirect(303, "/");
-// };
+import { getDay, decryptId } from "$lib/utils/helperFunctions";
 
 export const handle: Handle = async ({ event, resolve }) => {
-	// get cookies from browser
-	const userID = event.cookies.get("userID");
+  const nonAuthRoutes = [
+    "/",
+    "/login",
+    "/logout",
+    "/about",
+    "/welcome",
+    "/complete",
+    "/api/seed",
+  ];
+  const encryptedUserId = event.cookies.get("userID");
 
-	if (!userID) {
-		// if there is no userID load page as normal
-		return await resolve(event);
-	}
+  if (!encryptedUserId) {
+    if (!nonAuthRoutes.includes(event.url.pathname)) {
+      throw redirect(303, "/");
+    }
+    return await resolve(event);
+  }
 
-	// find the user based on the userID
-	const user = await db
-		.select()
-		.from(users)
-		.where(eq(users.id, Number(userID)));
+  // Decrypt the userID before using it
+  const userID = decryptId(encryptedUserId);
 
-	// if `user` exists set `events.local`
-	if (user) {
-		event.locals.user = user;
-	}
+  // If decryption failed, treat as unauthorized
+  if (!userID) {
+    if (!nonAuthRoutes.includes(event.url.pathname)) {
+      throw redirect(303, "/");
+    }
+    return await resolve(event);
+  }
 
-	// load page as normal
-	return await resolve(event);
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, Number(userID)));
+
+  event.locals.user = user;
+
+  const day = getDay(user[0].start_date);
+  // Only redirect if trying to access a protected route
+  if (!nonAuthRoutes.includes(event.url.pathname)) {
+    if (day < 1) {
+      throw redirect(303, "/welcome");
+    } else if (day > 21) {
+      throw redirect(303, "/complete");
+    }
+  }
+
+  return await resolve(event);
 };
-
-const nonAuthRoutes = ["/", "/login", "/about"];
-
-// Doesn't trigger when going to a page using redirects ----------------------------------------------------------------
-// onMount (() => {
-//   const unsubscribe = auth.onAuthStateChanged(async (user) => {
-//     const currentPath = $page.url.pathname;
-
-//     if (!user && !nonAuthRoutes.includes(currentPath)) {
-//       // window.location.href = "/login";
-//       goto("/login");
-//       return;
-//     }
-
-//     if (!user && currentPath == "/login") {
-//       // window.location.href = "/dashboard";
-//       goto("/dashboard");
-//       return;
-//     }
-
-//     if (!user) {
-//       return;
-//     }
-//   });
-// });

@@ -64,6 +64,7 @@ export const load = async ({ locals }) => {
 	console.log(user);
 	return {
 		// user: userQuery[0],
+		title: 'Dashboard',
 		user: user,
 		day: getDay(startDate),
 		dateDay: dateDay,

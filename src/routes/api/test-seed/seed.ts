@@ -6,6 +6,7 @@ import { mood } from "$lib/server/schema";
 import { tasks } from "$lib/server/schema";
 import { dailyTasks } from "$lib/server/schema";
 import { weeklyTasks } from "$lib/server/schema";
+import { addDays } from "$lib/utils/helperFunctions";
 
 export async function seed() {
   // Clear existing data
@@ -18,18 +19,77 @@ export async function seed() {
   await db.delete(modules);
 
   // Dev start date
-  const startDate = new Date().toDateString();
+  const startDate = new Date();
 
   const usersData = [
     {
       id: 0,
-      username: "ROSADMIN",
-      start_date: startDate,
+      username: "ADMIN",
+      start_date: startDate.toDateString(),
       meditation: false,
       high_dosage: false,
     },
+    {
+      id: 1,
+      username: "USER1",
+      start_date: startDate.toDateString(),
+      meditation: true,
+      high_dosage: true,
+    },
+    {
+      id: 2,
+      username: "USER2",
+      start_date: addDays(startDate, -7),
+      meditation: true,
+      high_dosage: true,
+    },
+    {
+      id: 3,
+      username: "USER3",
+      start_date: addDays(startDate, -14),
+      meditation: true,
+      high_dosage: true,
+    },
+    {
+      id: 4,
+      username: "USER4",
+      start_date: startDate.toDateString(),
+      meditation: false,
+      high_dosage: true,
+    },
+    {
+      id: 5,
+      username: "USER5",
+      start_date: addDays(startDate, -7),
+      meditation: false,
+      high_dosage: true,
+    },
+    {
+      id: 6,
+      username: "USER6",
+      start_date: addDays(startDate, -14),
+      meditation: false,
+      high_dosage: true,
+    },
+    {
+      id: 7,
+      username: "USER7",
+      start_date: addDays(startDate, 30),
+      meditation: true,
+      high_dosage: true,
+    },
+    {
+      id: 8,
+      username: "USER8",
+      start_date: addDays(startDate, -30),
+      meditation: true,
+      high_dosage: true,
+    },
   ];
   await db.insert(users).values(usersData);
+  await db.execute(
+    `SELECT setval(pg_get_serial_sequence('users', 'id'), COALESCE(MAX(id) + 1, 1), false) FROM users;`
+  );
 
   const dayDataData = [
     {
@@ -37,168 +97,168 @@ export async function seed() {
       title: "Initial Feelings",
       prompt:
         "Reflect on your initial feelings about your upcoming psychedelic experience.",
-      audio: "meditation-1.aac",
-      control: "control-1.aac",
+      audio: "test-meditation-1.aac",
+      control: "test-control-1.aac",
     },
     {
       id: 2,
       title: "Motivations",
       prompt:
         "Explore your motivations for choosing to have this psychedelic experience at this time.",
-      audio: "meditation-2.aac",
-      control: "control-2.aac",
+      audio: "test-meditation-2.aac",
+      control: "test-control-2.aac",
     },
     {
       id: 3,
       title: "Emotional Expectations",
       prompt:
         "What expectations do you have about the emotional depth of your upcoming experience?",
-      audio: "meditation-3.aac",
-      control: "control-3.aac",
+      audio: "test-meditation-3.aac",
+      control: "test-control-3.aac",
     },
     {
       id: 4,
       title: "Life Influence",
       prompt:
         "Consider how your past life experiences might influence this psychedelic journey.",
-      audio: "meditation-4.aac",
-      control: "control-4.aac",
+      audio: "test-meditation-4.aac",
+      control: "test-control-4.aac",
     },
     {
       id: 5,
       title: "Psychedelic Understanding",
       prompt:
         "Describe your current understanding of the effects of psychedelics. What aspects intrigue you most?",
-      audio: "meditation-5.aac",
-      control: "control-5.aac",
+      audio: "test-meditation-5.aac",
+      control: "test-control-5.aac",
     },
     {
       id: 6,
       title: "Physical Effects",
       prompt:
         "Reflect on your thoughts about how psilocybin might physically affect you during the experience.",
-      audio: "meditation-6.aac",
-      control: "control-6.aac",
+      audio: "test-meditation-6.aac",
+      control: "test-control-6.aac",
     },
     {
       id: 7,
       title: "Unpredictability",
       prompt:
         "How do you feel about the unpredictable nature of psychedelic experiences?",
-      audio: "meditation-7.aac",
-      control: "control-7.aac",
+      audio: "test-meditation-7.aac",
+      control: "test-control-7.aac",
     },
     {
       id: 8,
       title: "Safety Knowledge",
       prompt:
         "Assess your current knowledge about the safety of the substance and the environment for your experience.",
-      audio: "meditation-8.aac",
-      control: "control-8.aac",
+      audio: "test-meditation-8.aac",
+      control: "test-control-8.aac",
     },
     {
       id: 9,
       title: "Personal Strengths",
       prompt:
         "What personal strengths do you believe will help you navigate this experience?",
-      audio: "meditation-9.aac",
-      control: "control-9.aac",
+      audio: "test-meditation-9.aac",
+      control: "test-control-9.aac",
     },
     {
       id: 10,
       title: "Mindfulness Practices",
       prompt:
         "Describe any meditation, yoga, or mindfulness practices you've been exploring in preparation.",
-      audio: "meditation-10.aac",
-      control: "control-10.aac",
+      audio: "test-meditation-10.aac",
+      control: "test-control-10.aac",
     },
     {
       id: 11,
       title: "Journaling Reflection",
       prompt:
         "Reflect on your journaling experience so far. How has it contributed to your preparation?",
-      audio: "meditation-11.aac",
-      control: "control-11.aac",
+      audio: "test-meditation-11.aac",
+      control: "test-control-11.aac",
     },
     {
       id: 12,
       title: "Mental Preparation",
       prompt:
         "What specific steps are you taking to mentally prepare for your psychedelic experience?",
-      audio: "meditation-12.aac",
-      control: "control-12.aac",
+      audio: "test-meditation-12.aac",
+      control: "test-control-12.aac",
     },
     {
       id: 13,
       title: "Building Trust",
       prompt:
         "How are you building trust with those who will be present during your experience?",
-      audio: "meditation-13.aac",
-      control: "control-13.aac",
+      audio: "test-meditation-13.aac",
+      control: "test-control-13.aac",
     },
     {
       id: 14,
       title: "Insightful Conversations",
       prompt:
         "Describe any significant conversations you've had about your upcoming experience. What insights did you gain?",
-      audio: "meditation-14.aac",
-      control: "control-14.aac",
+      audio: "test-meditation-14.aac",
+      control: "test-control-14.aac",
     },
     {
       id: 15,
       title: "Involving Others",
       prompt:
         "How have you involved your close friends or family in your preparation process?",
-      audio: "meditation-15.aac",
-      control: "control-15.aac",
+      audio: "test-meditation-15.aac",
+      control: "test-control-15.aac",
     },
     {
       id: 16,
       title: "Openness",
       prompt:
         "Reflect on your current level of openness to whatever may unfold during the experience.",
-      audio: "meditation-16.aac",
-      control: "control-16.aac",
+      audio: "test-meditation-16.aac",
+      control: "test-control-16.aac",
     },
     {
       id: 17,
       title: "Surrender",
       prompt:
         "Explore your thoughts on the concept of 'surrender' in the context of your upcoming experience.",
-      audio: "meditation-17.aac",
-      control: "control-17.aac",
+      audio: "test-meditation-17.aac",
+      control: "test-control-17.aac",
     },
     {
       id: 18,
       title: "Challenging Moments",
       prompt:
         "What strategies are you considering for managing potentially challenging moments?",
-      audio: "meditation-18.aac",
-      control: "control-18.aac",
+      audio: "test-meditation-18.aac",
+      control: "test-control-18.aac",
     },
     {
       id: 19,
       title: "Grounding Plan",
       prompt:
         "How do you plan to ground yourself if you feel overwhelmed during the experience?",
-      audio: "meditation-19.aac",
-      control: "control-19.aac",
+      audio: "test-meditation-19.aac",
+      control: "test-control-19.aac",
     },
     {
       id: 20,
       title: "Desired Insights",
       prompt:
         "What potential changes or insights are you hoping this experience might bring?",
-      audio: "meditation-20.aac",
-      control: "control-20.aac",
+      audio: "test-meditation-20.aac",
+      control: "test-control-20.aac",
     },
     {
       id: 21,
       title: "Final Intention",
       prompt:
         "Based on your journey of preparation, reflect on your final intention for the psychedelic experience.",
-      audio: "meditation-21.aac",
-      control: "control-21.aac",
+      audio: "test-meditation-21.aac",
+      control: "test-control-21.aac",
     },
   ];
 

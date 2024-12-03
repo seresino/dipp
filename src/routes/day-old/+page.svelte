@@ -11,45 +11,64 @@
 	let progressBar;
 	let activityButtons;
 
-	taskCompletion = [
-		!!userTasks.meditation,
-		!!userTasks.mood_id,
-		!!userTasks.journal,
-	];
-	tasks = { meditate: 0, mood: 1, journal: 2 };
+	if (user.meditation) {
+		taskCompletion = [
+			!!userTasks.meditation,
+			!!userTasks.mood_id,
+			!!userTasks.journal,
+		];
+		tasks = { meditate: 0, mood: 1, journal: 2 };
 
-	progressBar = {
-		meditation: "activity-pill",
-		mood_id: "activity-pill",
-		journal: "activity-pill",
-	};
-	activityButtons = {
-		meditate: "activity dark",
-		mood: "activity medium",
-		journal: "activity light",
-	};
+		progressBar = {
+			meditation: "activity-pill",
+			mood_id: "activity-pill",
+			journal: "activity-pill",
+		};
+		activityButtons = {
+			meditate: "activity dark",
+			mood: "activity medium",
+			journal: "activity light",
+		};
 
-	Object.keys(progressBar).forEach((key) => {
-		if (userTasks[key]) {
-			progressBar[key] = "activity-pill light";
+		Object.keys(progressBar).forEach((key) => {
+			if (userTasks[key]) {
+				progressBar[key] = "activity-pill light";
+			}
+		});
+
+		if (!userTasks.meditation) {
+			activityButtons.mood += " inactive";
+			activityButtons.journal += " inactive";
+		} else if (!userTasks.mood_id) {
+			activityButtons.journal += " inactive";
+			activityButtons.meditate += " complete";
+		} else if (!userTasks.journal) {
+			activityButtons.meditate += " complete";
+			activityButtons.mood += " complete";
+		} else {
+			activityButtons.meditate += " complete";
+			activityButtons.mood += " complete";
+			activityButtons.journal += " complete";
 		}
-	});
-
-	if (!userTasks.meditation) {
-		activityButtons.mood += " inactive";
-		activityButtons.journal += " inactive";
-	} else if (!userTasks.mood_id) {
-		activityButtons.journal += " inactive";
-		activityButtons.meditate += " complete";
-	} else if (!userTasks.journal) {
-		activityButtons.meditate += " complete";
-		activityButtons.mood += " complete";
 	} else {
-		activityButtons.meditate += " complete";
-		activityButtons.mood += " complete";
-		activityButtons.journal += " complete";
+		taskCompletion = [!!userTasks.mood_id];
+		tasks = { mood: 0 };
+
+		progressBar = { mood_id: "activity-pill" };
+		activityButtons = {
+			mood: "activity medium",
+		};
+
+		Object.keys(progressBar).forEach((key) => {
+			if (userTasks[key]) {
+				progressBar[key] = "activity-pill light";
+			}
+		});
+
+		if (userTasks.mood_id) {
+			activityButtons.mood += " complete";
+		}
 	}
-	
 </script>
 
 {#if user}
@@ -108,31 +127,19 @@
 		</div>
 	</div>
 
+	{#if user.meditation}
 		<div class="triplet-container padding">
 			<div class={activityButtons.meditate}>
-				{#if user.meditation}
-					<h1>Meditate</h1>
-					<a href="/listen/meditate">
-						<div class="activity-contents">
-							<img
-								class="enter-button"
-								src="/images/enter-button-1.svg"
-								alt="enter-button"
-							/>
-						</div>
-					</a>
-				{:else}
-					<h1>Music</h1>
-					<a href="/listen/music">
-						<div class="activity-contents">
-							<img
-								class="enter-button"
-								src="/images/enter-button-1.svg"
-								alt="enter-button"
-							/>
-						</div>
-					</a>
-				{/if}
+				<h1>Meditate</h1>
+				<a href="/meditate">
+					<div class="activity-contents">
+						<img
+							class="enter-button"
+							src="/images/enter-button-1.svg"
+							alt="enter-button"
+						/>
+					</div>
+				</a>
 			</div>
 			<div class={activityButtons.mood}>
 				<h1>Mood</h1>
@@ -179,6 +186,22 @@
 				{/if}
 			</div>
 		</div>
+	{:else}
+		<div class="triplet-container padding">
+			<div class={activityButtons.mood}>
+				<h1>Mood</h1>
+				<a href="/mood">
+					<div class="activity-contents">
+						<img
+							class="enter-button"
+							src="/images/enter-button-1.svg"
+							alt="enter-button"
+						/>
+					</div>
+				</a>
+			</div>
+		</div>
+	{/if}
 {/if}
 
 <style>

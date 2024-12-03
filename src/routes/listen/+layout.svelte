@@ -6,6 +6,8 @@
 
 	const user = data.user[0];
 	const file = data.file;
+	const meditated = data.meditated;
+	const medGroup = user.meditation;
 
 	console.log("User data:", user);
 	console.log("File data:", file);
@@ -30,16 +32,7 @@
 			<img src="/images/home-circle-button.svg" alt="home button" />
 		</a>
 		<div class="pop-up-content center">
-			<!-- Log audio file passed to AudioPlayer component -->
-			{#if audioFile}
-				{console.log("Audio file passed to AudioPlayer:", audioFile)}
-			{/if}
-			<AudioPlayer {audioFile} />
+			<AudioPlayer {audioFile} {meditated} {medGroup}/>
 		</div>
 	</div>
-{:else}
-	<!-- Log if user data is undefined -->
-	{console.log("User data is undefined, not rendering audio player.")}
 {/if}
-
-"https://gidvzbginnkwrxhc.public.blob.vercel-storage.com/meditation-1.ogg"

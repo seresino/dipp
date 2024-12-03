@@ -3,6 +3,16 @@
 </script>
 
 <form action="?/login" method="POST" use:enhance data-sveltekit-reload>
+	{#if form?.credentials}
+		<p class="error">Invalid username or password</p>
+	{/if}
+
+	{#if form?.serverError}
+		<p class="error">
+			An unexpected error occurred. Please try again later.
+		</p>
+	{/if}
+
 	<div class="input-div">
 		<label class="labels" for="username">Username</label>
 		<input
@@ -25,13 +35,7 @@
 		/>
 	</div>
 
-	{#if form?.invalid}
-		<p class="error">Username and password is required.</p>
-	{/if}
-
-	{#if form?.credentials}
-		<p class="error">You have entered the wrong credentials.</p>
-	{/if}
+	
 	<div class="options-div">
 		<button class="options" type="submit">Log in</button>
 	</div>
@@ -47,6 +51,12 @@
 		border-style: solid;
 		border-color: #168ace;
 		padding: 40px 0 20px 0;
+	}
+	.error {
+		color: #ef4444;
+		font-size: 1.3rem;
+		margin-top: 0.5rem;
+		text-align: left;
 	}
 	.input-div {
 		width: 80%;
@@ -80,5 +90,18 @@
 		border: #b5b5b5 1px solid;
 		border-radius: 20px;
 		padding: 4px 16px;
+	}
+
+	@media (max-width: 600px) {
+		.input-div {
+			width: 100%;
+		}
+		.input-box {
+			width: 100%;
+			padding: 0 10px;
+		}
+		.options-div {
+			justify-content: center;
+		}
 	}
 </style>

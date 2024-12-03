@@ -66,6 +66,7 @@ export const load = async ({ locals }) => {
 		.from(dayData)
 		.where(eq(dayData.id, getDay(startDate)));
 	return {
+		title: 'Journal',
 		user: user,
 		dayData: dayDataQuery[0],
 		userTasks: userTasksQuery[0],

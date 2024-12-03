@@ -12,6 +12,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@remotion/media-utils": "^4.0.232",
 		"@vercel/postgres": "^0.10.0",
 		"d3": "^7.9.0",
 		"d3-scale": "^4.0.2",
@@ -19,6 +20,7 @@
 		"drizzle-orm": "^0.34.1",
 		"firebase": "^10.14.1",
 		"firebase-admin": "^12.6.0",
+		"fluent-ffmpeg": "^2.1.3",
 		"pg": "^8.13.0",
 		"postgres": "^3.4.4",
 		"svelte-sound": "^0.6.0",

@@ -1,9 +1,53 @@
 import { authHandlers } from "$lib/utils/authHandlers";
+import { ENCRYPTION_KEY } from '$env/static/private';
 
-// // Start date for testing purposes --------------------------------
-// const startDate = new Date("2024-04-12");
-// // Todays date for testing purposes --------------------------------
-// const today = new Date("2024-02-01");
+let PUBLIC_DEV_MODE = 'false';
+let PUBLIC_TEST_DATE = new Date().toISOString();
+
+try {
+    const env = import('$env/static/public');
+    PUBLIC_DEV_MODE = env.PUBLIC_DEV_MODE;
+    PUBLIC_TEST_DATE = env.PUBLIC_TEST_DATE;
+} catch (e) {
+    // Environment variables not available, using defaults
+    console.log('Using default development settings');
+}
+
+// Set default values for when env variables are not present
+const isDevelopmentMode = Boolean(JSON.parse(PUBLIC_DEV_MODE ?? 'false'));
+
+import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
+
+// const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'your-32-character-secret-key-here'; // Must be 32 chars for aes-256-gcm
+const ALGORITHM = 'aes-256-gcm';
+
+export function encryptId(text) {
+    const iv = randomBytes(16);
+    const cipher = createCipheriv(ALGORITHM, ENCRYPTION_KEY, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const authTag = cipher.getAuthTag();
+    return `${iv.toString('hex')}:${encrypted}:${authTag.toString('hex')}`;
+}
+
+export function decryptId(text) {
+    try {
+        const [ivHex, encrypted, authTagHex] = text.split(':');
+        const iv = Buffer.from(ivHex, 'hex');
+        const authTag = Buffer.from(authTagHex, 'hex');
+        const decipher = createDecipheriv(ALGORITHM, ENCRYPTION_KEY, iv);
+        decipher.setAuthTag(authTag);
+        let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    } catch (error) {
+        console.error('Failed to decrypt ID:', error);
+        return '';
+    }
+} 
+
+
+
 
 function subtractDatesInDays(date1, date2) {
 	date1.setUTCHours(0, 0, 0, 0);
@@ -18,24 +62,18 @@ function subtractDatesInDays(date1, date2) {
 }
 
 function daysSince(date) {
-	const today = new Date();
-
-	// Todays date for testing purposes --------------------------------
-	// const today = new Date("2024-11-11");
-
+	const today = isDevelopmentMode ? new Date(PUBLIC_TEST_DATE) : new Date();
 	return subtractDatesInDays(today, date);
 }
 
 function daysSinceStart() {
-	// Live site will use todays date like below - uncomment this lines --------------------------------
-	// return daysSince(startDate)
-
+	const startDate = new Date("2024-04-12");
+	const today = isDevelopmentMode ? new Date(PUBLIC_TEST_DATE) : new Date();
 	return subtractDatesInDays(today, startDate);
 }
 
 export function getDay(startDate) {
 	return daysSince(new Date(startDate)) + 1;
-	// return daysSinceStart() + 1;
 }
 
 export function getModuleID(startDate) {
@@ -43,35 +81,18 @@ export function getModuleID(startDate) {
 }
 
 export function getTodaysDate() {
-	const today = new Date();
+	const today = isDevelopmentMode ? new Date(PUBLIC_TEST_DATE) : new Date();
 	today.setUTCHours(0, 0, 0, 0);
 	return today;
 }
 
-// // Date Segments
-// const currentDate = new Date();
-// const year = currentDate.getFullYear();
-// const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-// const day = currentDate.getDate().toString().padStart(2, '0');
 
-// const formattedDate = `${year}-${month}-${day}`;
-// const formattedDate2 = currentDate.toLocaleDateString()
-
-export function truncateWords(str, numWords) {
-	return str.split(" ").splice(0, numWords).join(" ");
+export function addDays(date, days) {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + days);
+    return newDate.toDateString();
 }
 
-export function retrieveAnswers(questionnaire) {
-	let answers = [];
-	questionnaire.forEach((question, index) => {
-		if (question.type === "graph") {
-			answers.push(`${question.answer.x},${question.answer.y} `);
-		} else if (question.type === "scale") {
-			answers.push(`${question.answer} `);
-		}
-	});
-	return answers;
-}
 
 export { authHandlers };
 

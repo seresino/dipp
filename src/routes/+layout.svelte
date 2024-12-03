@@ -1,18 +1,57 @@
 <script>
 	import { page } from "$app/stores";
 	import { enhance } from "$app/forms";
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	let PUBLIC_DEV_MODE = 'false';
+
+	try {
+		const env = import('$env/static/public');
+		PUBLIC_DEV_MODE = env.PUBLIC_DEV_MODE;
+		PUBLIC_TEST_MS= env.PUBLIC_TEST_DATE;
+	} catch (e) {
+		// Environment variables not available, using defaults
+		console.log('Using default development settings');
+	}
 
 	export let data; // data returned by the load function
 	let user;
-	try {
-		user = data.user[0];
-	} catch (error) {}
+
+	// Reactive statement to update `user` based on `data.user`
+	$: user = data?.user ? data.user[0] : null;
+
+	// Function to calculate milliseconds until next midnight
+	function getMsUntilMidnight() {
+		if (PUBLIC_DEV_MODE === 'true') {
+			return parseInt(PUBLIC_TEST_MS, 10); // Use test milliseconds if in dev mode
+		}
+
+		const now = new Date();
+		const midnight = new Date(now);
+		midnight.setHours(24, 0, 0, 0);
+		console.log("Ms till Midnight:", midnight - now)
+		return midnight - now;
+	}
+
+	// Set up the midnight refresh
+	onMount(() => {
+		const timeout = setTimeout(async () => {
+			await goto('/dashboard', { invalidateAll: true }); // This will reload data
+		}, getMsUntilMidnight());
+
+		return () => clearTimeout(timeout); // Cleanup on component unmount
+	});
 </script>
+
+<svelte:head>
+	<title>{$page.data.title ?? 'DIPP Trial'}</title>
+</svelte:head>
 
 <div class="main-container">
 	<nav class="navbar">
 		<div class="header-logo">
-			<a href="/dashboard">
+			<a href="/dashboard" data-sveltekit-reload>
 				<img
 					class="dipp-svg"
 					src="/images/header-logo.svg"
@@ -30,8 +69,10 @@
 			>
 				<ul class="nav navbar-nav">
 					<li>
-						<a class="about-pill" href="/about"
-							><p class="about">About</p></a
+						<a
+							class="about-pill"
+							href="/about"
+							data-sveltekit-reload><p class="about">About</p></a
 						>
 					</li>
 					{#if user}
@@ -73,9 +114,9 @@
 </div>
 
 <!-- Displays page data at bottom of page - ONLY FOR DEBUGGING-->
-<pre>
+<!-- <pre>
   {JSON.stringify($page, null, 2)}
-</pre>
+</pre> -->
 
 <style>
 	/* boostrap adjustments for hamburger menu */
