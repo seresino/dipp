@@ -147,13 +147,10 @@
 </audio>
 
 <h1 class="title">{message}</h1>
-<button class="play-button" on:click={togglePlayback} disabled={isLoading}>
+<button class="play-button" on:click={togglePlayback}>
   <h1>{isPlaying ? "Pause" : "Play"}</h1>
 </button>
 <div class="timer-content">
-  <button class="restart-button" on:click={restartTrack} disabled={isLoading}>
-    <p class="restart">Restart</p>
-  </button>
   <div class="timer-text">
     <span class="white-text">{formatTime(currentTime)}</span>
     <span class="restart">/{isLoading ? "--:--" : formatTime(duration)}</span>
@@ -164,7 +161,7 @@
 <input
   type="range"
   min="0"
-  max={duration}
+  max={duration || 420}
   value={currentTime}
   on:input={scrubAudio}
   class="scrubber"
@@ -194,9 +191,8 @@
   }
   .timer-content {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
     padding: 50px 0;
   }
   .restart-button {
